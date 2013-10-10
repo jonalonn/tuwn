@@ -13,7 +13,7 @@ function getLocation()
 function showPosition(position)
   {
   console.log("Latitude: " + position.coords.latitude + 
-  "<br>Longitude: " + position.coords.longitude)    
+  " Longitude: " + position.coords.longitude)    
   }
 function showError(error)
   {
@@ -33,5 +33,20 @@ function showError(error)
       break;
     }
   }
+
+  function calculateDistance(lat1, long1, lat2, long2) {
+    // Translate to a distance
+    var distance =
+      Math.sin(lat1 * Math.PI) * Math.sin(lat2 * Math.PI) +
+      Math.cos(lat1 * Math.PI) * Math.cos(lat2 * Math.PI) * Math.cos(Math.abs(long1 - long2) * Math.PI);
+
+    // Return the distance in miles
+    //return Math.acos(distance) * 3958.754;
+
+    // Return the distance in meters
+    return Math.acos(distance) * 6370981.162;
+} // CalculateDistance
+
+
 getLocation();
 });
