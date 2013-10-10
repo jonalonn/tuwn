@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test</title>
+</head>
+<script src="js/init.js" type="text/javascript"></script>
+<!-- <script src="js/filter-sample.js" type="text/javascript"></script> -->
+<script src="js/buffer-loader.js" type="text/javascript"></script>
+<body>
+<p><input type="button" onclick="FilterSample.toggle();" value="Play/Pause">
+Filter on: <input type="checkbox" checked="false" oninput="FilterSample.toggleFilter(this);">
+Frequency: <input type="range" min="0" max="1" step="0.01" value="1" oninput="FilterSample.changeFrequency(this);">
+Quality: <input type="range" min="0" max="1" step="0.01" value="0" oninput="FilterSample.changeQuality(this);"></p>
+</body>
+</html>
