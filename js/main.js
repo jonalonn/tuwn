@@ -34,7 +34,7 @@ function showError(error)
     }
   }
 
-  function calculateDistance(lat1, long1, lat2, long2) {
+function calculateDistance(lat1, long1, lat2, long2) {
     // Translate to a distance
     var distance =
       Math.sin(lat1 * Math.PI) * Math.sin(lat2 * Math.PI) +
