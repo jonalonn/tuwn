@@ -33,12 +33,15 @@ function showError(error)
       break;
     }
   }
+getLocation();
+});
 
 function calculateDistance(lat1, long1, lat2, long2) {
     // Translate to a distance
     var distance =
       Math.sin(lat1 * Math.PI) * Math.sin(lat2 * Math.PI) +
       Math.cos(lat1 * Math.PI) * Math.cos(lat2 * Math.PI) * Math.cos(Math.abs(long1 - long2) * Math.PI);
+      console.log(distance);
 
     // Return the distance in miles
     //return Math.acos(distance) * 3958.754;
@@ -47,6 +50,3 @@ function calculateDistance(lat1, long1, lat2, long2) {
     return Math.acos(distance) * 6370981.162;
 } // CalculateDistance
 
-
-getLocation();
-});
