@@ -1,41 +1,6 @@
 $( document ).ready(function() {
-function getLocation()
-  {
-  if (navigator.geolocation)
-    {
-    navigator.geolocation.getCurrentPosition(showPosition,showError);
-    }
-  else{
-    console.log("Geolocation is not supported by this browser.");
-  }
-}
 
-function showPosition(position)
-  {
-  console.log("Latitude: " + position.coords.latitude + 
-  " Longitude: " + position.coords.longitude)    
-  }
-function showError(error)
-  {
-  switch(error.code) 
-    {
-    case error.PERMISSION_DENIED:
-      console.log("User denied the request for Geolocation.")
-      break;
-    case error.POSITION_UNAVAILABLE:
-      console.log("Location information is unavailable.")
-      break;
-    case error.TIMEOUT:
-      console.log("The request to get user location timed out.")
-      break;
-    case error.UNKNOWN_ERROR:
-      console.log("An unknown error occurred.")
-      break;
-    }
-  }
-getLocation();
 });
-
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2-lat1);  // deg2rad below
@@ -53,4 +18,33 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
 function deg2rad(deg) {
   return deg * (Math.PI/180)
 }
+if(navigator.geolocation){
 
+        var wpid = navigator.geolocation.watchPosition(success, error, {
+            enableHighAccuracy: true, 
+            maximumAge: 100, 
+            timeout: 10000
+        });
+
+        function success(position){
+          console.log("hej")
+            console.log(position.coords.longitude+","+position.coords.latitude)
+        }
+
+        function error(error){
+            switch(error.code){
+                case 1:
+                    alert('permission denied');
+                    break;
+                case 2:
+                    alert('position unavailable');
+                    break;
+                case 3:
+                    alert('timeout');
+                    break;
+                default:
+                    alert('unknown error');
+                    break;
+            }
+        }
+    }
