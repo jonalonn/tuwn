@@ -80,5 +80,3 @@ FilterSample.toggle = function() {
   this.playing ? this.stop() : this.play();
   this.playing = !this.playing;
 };
-
-
