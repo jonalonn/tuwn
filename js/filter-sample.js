@@ -4,26 +4,26 @@ var FilterSample = {
   playing: false
 };
 
-FilterSample.play = function() {
-  // Create the source.
-  var source = context.createBufferSource();
-  source.buffer = BUFFERS.techno;
-  // Create the filter.
-  var filter = context.createBiquadFilter();
-  filter.type = 0; // LOWPASS
-  filter.frequency.value = 5000;
-  // Connect source to filter, filter to destination.
-  source.connect(filter);
-  filter.connect(context.destination);
-  // Play!
-  if (!source.start)
-    source.start = source.noteOn;
-  source.start(0);
-  source.loop = true;
-  // Save source and filterNode for later access.
-  this.source = source;
-  this.filter = filter;
-};
+// FilterSample.play = function() {
+//   // Create the source.
+//   var source = context.createBufferSource();
+//   source.buffer = BUFFERS+"."+thisdata;
+//   // Create the filter.
+//   var filter = context.createBiquadFilter();
+//   filter.type = 0; // LOWPASS
+//   filter.frequency.value = 5000;
+//   // Connect source to filter, filter to destination.
+//   source.connect(filter);
+//   filter.connect(context.destination);
+//   // Play!
+//   if (!source.start)
+//     source.start = source.noteOn;
+//   source.start(0);
+//   source.loop = true;
+//   // Save source and filterNode for later access.
+//   this.source = source;
+//   this.filter = filter;
+// };
 
 FilterSample.stop = function() {
   if (!this.source.stop)
@@ -67,3 +67,32 @@ FilterSample.toggleFilter = function(element) {
     this.source.connect(context.destination);
   }
 };
+
+$( document ).ready(function() {
+
+$('.buttonmusic').click(function(e) {
+  // e.preventDefault();
+  var thisdata = $(this).attr('data-sample');
+   // Create the source.
+  var source = context.createBufferSource();
+  var dynamicBuffer = BUFFERS[thisdata]
+  source.buffer = dynamicBuffer;
+  // Create the filter.
+  var filter = context.createBiquadFilter();
+  filter.type = 0; // LOWPASS
+  filter.frequency.value = 5000;
+  // Connect source to filter, filter to destination.
+  source.connect(filter);
+  filter.connect(context.destination);
+  // Play!
+  if (!source.start)
+    source.start = source.noteOn;
+  source.start(0);
+  source.loop = true;
+  // Save source and filterNode for later access.
+  this.source = source;
+  this.filter = filter;
+ });
+
+});
+

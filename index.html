@@ -6,15 +6,18 @@
 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href='http://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
 
+<script src="js/jquery-1.10.2.min.js"></script>
 <script src="js/init.js" type="text/javascript"></script>
 <script src="js/filter-sample.js" type="text/javascript"></script>
-<script src="js/jquery-1.10.2.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/buffer-loader.js" type="text/javascript"></script>
 <script src="js/main.js" type="text/javascript"></script>
 
 <body>
-<p><input type="button" class="btn btn-default" onclick="FilterSample.toggle();" value="Play/Pause">
+<p><input type="button" class="buttonmusic" class="btn btn-default" data-sample="techno" value="techno">
+	<input type="button" class="buttonmusic" class="btn btn-default" data-sample="techno2" value="techno 2">
+	<input type="button" class="buttonmusic" class="btn btn-default" data-sample="techno3" value="techno 3">
+	<input type="button" class="buttonmusic" class="btn btn-default" data-sample="techno4" value="techno 4">
 Filter on: <input type="checkbox" checked="false" oninput="FilterSample.toggleFilter(this);">
 Frequency: <input type="range" min="0" max="1" step="0.01" value="1" oninput="FilterSample.changeFrequency(this);">
 Quality: <input type="range" min="0" max="1" step="0.01" value="0" oninput="FilterSample.changeQuality(this);"></p>
