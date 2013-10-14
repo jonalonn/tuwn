@@ -7,28 +7,21 @@ var FilterSample = {
 FilterSample.play = function() {
   // Create the source.
   var source = context.createBufferSource();
-  var source2 = context.createBufferSource();
   source.buffer = BUFFERS.techno;
-  source2.buffer = BUFFERS.techno2;
   // Create the filter.
   var filter = context.createBiquadFilter();
   filter.type = 0; // LOWPASS
   filter.frequency.value = 5000;
   // Connect source to filter, filter to destination.
   source.connect(filter);
-  source2.connect(filter);
   filter.connect(context.destination);
   // Play!
   if (!source.start)
     source.start = source.noteOn;
-    source2.start = source.noteOn;
   source.start(0);
-  source2.start(0);
   source.loop = true;
-  source2.loop = true;
   // Save source and filterNode for later access.
   this.source = source;
-  this.source2 = source2;
   this.filter = filter;
 };
 
