@@ -42,7 +42,7 @@ function showPosition(position)
       if(distance<15){
         document.getElementById(idName).value=distance; 
         document.getElementById('result').value="DET FUNKAR"; 
-        var audio=new Audio('Sounds/'+coordinateArray[i].type);;
+        var audio=new Audio('sounds/'+coordinateArray[i].type);;
         audio.play();
       }
       else{
