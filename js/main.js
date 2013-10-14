@@ -48,3 +48,18 @@ if(navigator.geolocation){
             }
         }
     }
+
+
+    var int=self.setInterval(function(){getLocation()},1000);
+function getLocation()
+  {
+  
+    navigator.geolocation.getCurrentPosition(showPosition);
+    
+  
+  }
+function showPosition(position)
+  {
+ document.getElementById('longval2').value=position.coords.longitude;   
+ document.getElementById('latval2').value=position.coords.latitude; 
+  }
