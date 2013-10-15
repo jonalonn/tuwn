@@ -18,9 +18,10 @@ var coordinate3={
 }
 
 var coordinateArray=[coordinate1,coordinate2,coordinate3];
-
+var mapOnSite=true
 var previousPosition=[];
 var currentPosition=[];
+var map;
 
 var int=self.setInterval(function(){getLocation()},1000);
 
@@ -34,8 +35,12 @@ function showPosition(position)
   previousPosition=currentPosition
   document.getElementById('longval2').value=position.coords.longitude;   
   document.getElementById('latval2').value=position.coords.latitude; 
-  currentPosition=[position.coords.longitude,position.coords.latitude]
-  if(currentPosition[0]!==previousPosition[0]){
+  currentPosition=[position.coords.latitude,position.coords.longitude]
+  if(mapOnSite){
+    initialize();
+  }
+  if(currentPosition[0]!==previousPosition[0] || currentPosition[1]!==previousPosition[1]){
+    map.setCenter(new google.maps.LatLng (currentPosition[0], currentPosition[1]))
     for(var i=0;i<coordinateArray.length;i++){
       var idName="distance"+i
       var distance= getDistance(currentPosition[0],currentPosition[1],coordinateArray[i].longitude,coordinateArray[i].latitude)
@@ -71,12 +76,21 @@ function deg2rad(deg) {
   return deg * (Math.PI/180)
 }
 
-function initialize(mapLatitude,mapLongitude) {
-  var map_canvas = document.getElementById('map_canvas');
-  var map_options = {
-    center: new google.maps.LatLng(mapLatitude, mapLongitude),
-    zoom: 15,
+function initialize() {
+  mapOnSite=false
+  var mapOptions = {
+    center: new google.maps.LatLng(currentPosition[0], currentPosition[1]),
+    zoom: 20,
     mapTypeId: google.maps.MapTypeId.ROADMAP
-  }
-  var map = new google.maps.Map(map_canvas, map_options)
+  };
+  map = new google.maps.Map(document.getElementById("map-canvas"),
+      mapOptions);
+  for (var i = 0; i < coordinateArray.length; i++) {
+        var data = coordinateArray[i]
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng (data.latitude, data.longitude),
+            map: map
+        });
+    }
+
 }
