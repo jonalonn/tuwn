@@ -44,8 +44,6 @@ function getLocation()
 function showPosition(position)
 {
   previousPosition=currentPosition
-  document.getElementById('longval2').value=position.coords.longitude;   
-  document.getElementById('latval2').value=position.coords.latitude; 
   currentPosition=[position.coords.latitude,position.coords.longitude]
   myLatLng = new google.maps.LatLng(currentPosition[0], currentPosition[1]);
   if(mapOnSite){
@@ -56,20 +54,16 @@ function showPosition(position)
    userMarker.setPosition(myLatLng)
     for(var i=0;i<coordinateArray.length;i++){
       var idName="distance"+i
-      var distance= getDistance(currentPosition[0],currentPosition[1],coordinateArray[i].longitude,coordinateArray[i].latitude)
+      var distance= getDistance(currentPosition[1],currentPosition[0],coordinateArray[i].longitude,coordinateArray[i].latitude)
       console.log(i)
       if(distance<1){
-        document.getElementById(idName).value=distance; 
-        document.getElementById('result').value="DET FUNKAR"; 
         var audio=new Audio('sounds/'+coordinateArray[i].type);;
         audio.play();
       }
-      else{
-        document.getElementById(idName).value=distance; 
       }
     }
   }
-}
+
 
 function getDistance(lat1,lon1,lat2,lon2) {
   var R = 6371; // Radius of the earth in km
@@ -82,6 +76,7 @@ function getDistance(lat1,lon1,lat2,lon2) {
   ; 
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
   var d = R * c*1000; // Distance in m
+  console.log(d)
   return d;
 }
 
@@ -89,27 +84,96 @@ function deg2rad(deg) {
   return deg * (Math.PI/180)
 }
 
+//function initialize(userPosition) {
+//  mapOnSite=false
+//  var mapOptions = {
+//    center: userPosition,
+//    zoom: 20,
+//    mapTypeId: google.maps.MapTypeId.ROADMAP
+//  };
+//  map = new google.maps.Map(document.getElementById("map-canvas"),
+//      mapOptions);
+//  userMarker = new google.maps.Marker({
+//      position: userPosition,
+//      map: map,
+//      icon: userMarkerImage
+//    });
+//
+//  for (var i = 0; i < coordinateArray.length; i++) {
+//        var data = coordinateArray[i]
+//        var marker = new google.maps.Marker({
+//            position: new google.maps.LatLng (data.latitude, data.longitude),
+//            map: map
+//        });
+//    }
+//
+//}
+var MY_MAPTYPE_ID = 'custom_style';
+
 function initialize(userPosition) {
-  mapOnSite=false
+  mapOnSite=false;
+  var featureOpts = [
+    {
+      stylers: [
+        { hue: '#dbece8' },
+        { visibility: 'simplified' },
+        { gamma: 0.5 },
+        { weight: 0.5 }
+      ]
+    },
+    {
+      featureType: "road",
+      elementType: "geometry",
+      stylers: [
+        { lightness: 100 },
+        { visibility: "simplified" }
+    ]
+    },
+    {
+      elementType: 'labels',
+      stylers: [
+        { visibility: 'off' }
+      ]
+    },
+    {
+      featureType: 'water',
+      stylers: [
+        { color: '#b0e1d6' }
+      ]
+    }
+  ];
+
   var mapOptions = {
-    center: userPosition,
     zoom: 20,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+    center: userPosition,
+    disableDefaultUI: true,
+    mapTypeControlOptions: {
+      mapTypeIds: [google.maps.MapTypeId.ROADMAP, MY_MAPTYPE_ID]
+    },
+    mapTypeId: MY_MAPTYPE_ID
   };
-  map = new google.maps.Map(document.getElementById("map-canvas"),
+
+  map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
   userMarker = new google.maps.Marker({
-      position: userPosition,
-      map: map,
-      icon: userMarkerImage
-    });
+    position: userPosition,
+    map: map,
+    icon: userMarkerImage
+  });
 
-  for (var i = 0; i < coordinateArray.length; i++) {
-        var data = coordinateArray[i]
-        var marker = new google.maps.Marker({
-            position: new google.maps.LatLng (data.latitude, data.longitude),
-            map: map
-        });
-    }
+for (var i = 0; i < coordinateArray.length; i++) {
+      var data = coordinateArray[i]
+      var marker = new google.maps.Marker({
+          position: new google.maps.LatLng (data.latitude, data.longitude),
+          map: map
+      });
 
+  var styledMapOptions = {
+    name: 'Custom Style'
+  };
+
+  var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
+
+  map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
+}
 }
