@@ -19,9 +19,20 @@ var coordinate3={
 
 var coordinateArray=[coordinate1,coordinate2,coordinate3];
 var mapOnSite=true
+var myLatLng;
 var previousPosition=[];
-var currentPosition=[];
+var currentPosition=[]; 
 var map;
+var userMarker;
+var userMarkerImage = {
+  url: 'images/fingerbig.png',
+  // This marker is 20 pixels wide by 32 pixels tall.
+  size: new google.maps.Size(20, 32),
+  // The origin for this image is 0,0.
+  origin: new google.maps.Point(0,0),
+  // The anchor for this image is the base of the flagpole at 0,32.
+  anchor: new google.maps.Point(0, 32)
+};
 
 var int=self.setInterval(function(){getLocation()},1000);
 
@@ -36,11 +47,13 @@ function showPosition(position)
   document.getElementById('longval2').value=position.coords.longitude;   
   document.getElementById('latval2').value=position.coords.latitude; 
   currentPosition=[position.coords.latitude,position.coords.longitude]
+  myLatLng = new google.maps.LatLng(currentPosition[0], currentPosition[1]);
   if(mapOnSite){
-    initialize();
+    initialize(myLatLng);
   }
   if(currentPosition[0]!==previousPosition[0] || currentPosition[1]!==previousPosition[1]){
-    map.setCenter(new google.maps.LatLng (currentPosition[0], currentPosition[1]))
+   map.setCenter(myLatLng)
+   userMarker.setPosition(myLatLng)
     for(var i=0;i<coordinateArray.length;i++){
       var idName="distance"+i
       var distance= getDistance(currentPosition[0],currentPosition[1],coordinateArray[i].longitude,coordinateArray[i].latitude)
@@ -76,15 +89,21 @@ function deg2rad(deg) {
   return deg * (Math.PI/180)
 }
 
-function initialize() {
+function initialize(userPosition) {
   mapOnSite=false
   var mapOptions = {
-    center: new google.maps.LatLng(currentPosition[0], currentPosition[1]),
+    center: userPosition,
     zoom: 20,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
   map = new google.maps.Map(document.getElementById("map-canvas"),
       mapOptions);
+  userMarker = new google.maps.Marker({
+      position: userPosition,
+      map: map,
+      icon: userMarkerImage
+    });
+
   for (var i = 0; i < coordinateArray.length; i++) {
         var data = coordinateArray[i]
         var marker = new google.maps.Marker({
