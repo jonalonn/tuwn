@@ -2,7 +2,7 @@ $( document ).ready(function() {
 
 $('.buttonmusic').click(function() {
   thisdata = $(this).attr('data-sample');
-  FilterSample.toggle(thisdata);
+  FilterSample.play(thisdata);
  });
 
 });
