@@ -4,7 +4,6 @@
 	<title>Test</title>
 </head>
 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href='http://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
 <link href="css/main.css" rel='stylesheet' type='text/css'>
 
 <script src="js/jquery-1.10.2.min.js"></script>
@@ -13,8 +12,7 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/buffer-loader.js" type="text/javascript"></script>
 <script src="js/main.js" type="text/javascript"></script>
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-
+<script src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
 
 <body>
 <p><input type="button" class="buttonmusic" class="btn btn-default" data-sample="techno" value="techno">
@@ -26,15 +24,21 @@ Frequency: <input type="range" min="0" max="1" step="0.01" value="1" oninput="Fi
 Quality: <input type="range" min="0" max="1" step="0.01" value="0" oninput="FilterSample.changeQuality(this);"></p>
 <div id="map_canvas"></div>
 <br><br><br><br><br>
-<input type="text" id="longval2">latitude:</input>
-<input type="text" id="latval2">longitude:</input>
-<input type="text" id="result">result:</input>
+longitude:
+<input type="text" id="longval2"></input>
+latitude:
+<input type="text" id="latval2"></input>
+result:
+<input type="text" id="result"></input>
 <br><br>
-<input type="text" id="distance0">distance to object zero:</input>
+distance to object zero:
+<input type="text" id="distance0"></input>
 <br>
-<input type="text" id="distance1">distance to object one:</input>
+distance to object one:
+<input type="text" id="distance1"></input>
 <br>
-<input type="text" id="distance2">distance to object two:</input>
+distance to object two:
+<input type="text" id="distance2"></input>
 
 
 </body>

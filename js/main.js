@@ -1,7 +1,6 @@
 $( document ).ready(function() {
 });
 
-var testCoordinates=[17.9919036,59.2985901]
 var coordinate1={
   longitude:'17.9919036',
   latitude:'59.2985901',
@@ -18,7 +17,10 @@ var coordinate3={
   type: 'techno3.wav'
 }
 
-var coordinateArray=[coordinate1,coordinate2,coordinate3]
+var coordinateArray=[coordinate1,coordinate2,coordinate3];
+
+var previousPosition=[];
+var currentPosition=[];
 
 var int=self.setInterval(function(){getLocation()},1000);
 
@@ -26,8 +28,7 @@ function getLocation()
 {  
   navigator.geolocation.getCurrentPosition(showPosition);
 }
-var previousPosition=[];
-var currentPosition=[];
+
 function showPosition(position)
 {
   previousPosition=currentPosition
@@ -39,7 +40,7 @@ function showPosition(position)
       var idName="distance"+i
       var distance= getDistance(currentPosition[0],currentPosition[1],coordinateArray[i].longitude,coordinateArray[i].latitude)
       console.log(i)
-      if(distance<15){
+      if(distance<1){
         document.getElementById(idName).value=distance; 
         document.getElementById('result').value="DET FUNKAR"; 
         var audio=new Audio('sounds/'+coordinateArray[i].type);;
@@ -51,9 +52,6 @@ function showPosition(position)
     }
   }
 }
-/*$(document).on("mouseover", "#images img", function() {
-  var imageClass=$(this).attr("class");
-});*/
 
 function getDistance(lat1,lon1,lat2,lon2) {
   var R = 6371; // Radius of the earth in km
@@ -71,4 +69,14 @@ function getDistance(lat1,lon1,lat2,lon2) {
 
 function deg2rad(deg) {
   return deg * (Math.PI/180)
+}
+
+function initialize(mapLatitude,mapLongitude) {
+  var map_canvas = document.getElementById('map_canvas');
+  var map_options = {
+    center: new google.maps.LatLng(mapLatitude, mapLongitude),
+    zoom: 15,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  }
+  var map = new google.maps.Map(map_canvas, map_options)
 }
