@@ -13,7 +13,6 @@ var audio = {
     ],
     files: [
         'sounds/techno.wav',
-        'sounds/techno2.wav',
         'sounds/techno3.wav',
         'sounds/techno4.wav'
     ],
@@ -354,7 +353,9 @@ if (audio.proceed) {
                         audio.buffer_effects[i] = buffer;
                         var button = document.getElementById('effect-' + i);
                         button.disabled = false;
-                        jQuery(button).html(button.getAttribute('data-name').replace(' ', '<br>')).removeClass('loading');
+                        $(document).ready(function() {
+                            jQuery(button).html(button.getAttribute('data-name').replace(' ', '<br>')).removeClass('loading');
+                        })
                     },
                     function() {
                         console.log('Error decoding effect "' + audio.effects[i - 1] + '".');
