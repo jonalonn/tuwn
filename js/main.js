@@ -55,8 +55,8 @@ function showPosition(position)
     for(var i=0;i<coordinateArray.length;i++){
       var idName="distance"+i
       var distance= getDistance(currentPosition[1],currentPosition[0],coordinateArray[i].longitude,coordinateArray[i].latitude)
-      console.log(i)
       if(distance<1){
+        // Audiofunction goes here
         var audio=new Audio('sounds/'+coordinateArray[i].type);;
         audio.play();
       }
