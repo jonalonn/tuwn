@@ -119,7 +119,7 @@ button.active {
     -o-transition: all 1s ease 0s;
     transition: all 1s ease 0s;
     background: #e7f3ff;
-    border-color: skyblue;
+    border-color: #dbece8;
 }
 
 button.inactive {
@@ -136,7 +136,7 @@ button:hover {
     -moz-transition: all 0s ease 0s;
     -o-transition: all 0s ease 0s;
     transition: all 0s ease 0s;
-    border-color: skyblue;
+    border-color: #dbece8;
 }
 
 form {
