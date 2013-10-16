@@ -56,6 +56,7 @@ function showPosition(position)
       var idName="distance"+i
       var distance= getDistance(currentPosition[1],currentPosition[0],coordinateArray[i].longitude,coordinateArray[i].latitude)
       if(distance<1){
+        // Audiofunction goes here
         var audio=new Audio('sounds/'+coordinateArray[i].type);;
         audio.play();
       }
@@ -75,6 +76,7 @@ function getDistance(lat1,lon1,lat2,lon2) {
   ; 
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
   var d = R * c*1000; // Distance in m
+  //console.log(d)
   return d;
 }
 
