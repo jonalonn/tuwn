@@ -62,7 +62,7 @@ function showPosition(position)
               null, // size
               null, // origin
               new google.maps.Point( 8, 8 ), // anchor (move to center of marker)
-              new google.maps.Size( 17, 17 ) // scaled size (required for Retina display icon)
+              new google.maps.Size( 15, 15 ) // scaled size (required for Retina display icon)
             );
 
             // then create the new marker
@@ -72,7 +72,7 @@ function showPosition(position)
               map: map,
               optimized: false,
               position: myLatLng,
-              title: 'I might be here',
+              title: 'This is you mofo',
               visible: true
             });
 
