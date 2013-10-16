@@ -8,9 +8,10 @@ function getMarkers(data){
 }
 
 var coordinate1={
-  longitude:'17.9919036',
-  latitude:'59.2985901',
+  latitude:'59.33770', 
+  longitude:'18.02597',
   type: 'techno1.wav'
+
 }
 var coordinate2={
   longitude:'17.9916759',
@@ -23,22 +24,28 @@ var coordinate3={
   type: 'techno3.wav'
 }
 
-var coordinateArray=[coordinate1,coordinate2,coordinate3];
+var coordinate4={
+  longitude:'17.9919036',
+  latitude:'59.2985901',
+  type: 'techno4.wav'
+}
+
+var coordinateArray=[coordinate1,coordinate2,coordinate3,coordinate4];
 var mapOnSite=true
 var myLatLng;
 var previousPosition=[];
 var currentPosition=[]; 
 var map;
-var userMarker;
-var userMarkerImage = {
-  url: 'images/fingerbig.png',
-  // This marker is 20 pixels wide by 32 pixels tall.
-  size: new google.maps.Size(20, 32),
-  // The origin for this image is 0,0.
-  origin: new google.maps.Point(0,0),
-  // The anchor for this image is the base of the flagpole at 0,32.
-  anchor: new google.maps.Point(0, 32)
-};
+// var userMarker;
+// var userMarkerImage = {
+//   url: 'images/headphones.png',
+//   // This marker is 20 pixels wide by 32 pixels tall.
+//   size: new google.maps.Size(32, 32),
+//   // The origin for this image is 0,0.
+//   origin: new google.maps.Point(0,0),
+//   // The anchor for this image is the base of the flagpole at 0,32.
+//   anchor: new google.maps.Point(0, 32)
+// };
 
 var int=self.setInterval(function(){getLocation()},1000);
 
@@ -52,23 +59,51 @@ function showPosition(position)
   previousPosition=currentPosition
   currentPosition=[position.coords.latitude,position.coords.longitude]
   myLatLng = new google.maps.LatLng(currentPosition[0], currentPosition[1]);
+  
   if(mapOnSite){
     initialize(myLatLng);
+
+              var image = new google.maps.MarkerImage(
+              'images/bluedot.png',
+              null, // size
+              null, // origin
+              new google.maps.Point( 8, 8 ), // anchor (move to center of marker)
+              new google.maps.Size( 15, 15 ) // scaled size (required for Retina display icon)
+            );
+
+            // then create the new marker
+            myMarker = new google.maps.Marker({
+              flat: true,
+              icon: image,
+              map: map,
+              optimized: false,
+              position: myLatLng,
+              title: 'This is you mofo',
+              visible: true
+            });
+
   }
   if(currentPosition[0]!==previousPosition[0] || currentPosition[1]!==previousPosition[1]){
-   map.setCenter(myLatLng)
-   userMarker.setPosition(myLatLng)
+            map.setCenter(myLatLng)
+            myMarker.setPosition(myLatLng);
+
+          }
+
+   // map.setCenter(myLatLng)
+   // myMarker.setPosition(myLatLng)
     for(var i=0;i<coordinateArray.length;i++){
       var idName="distance"+i
       var distance= getDistance(currentPosition[1],currentPosition[0],coordinateArray[i].longitude,coordinateArray[i].latitude)
-      if(distance<1){
+      // console.log(distance)
+      if(distance<5){
         // Audiofunction goes here
-        var audio=new Audio('sounds/'+coordinateArray[i].type);;
-        audio.play();
+        audio.playAll();
+        // var audio=new Audio('sounds/'+coordinateArray[i].type);;
+        // audio.play();
       }
       }
     }
-  }
+
 
 
 function getDistance(lat1,lon1,lat2,lon2) {
@@ -161,11 +196,11 @@ function initialize(userPosition) {
 
   map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
-  userMarker = new google.maps.Marker({
-    position: userPosition,
-    map: map,
-    icon: userMarkerImage
-  });
+  // userMarker = new google.maps.Marker({
+  //   position: userPosition,
+  //   map: map,
+  //   icon: userMarkerImage 
+  // });
 
 for (var i = 0; i < coordinateArray.length; i++) {
       var data = coordinateArray[i]
