@@ -1,5 +1,11 @@
-$( document ).ready(function() {
+$(document).ready(function(){
+  $.getJSON('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=59.3322064,18.0640027&radius=10000&types=subway_station&sensor=false&key=AIzaSyCA4gaCWBCFRYB1b0MmX4OXYAmqHsYyrfs&callback=?', getMarkers);
 });
+
+function getMarkers(data){
+  console.log(data.results.length)
+
+}
 
 var coordinate1={
   longitude:'17.9919036',
