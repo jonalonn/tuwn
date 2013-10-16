@@ -1,12 +1,3 @@
-$(document).ready(function(){
-  $.getJSON('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=59.3322064,18.0640027&radius=10000&types=subway_station&sensor=false&key=AIzaSyCA4gaCWBCFRYB1b0MmX4OXYAmqHsYyrfs&callback=?', getMarkers);
-});
-
-function getMarkers(data){
-  console.log(data.results.length)
-
-}
-
 var coordinate1={
   latitude:'59.33770', 
   longitude:'18.02597',
@@ -36,6 +27,10 @@ var myLatLng;
 var previousPosition=[];
 var currentPosition=[]; 
 var map;
+var service;
+var infowindow;
+var myMarker;
+
 // var userMarker;
 // var userMarkerImage = {
 //   url: 'images/headphones.png',
@@ -72,7 +67,7 @@ function showPosition(position)
             );
 
             // then create the new marker
-            myMarker = new google.maps.Marker({
+              myMarker = new google.maps.Marker({
               flat: true,
               icon: image,
               map: map,
@@ -152,6 +147,7 @@ function deg2rad(deg) {
 var MY_MAPTYPE_ID = 'custom_style';
 
 function initialize(userPosition) {
+  var centerOfStockholm=new google.maps.LatLng(59.3322064,18.0640027)
   mapOnSite=false;
   var featureOpts = [
     {
@@ -186,7 +182,7 @@ function initialize(userPosition) {
 
   var mapOptions = {
     zoom: 20,
-    center: userPosition,
+    center: myLatLng,
     disableDefaultUI: true,
     mapTypeControlOptions: {
       mapTypeIds: [google.maps.MapTypeId.ROADMAP, MY_MAPTYPE_ID]
@@ -202,13 +198,13 @@ function initialize(userPosition) {
   //   icon: userMarkerImage 
   // });
 
-for (var i = 0; i < coordinateArray.length; i++) {
-      var data = coordinateArray[i]
-      var marker = new google.maps.Marker({
-          position: new google.maps.LatLng (data.latitude, data.longitude),
-          map: map
-      });
-
+//for (var i = 0; i < coordinateArray.length; i++) {
+//      var data = coordinateArray[i]
+//      var marker = new google.maps.Marker({
+//          position: new google.maps.LatLng (data.latitude, data.longitude),
+//          map: map
+//      });
+//}
   var styledMapOptions = {
     name: 'Custom Style'
   };
@@ -216,5 +212,30 @@ for (var i = 0; i < coordinateArray.length; i++) {
   var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
 
   map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
+
+  var request = {
+    location: myLatLng,
+    radius: '10000',
+    types: ['subway_station']
+  };
+
+  service = new google.maps.places.PlacesService(map);
+  service.nearbySearch(request, callback);
 }
-}
+
+function callback(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    console.log("test")
+    for (var i = 0; i < results.length; i++) {
+      var place = results[i];
+      var marker = new google.maps.Marker(
+        {
+          position: new google.maps.LatLng(results[i].geometry.location.lat(), results[i].geometry.location.lng()),
+          map: map
+        }
+      )
+              console.log(results[i].geometry.location.lat(), results[i].geometry.location.lng())
+
+    }
+  }
+ } 
