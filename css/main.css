@@ -3,6 +3,15 @@
         height: 400px;
         background: red;
       }
+      #map-canvas {
+        text-align: center;
+      }
+
+      #loader {
+        display: inline-block;
+        margin-top: 210px
+      }
+
 html {
   height: 100%;
 }
