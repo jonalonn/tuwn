@@ -1,7 +1,17 @@
       #map_canvas {
         width: 500px;
         height: 400px;
+        background: red;
       }
+      #map-canvas {
+        text-align: center;
+      }
+
+      #loader {
+        display: inline-block;
+        margin-top: 210px
+      }
+
 html {
   height: 100%;
 }
@@ -75,4 +85,3 @@ body {
     margin: -1em;
     background: rgba(0, 127, 255, 0);
   }
-}
