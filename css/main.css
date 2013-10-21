@@ -1,6 +1,7 @@
       #map_canvas {
         width: 500px;
         height: 400px;
+        background: red;
       }
 html {
   height: 100%;
@@ -75,4 +76,3 @@ body {
     margin: -1em;
     background: rgba(0, 127, 255, 0);
   }
-}

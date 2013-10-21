@@ -17,11 +17,16 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/main.js" type="text/javascript"></script>
 
+<script type="text/javascript">$(document).load(function(){  
+      $("#loader").hide();
+})    </script>
+
 </head>
 
 <body>
 
-<div id="map-canvas" style="height:500px; width:100%;"></div>
+<div id="map-canvas" style="height:500px; width:100%;"><div id="loader">Loading content, please wait..  
+<img src="images/ajax-loader.gif" alt="loading.."></div></div>
 <div class="playground">
         <div class="content-wide">
             <div class="widget widget-loops">
