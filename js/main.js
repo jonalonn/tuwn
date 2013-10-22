@@ -228,9 +228,18 @@ function deg2rad(deg) {
 var MY_MAPTYPE_ID = 'custom_style';
 google.maps.event.addDomListener(window, 'load', initialize);
 
-$.get( "data/Tunnelbana.csv", function(data) {
-  CSVToArray(data, '1')
-});
+getCSV()
+
+function getCSV(){
+  var CSVArray=[];
+  var tunnelbana = $.get("data/Tunnelbana.csv");
+  var bio = $.get("data/Bio.csv");
+  $.when(tunnelbana, bio).done(function(a, b) {
+    CSVArray = CSVArray.concat(CSVToArray(a, '1'));
+    CSVArray = CSVArray.concat(CSVToArray(b, '2'));
+    initialize(CSVArray)
+  });
+}
 
 function CSVToArray( strData, itemSound, strDelimiter ){
   strDelimiter = (strDelimiter || ",");
@@ -277,5 +286,5 @@ function CSVToArray( strData, itemSound, strDelimiter ){
 
   arrData[ arrData.length - 1 ].push( strMatchedValue);
 }
-  initialize(arrData)
+  return(arrData)
 }
