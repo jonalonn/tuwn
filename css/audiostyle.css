@@ -41,7 +41,6 @@ body {
     font-size: 16px;
     line-height: 1.35em;
     margin: 0;
-    padding: 1em 2em 1em 2em;
 }
 
 h1,h2 {
@@ -163,7 +162,7 @@ form {
     border-top: 1px solid #dcdcdc;
     border-bottom: 1px solid #dcdcdc;
     background: white;
-    margin: 2.1em -2em 0 -2em;
+    /*margin: 2.1em -2em 0 -2em;*/
     overflow: hidden;
     padding: 0 2em 2em 2em;
 }
@@ -234,11 +233,6 @@ form {
 }
 
 @media only screen and (max-width: 800px) {
-    .widget-items,.playground {
-        padding-left: 1em;
-        padding-right: 1em;
-    }
-
     .widget {
         padding-bottom: 0;
     }
@@ -253,11 +247,6 @@ form {
 }
 
 @media only screen and (max-width: 500px) {
-    body {
-        padding-left: 1em;
-        padding-right: 1em;
-    }
-
     .playground {
         margin-left: -1em;
         margin-right: -1em;
