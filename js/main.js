@@ -61,6 +61,7 @@ function showPosition(position)
   }
 
   function initialize(csvResults) {
+    var allMarkers=[];
     var centerOfStockholm=new google.maps.LatLng(59.3322064,18.0640027)
     var featureOpts = [
     {
@@ -105,17 +106,7 @@ function showPosition(position)
 
     map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
-    for (var i = 0; i < csvResults.length; i++) {
-      if(csvResults[i][0]){
-        var marker = new google.maps.Marker(
-        {
-          position: new google.maps.LatLng(csvResults[i][1],csvResults[i][0]),
-          map: map
-        }
-        )
-      }
 
-    }
 var styledMapOptions = {
   name: 'Custom Style'
 };
@@ -149,6 +140,40 @@ service.nearbySearch(request, function(results,status,pagination){
     pagination.nextPage();
   }
 }); */
+
+      for (var i = 0; i < csvResults.length; i++) {
+      if(csvResults[i][1]){
+        var marker = new google.maps.Marker(
+        {
+          position: new google.maps.LatLng(csvResults[i][2],csvResults[i][1]),
+          map: map,
+          optimized: false,
+          title: csvResults[i][0]
+        }
+        )
+        allMarkers.push(marker);
+
+      }
+ google.maps.event.addListener(marker, 'click', function() {
+    console.log(marker.title)
+  
+  });
+    }
+
+ google.maps.event.addListener(map, 'bounds_changed', getMakersShown) 
+
+ function getMakersShown(){
+  var shownMarkers=[];
+  for(var i = allMarkers.length, bounds = map.getBounds(); i--;) {
+    if(bounds.contains(allMarkers[i].getPosition()) ){
+        shownMarkers.push(allMarkers[i])
+        var audio=new Audio('sounds/'+allMarkers[i].title);;
+         audio.play();
+    }
+
+
+  }
+};
 
 }
 
@@ -200,12 +225,13 @@ function deg2rad(deg) {
 //
 //}
 var MY_MAPTYPE_ID = 'custom_style';
+google.maps.event.addDomListener(window, 'load', initialize);
 
 $.get( "data/Tunnelbana.csv", function(data) {
-  CSVToArray(data)
+  CSVToArray(data, 'techno.wav')
 });
 
-function CSVToArray( strData, strDelimiter ){
+function CSVToArray( strData, itemSound, strDelimiter ){
   strDelimiter = (strDelimiter || ",");
 
   var objPattern = new RegExp(
@@ -220,8 +246,7 @@ function CSVToArray( strData, strDelimiter ){
   var arrData=[[]];
 
   var arrMatches = null;
-
-
+  
   while (arrMatches = objPattern.exec( strData )){
 
     var strMatchedDelimiter = arrMatches[ 1 ];
@@ -232,6 +257,8 @@ function CSVToArray( strData, strDelimiter ){
       ){
 
       arrData.push( [] ); 
+      arrData[ arrData.length - 1 ].push(itemSound)
+
   }
 
 
@@ -246,9 +273,8 @@ function CSVToArray( strData, strDelimiter ){
 
     var strMatchedValue = arrMatches[ 3 ];
   }
-  arrData[ arrData.length - 1 ].push( strMatchedValue );
+
+  arrData[ arrData.length - 1 ].push( strMatchedValue);
 }
-
-initialize(arrData)
-
+  initialize(arrData)
 }
