@@ -167,8 +167,9 @@ service.nearbySearch(request, function(results,status,pagination){
   for(var i = allMarkers.length, bounds = map.getBounds(); i--;) {
     if(bounds.contains(allMarkers[i].getPosition()) ){
         shownMarkers.push(allMarkers[i])
-        var audio=new Audio('sounds/'+allMarkers[i].title);;
-         audio.play();
+        // var audio=new Audio('sounds/'+allMarkers[i].title);;
+        // debugger
+         audio.play(allMarkers[i].title);
     }
 
 
@@ -227,15 +228,10 @@ function deg2rad(deg) {
 var MY_MAPTYPE_ID = 'custom_style';
 google.maps.event.addDomListener(window, 'load', initialize);
 
-function CSVLoader(){
-  $.get( "data/Tunnelbana.csv", function(data) {
-    var tunnelbaneArray=CSVToArray(data, 'techno.wav')
-  });
-  $.get( "data/Bio.csv", function(data) {
-    CSVToArray(data, 'techno1.wav')
-  });
+$.get( "data/Tunnelbana.csv", function(data) {
+  CSVToArray(data, '1')
+});
 
-}
 function CSVToArray( strData, itemSound, strDelimiter ){
   strDelimiter = (strDelimiter || ",");
 
@@ -279,7 +275,7 @@ function CSVToArray( strData, itemSound, strDelimiter ){
     var strMatchedValue = arrMatches[ 3 ];
   }
 
-  arrData[arrData.length - 1].push( strMatchedValue);
+  arrData[ arrData.length - 1 ].push( strMatchedValue);
 }
   initialize(arrData)
 }

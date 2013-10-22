@@ -60,7 +60,7 @@ audio.findSync = function(n) {
 audio.play = function(n, playOnly) {
     if (audio.source_loop[n]._playing) {
         if (!playOnly) {
-            audio.stop(n);
+            console.log("No change");
         }
     } else {
         audio.source_loop[n] = audio.context.createBufferSource();
