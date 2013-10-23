@@ -112,13 +112,13 @@ function showPosition(position)
     map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
 
-var styledMapOptions = {
-  name: 'Custom Style'
-};
+    var styledMapOptions = {
+      name: 'Custom Style'
+    };
 
-var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
+    var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
 
-map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
+    map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
 
  /* var request = {
     location: centerOfStockholm,
@@ -146,11 +146,11 @@ service.nearbySearch(request, function(results,status,pagination){
   }
 }); */
 var locationMarkerImage;
-      for (var i = 0; i < csvResults.length; i++) {
-      if(csvResults[i][1]){
+for (var i = 0; i < csvResults.length; i++) {
+  if(csvResults[i][1]){
 
-locationMarkerImage = new google.maps.MarkerImage(
-            'images/circle'+csvResults[i][0]+'.png',
+    locationMarkerImage = new google.maps.MarkerImage(
+      'images/circle'+csvResults[i][0]+'.png',
             null, // size
             null, // origin
             new google.maps.Point( 8, 8 ), // anchor (move to center of marker)
@@ -158,55 +158,55 @@ locationMarkerImage = new google.maps.MarkerImage(
             )
 
 
-        var marker = new google.maps.Marker(
-        {
-          position: new google.maps.LatLng(csvResults[i][2],csvResults[i][1]),
-          map: map,
-          flat: true, 
-          optimized: false,
-          title: csvResults[i][0],
-          icon: locationMarkerImage
-        }
-        )
-        allMarkers.push(marker);
+    var marker = new google.maps.Marker(
+    {
+      position: new google.maps.LatLng(csvResults[i][2],csvResults[i][1]),
+      map: map,
+      flat: true, 
+      optimized: false,
+      title: csvResults[i][0],
+      icon: locationMarkerImage
+    }
+    )
+    allMarkers.push(marker);
 
-      }
- google.maps.event.addListener(marker, 'click', function() {
+  }
+  google.maps.event.addListener(marker, 'click', function() {
     if(!markerClicked){
       audio.stop(this.title);
       markerClicked=true;
     }
     if(markerClicked){
-    audio.play(this.title)
-    markerClicked=false;
-  }
-  });
+      audio.play(this.title)
+      markerClicked=false;
     }
+  });
+}
 
- google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
+google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
 
- function getMarkersShown(){
+function getMarkersShown(){
   if(!mapOnSite){
-  previousMarkersShown=currentMarkersShown;
-  for(var i = allMarkers.length, bounds = map.getBounds(); i--;) {
-    if(bounds.contains(allMarkers[i].getPosition())){
+    previousMarkersShown=currentMarkersShown;
+    for(var i = allMarkers.length, bounds = map.getBounds(); i--;) {
+      if(bounds.contains(allMarkers[i].getPosition())){
         if($.inArray(allMarkers[i],currentMarkersShown)==-1){
           currentMarkersShown.push(allMarkers[i])
           amountOfMarkersWithAnIndex[allMarkers[i].title]+=1
         }
-      
-      if(amountOfMarkersWithAnIndex[allMarkers[i].title]==1&&!markerClicked){
-        audio.play(allMarkers[i].title)
-      }
 
-    }
-    else if($.inArray(allMarkers[i],previousMarkersShown)!==-1){
-            amountOfMarkersWithAnIndex[allMarkers[i].title]-=1
-            for(var k = currentMarkersShown.length - 1; k >= 0; k--) {
-              if(currentMarkersShown[k] === allMarkers[i]) {
-                currentMarkersShown.splice(k,1);
-              }
-}
+        if(amountOfMarkersWithAnIndex[allMarkers[i].title]==1&&!markerClicked){
+          audio.play(allMarkers[i].title)
+        }
+
+      }
+      else if($.inArray(allMarkers[i],previousMarkersShown)!==-1){
+        amountOfMarkersWithAnIndex[allMarkers[i].title]-=1
+        for(var k = currentMarkersShown.length - 1; k >= 0; k--) {
+          if(currentMarkersShown[k] === allMarkers[i]) {
+            currentMarkersShown.splice(k,1);
+          }
+        }
 
       }
 
@@ -222,23 +222,23 @@ locationMarkerImage = new google.maps.MarkerImage(
       //  }
         // var audio=new Audio('sounds/'+allMarkers[i].title);;
         // debugger
-   
+
 
     //else{
 
    //   if($.inArray(allMarkers[i],previousMarkersShown)!==-1&&amountOfMarkersWithAnIndex[allMarkers[i].title]!==0){
      //   amountOfMarkersWithAnIndex[allMarkers[i].title]-=1
-        
+
       //}
     }
-   for(var j=1;j<3;j++){
+    for(var j=1;j<4;j++){
       if(amountOfMarkersWithAnIndex[j]==0){
         audio.stop(j)
       }
     }
 
-}
   }
+}
 
 
 
@@ -278,9 +278,13 @@ function getCSV(){
   var CSVArray=[];
   var tunnelbana = $.get("data/Tunnelbana.csv");
   var bio = $.get("data/Bio.csv");
-  $.when(tunnelbana, bio).done(function(a, b) {
+  var bussar = $.get("data/Bussar.csv");
+
+  $.when(tunnelbana, bio, bussar).done(function(a, b, c) {
     CSVArray = CSVArray.concat(CSVToArray(a, '1'));
     CSVArray = CSVArray.concat(CSVToArray(b, '2'));
+    CSVArray = CSVArray.concat(CSVToArray(c, '3'));
+
     initialize(CSVArray)
   });
 }
@@ -311,7 +315,7 @@ function CSVToArray( strData, itemSound, strDelimiter ){
       ){
 
       arrData.push( [] ); 
-      arrData[ arrData.length - 1 ].push(itemSound)
+    arrData[ arrData.length - 1 ].push(itemSound)
 
   }
 
@@ -330,5 +334,5 @@ function CSVToArray( strData, itemSound, strDelimiter ){
 
   arrData[ arrData.length - 1 ].push( strMatchedValue);
 }
-  return(arrData)
+return(arrData)
 }
