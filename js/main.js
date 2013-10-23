@@ -9,6 +9,7 @@ var service;
 var infowindow;
 var myMarker;
 var amountOfMarkersWithAnIndex=[0,0,0,0,0,0,0,0,0,0];
+var markerClicked=false
 
 
 var int=self.setInterval(function(){getLocation()},1000);
@@ -160,8 +161,14 @@ service.nearbySearch(request, function(results,status,pagination){
 
       }
  google.maps.event.addListener(marker, 'click', function() {
-    console.log(marker.title)
-  
+    if(!markerClicked){
+      audio.stop(this.title);
+      markerClicked=true;
+    }
+    if(markerClicked){
+    audio.play(this.title)
+    markerClicked=false;
+  }
   });
     }
 
@@ -177,13 +184,12 @@ service.nearbySearch(request, function(results,status,pagination){
           amountOfMarkersWithAnIndex[allMarkers[i].title]+=1
         }
       
-      if(amountOfMarkersWithAnIndex[allMarkers[i].title]==1){
+      if(amountOfMarkersWithAnIndex[allMarkers[i].title]==1&&!markerClicked){
         audio.play(allMarkers[i].title)
       }
 
     }
     else if($.inArray(allMarkers[i],previousMarkersShown)!==-1){
-            console.log("minus ett")
             amountOfMarkersWithAnIndex[allMarkers[i].title]-=1
             for(var k = currentMarkersShown.length - 1; k >= 0; k--) {
               if(currentMarkersShown[k] === allMarkers[i]) {
@@ -194,7 +200,6 @@ service.nearbySearch(request, function(results,status,pagination){
       }
 
     }
-console.log(currentMarkersShown.length)
   //    }
   //    else{
   //      audio.play(allMarkers[i].title)
@@ -217,7 +222,6 @@ console.log(currentMarkersShown.length)
     }
    for(var j=1;j<3;j++){
       if(amountOfMarkersWithAnIndex[j]==0){
-        console.log(j+" borde inte spelas")
         audio.stop(j)
       }
     }
