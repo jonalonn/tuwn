@@ -60,7 +60,6 @@ audio.findSync = function(n) {
 audio.play = function(n, playOnly) {
     if (audio.source_loop[n]._playing) {
         if (!playOnly) {
-            console.log("No change");
         }
     } else {
         audio.source_loop[n] = audio.context.createBufferSource();
@@ -69,7 +68,6 @@ audio.play = function(n, playOnly) {
         audio.source_loop[n].loop = true;
 
         var offset = audio.context.currentTime % audio.buffer[n].duration//audio.findSync(n) ; 
-        console.log("offset", offset)
         audio.source_loop[n]._startTime = audio.context.currentTime;
 
 

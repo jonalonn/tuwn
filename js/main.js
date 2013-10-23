@@ -2,10 +2,14 @@ var mapOnSite=true
 var myLatLng;
 var previousPosition=[];
 var currentPosition=[]; 
+var currentMarkersShown=[];
+var previousMarkersShown=[];
 var map;
 var service;
 var infowindow;
 var myMarker;
+var amountOfMarkersWithAnIndex=[0,0,0,0,0,0,0,0,0,0];
+
 
 var int=self.setInterval(function(){getLocation()},1000);
 
@@ -160,23 +164,67 @@ service.nearbySearch(request, function(results,status,pagination){
   });
     }
 
- google.maps.event.addListener(map, 'bounds_changed', getMakersShown) 
+ google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
 
- function getMakersShown(){
-  var shownMarkers=[];
+ function getMarkersShown(){
+  if(!mapOnSite){
+  previousMarkersShown=currentMarkersShown;
   for(var i = allMarkers.length, bounds = map.getBounds(); i--;) {
-    if(bounds.contains(allMarkers[i].getPosition()) ){
-        shownMarkers.push(allMarkers[i])
+    if(bounds.contains(allMarkers[i].getPosition())){
+        if($.inArray(allMarkers[i],currentMarkersShown)==-1){
+          currentMarkersShown.push(allMarkers[i])
+          amountOfMarkersWithAnIndex[allMarkers[i].title]+=1
+        }
+      
+      if(amountOfMarkersWithAnIndex[allMarkers[i].title]==1){
+        audio.play(allMarkers[i].title)
+      }
+
+    }
+    else if($.inArray(allMarkers[i],previousMarkersShown)!==-1){
+            console.log("minus ett")
+            amountOfMarkersWithAnIndex[allMarkers[i].title]-=1
+            for(var k = currentMarkersShown.length - 1; k >= 0; k--) {
+              if(currentMarkersShown[k] === allMarkers[i]) {
+                currentMarkersShown.splice(k,1);
+              }
+}
+
+      }
+
+    }
+console.log(currentMarkersShown.length)
+  //    }
+  //    else{
+  //      audio.play(allMarkers[i].title)
+  //    }
+//      console.log(amountOfMarkersWithAnIndex)
+  //    
+    //  if($.inArray(allMarkers[i],previousMarkersShown)==-1){
+  //       audio.play(allMarkers[i].title);
+      //  }
         // var audio=new Audio('sounds/'+allMarkers[i].title);;
         // debugger
-         audio.play(allMarkers[i].title);
+   
+
+    //else{
+
+   //   if($.inArray(allMarkers[i],previousMarkersShown)!==-1&&amountOfMarkersWithAnIndex[allMarkers[i].title]!==0){
+     //   amountOfMarkersWithAnIndex[allMarkers[i].title]-=1
+        
+      //}
+    }
+   for(var j=1;j<3;j++){
+      if(amountOfMarkersWithAnIndex[j]==0){
+        console.log(j+" borde inte spelas")
+        audio.stop(j)
+      }
     }
 
-
-  }
-};
-
+console.log(amountOfMarkersWithAnIndex)
 }
+  }
+
 
 
 
