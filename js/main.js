@@ -151,6 +151,7 @@ service.nearbySearch(request, function(results,status,pagination){
         {
           position: new google.maps.LatLng(csvResults[i][2],csvResults[i][1]),
           map: map,
+          flat: true, 
           optimized: false,
           title: csvResults[i][0],
           icon: '../images/cat.gif'
