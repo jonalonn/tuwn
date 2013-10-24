@@ -57,3 +57,34 @@
 			margin:-10px 0 0 -10px;
 		}
 	}
+
+	#map-canvas div.gmnoprint[title="1"] {
+		-moz-animation: pulsate 1.5s ease-in-out infinite;
+		-webkit-animation: pulsate 1.5s ease-in-out infinite;
+		border:1pt solid #fff;
+		/* make a circle */
+		-moz-border-radius:51px;
+		-webkit-border-radius:51px;
+		border-radius:51px;
+		/* multiply the shadows, inside and outside the circle */
+		-moz-box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
+		-webkit-box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
+		box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
+		/* set the ring's new dimension and re-center it */
+		height:51px!important;
+		margin:-18px 0 0 -18px;
+		width:51px!important;
+	}
+	/* hide the superfluous marker image since it would expand and shrink with its containing element */
+/*	#map-canvas div[style*="987654"][title] img {*/
+	#map-canvas div.gmnoprint[title="1"] img {
+		display:none;
+	}
+	/* compensate for iPhone and Android devices with high DPI, add iPad media query */
+	@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (device-width: 768px) {
+		#map-canvas div.gmnoprint[title="1"] {
+			margin:-10px 0 0 -10px;
+		}
+	}
+
+
