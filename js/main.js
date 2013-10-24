@@ -282,7 +282,7 @@ function getMarkersShown(){
 //
 //}
 var MY_MAPTYPE_ID = 'custom_style';
-google.maps.event.addDomListener(window, 'load', initialize);
+// google.maps.event.addDomListener(window, 'load', initialize);
 
 getCSV()
 
