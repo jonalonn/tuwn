@@ -9,7 +9,8 @@ var audio = {
     effects: [
         'sounds/techno2.wav',
         'sounds/techno3.wav',
-        'sounds/techno4.wav'
+        'sounds/techno4.wav',
+        'sounds/techno5.wav'
     ],
     files: [
         'sounds/techno.wav',

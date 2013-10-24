@@ -148,6 +148,7 @@ service.nearbySearch(request, function(results,status,pagination){
 var locationMarkerImage;
 for (var i = 0; i < csvResults.length; i++) {
   if(csvResults[i][1]){
+   //   console.log('images/circle'+csvResults[i][0]+'.png')
 
     locationMarkerImage = new google.maps.MarkerImage(
       'images/circle'+csvResults[i][0]+'.png',
@@ -231,7 +232,7 @@ function getMarkersShown(){
 
       //}
     }
-    for(var j=1;j<4;j++){
+    for(var j=1;j<5;j++){
       if(amountOfMarkersWithAnIndex[j]==0){
         audio.stop(j)
       }
@@ -279,11 +280,15 @@ function getCSV(){
   var tunnelbana = $.get("data/Tunnelbana.csv");
   var bio = $.get("data/Bio.csv");
   var bussar = $.get("data/Bussar.csv");
+  var thai = $.get("data/Thai.csv");
 
-  $.when(tunnelbana, bio, bussar).done(function(a, b, c) {
+
+  $.when(tunnelbana, bio, bussar, thai).done(function(a, b, c, d) {
     CSVArray = CSVArray.concat(CSVToArray(a, '1'));
     CSVArray = CSVArray.concat(CSVToArray(b, '2'));
     CSVArray = CSVArray.concat(CSVToArray(c, '3'));
+    CSVArray = CSVArray.concat(CSVToArray(d, '4'));
+
 
     initialize(CSVArray)
   });
