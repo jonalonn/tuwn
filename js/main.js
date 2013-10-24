@@ -1,3 +1,10 @@
+jQuery(document).ready(function($){
+  $("li.content").hide();
+  $("ul.toggle-menu").delegate("li.toggle", "click", function() { 
+  $(this).next().toggle("fast").siblings(".content").hide("fast");
+    });
+});
+
 var mapOnSite=true
 var myLatLng;
 var previousPosition=[];
@@ -9,7 +16,7 @@ var service;
 var infowindow;
 var myMarker;
 var amountOfMarkersWithAnIndex=[0,0,0,0,0,0,0,0,0,0];
-var markerClicked=false
+var markerClicked;
 
 
 var int=self.setInterval(function(){getLocation()},1000);
@@ -166,21 +173,26 @@ for (var i = 0; i < csvResults.length; i++) {
       flat: true, 
       optimized: false,
       title: csvResults[i][0],
-      icon: locationMarkerImage
+      icon: locationMarkerImage,
+      markerClicked: false
     }
     )
     allMarkers.push(marker);
 
   }
   google.maps.event.addListener(marker, 'click', function() {
-    if(!markerClicked){
+    if(!this.markerClicked){
+      console.log("I should be turned off")
       audio.stop(this.title);
-      markerClicked=true;
+      this.markerClicked=true;
     }
-    if(markerClicked){
+    else{
+      console.log("I should be turned on. lol")
       audio.play(this.title)
-      markerClicked=false;
+      this.markerClicked=false;
     }
+        console.log(this.title+this.markerClicked)
+
   });
 }
 
@@ -196,7 +208,7 @@ function getMarkersShown(){
           amountOfMarkersWithAnIndex[allMarkers[i].title]+=1
         }
 
-        if(amountOfMarkersWithAnIndex[allMarkers[i].title]==1&&!markerClicked){
+        if(amountOfMarkersWithAnIndex[allMarkers[i].title]==1&&!this.markerClicked){
           audio.play(allMarkers[i].title)
         }
 
@@ -232,12 +244,11 @@ function getMarkersShown(){
 
       //}
     }
-    for(var j=1;j<7;j++){
+    for(var j=1;j<10;j++){
       if(amountOfMarkersWithAnIndex[j]==0){
         audio.stop(j)
       }
     }
-
   }
 }
 

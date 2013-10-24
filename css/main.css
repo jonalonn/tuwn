@@ -1,67 +1,71 @@
-#menu a { 
-    display: block; 
-    text-decoration: none; 
-    color: #3B5330;}
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:400,500,700);
 
-#menu a:hover { background: #B0BD97;}
+html, body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: bold;
+}
 
-#menu ul li ul li a:hover { 
-    background: #ECF1E7; 
-    padding-left:9px;
-    border-left: solid 1px #000;}
+body {
+  background-color: #e58139;
+}
 
-#menu ul li ul li {
-    width: 140px; 
-    border: none; 
-    color: #B0BD97;  
-    padding-top: 3px; 
-    padding-bottom:3px; 
-    padding-left: 3px; 
-    padding-right: 3px; 
-    background: #B0BD97;}
+header {
+  background-color: #333;
+  width: 100%;
+  height: 65px;
+}
 
-#menu ul li ul li a { 
-    font: 11px arial; 
-    font-weight:normal; 
-    font-variant: small-caps; 
-    padding-top:3px; 
-    padding-bottom:3px;}
+.menu-links {
+  float: right;  
+  padding-right: 20px;
+}
 
-#menu ul li {
-    float: left; 
-    width: 146px; 
-    font-weight: bold; 
-    border-top: solid 1px #283923; 
-    border-bottom: solid 1px #283923; 
-    background: #979E71;}
+.toggle-menu {
+  float: right; 
+}
 
-#menu ul li a { 
-    font-weight: bold;
-    padding: 15px 10px;}
+.toggle-menu li {
+  display: block;
+  float: left;
+  list-style-type: none;
+  text-align: left;
+}
 
-#menu li{ 
-    position:relative; 
-    float:left;}
+.toggle {
+  padding-top: 5px;
+}
 
-#menu ul li ul, #menu:hover ul li ul, #menu:hover ul li:hover ul li ul{ 
-    display:none;
-    list-style-type:none; 
-    width: 140px;}
+li.toggle:hover span.toggle-menu-bar {
+  background-color: #ddd;
+}
 
-#menu:hover ul, #menu:hover ul li:hover ul, #menu:hover ul li:hover ul li:hover ul { 
-    display:block;}
+.toggle-menu-bar {
+  display: block;
+  width: 25px;
+  height: 4px;
+  background-color: #e58139;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin: 0 auto 3px;
+  transition: background-color 0.2s;
+}
 
-#menu:hover ul li:hover ul li:hover ul { 
-    position: absolute;
-    margin-left: 145px;
-    margin-top: -22px;
-    font: 10px;}
+a {
+  font-size: 25px;
+  text-decoration: none;
+  color: #e58139;
+  padding-right: 20px;
+  transition: color 0.2s;
+}
 
-#menu:hover ul li:hover ul { 
-    position: absolute;
-    margin-top: 1px;
-    font: 10px;}
-
+a:hover {
+  color: #ddd;
+}
 #mycontainer {
   width: 100%;
 }
