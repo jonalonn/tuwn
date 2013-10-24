@@ -232,7 +232,7 @@ function getMarkersShown(){
 
       //}
     }
-    for(var j=1;j<5;j++){
+    for(var j=1;j<7;j++){
       if(amountOfMarkersWithAnIndex[j]==0){
         audio.stop(j)
       }
@@ -281,13 +281,25 @@ function getCSV(){
   var bio = $.get("data/Bio.csv");
   var bussar = $.get("data/Bussar.csv");
   var thai = $.get("data/Thai.csv");
+  var mekonomen = $.get("data/Mekonomen.csv");
+  var bestWestern = $.get("data/best_western.csv");
+  var dans = $.get("data/dans.csv");
+  var cafeer = $.get("data/cafeer.csv");
+  var bagerier = $.get("data/Bagerier.csv");
 
 
-  $.when(tunnelbana, bio, bussar, thai).done(function(a, b, c, d) {
+
+  $.when(tunnelbana, bio, bussar, thai, mekonomen, bestWestern, dans, cafeer, bagerier).done(function(a, b, c, d, e, f, g, h, i) {
     CSVArray = CSVArray.concat(CSVToArray(a, '1'));
     CSVArray = CSVArray.concat(CSVToArray(b, '2'));
     CSVArray = CSVArray.concat(CSVToArray(c, '3'));
     CSVArray = CSVArray.concat(CSVToArray(d, '4'));
+    CSVArray = CSVArray.concat(CSVToArray(e, '5'));
+    CSVArray = CSVArray.concat(CSVToArray(f, '6'));
+    CSVArray = CSVArray.concat(CSVToArray(g, '7'));
+    CSVArray = CSVArray.concat(CSVToArray(h, '8'));
+    CSVArray = CSVArray.concat(CSVToArray(i, '9'));
+
 
 
     initialize(CSVArray)
