@@ -7,14 +7,20 @@ var audio = {
     compatibility: {},
     convolver: {},
     effects: [
-        'sounds/techno2.wav',
-        'sounds/techno3.wav',
-        'sounds/techno4.wav'
+        'sounds/cave.wav',
+        'sounds/lodge.wav',
+        'sounds/parking-garage.wav'
     ],
     files: [
-        'sounds/techno.wav',
+        'sounds/techno1.wav',
+        'sounds/techno2.wav',
         'sounds/techno3.wav',
-        'sounds/techno4.wav'
+        'sounds/techno4.wav',
+        'sounds/techno5.wav',
+        'sounds/techno6.wav',
+        'sounds/techno7.wav',
+        'sounds/techno8.wav',
+        'sounds/techno9.wav'
     ],
     frequencyData: {},
     gain: {},
