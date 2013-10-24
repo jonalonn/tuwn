@@ -104,7 +104,7 @@ audio.play = function(n, playOnly) {
         audio.gain_loop[n].gain.setValueAtTime(0, audio.context.currentTime);
         audio.gain_loop[n].gain.linearRampToValueAtTime(1, audio.context.currentTime + audio.volume_fade_time);
 
-        document.getElementById('button-loop-' + n).className = 'active';
+        // document.getElementById('button-loop-' + n).className = 'active';
         audio.source_loop[n]._playing = true;
         audio.playing = audio.playing + 1;
         
@@ -140,7 +140,7 @@ audio.stop = function(n) {
         audio.gain_loop[n].gain.setValueAtTime(1, audio.context.currentTime);
         audio.gain_loop[n].gain.linearRampToValueAtTime(0, audio.context.currentTime + audio.volume_fade_time);
 
-        document.getElementById('button-loop-' + n).className = 'inactive';
+        // document.getElementById('button-loop-' + n).className = 'inactive';
         audio.playing = audio.playing - 1;
     }
 };
@@ -284,16 +284,16 @@ if (audio.proceed) {
     //-----------------------
     // Setup Stop All Button
     //-----------------------
-    document.getElementById('button-stop').addEventListener('click', audio.stopAll);
-    document.getElementById('button-stop').disabled = false;
+    // document.getElementById('button-stop').addEventListener('click', audio.stopAll);
+    // document.getElementById('button-stop').disabled = false;
 
 
 
-    //-----------------------
-    // Setup Play All Button
-    //-----------------------
-    document.getElementById('button-play').addEventListener('click', audio.playAll);
-    document.getElementById('button-play').disabled = false;
+    // //-----------------------
+    // // Setup Play All Button
+    // //-----------------------
+    // document.getElementById('button-play').addEventListener('click', audio.playAll);
+    // document.getElementById('button-play').disabled = false;
 
 
 
@@ -312,13 +312,13 @@ if (audio.proceed) {
                     function(buffer) {
                         audio.buffer[i] = buffer;
                         audio.source_loop[i] = {};
-                        var button = document.getElementById('button-loop-' + i);
-                        button.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            audio.play(this.value, false);
-                        });
-                        jQuery(button).text(button.getAttribute('data-name')).removeClass('loading');
-                        button.disabled = false;
+                        // var button = document.getElementById('button-loop-' + i);
+                        // button.addEventListener('click', function(e) {
+                        //     e.preventDefault();
+                        //     audio.play(this.value, false);
+                        // });
+                        // jQuery(button).text(button.getAttribute('data-name')).removeClass('loading');
+                        // button.disabled = false;
 
                         // Setup individual volume for this loop
                         audio.gain_loop[i] = audio.context[audio.compatibility.createGain]();
@@ -355,11 +355,11 @@ if (audio.proceed) {
                     req.response,
                     function(buffer) {
                         audio.buffer_effects[i] = buffer;
-                        var button = document.getElementById('effect-' + i);
-                        button.disabled = false;
-                        $(document).ready(function() {
-                            jQuery(button).html(button.getAttribute('data-name').replace(' ', '<br>')).removeClass('loading');
-                        })
+                        // var button = document.getElementById('effect-' + i);
+                        // button.disabled = false;
+                        // $(document).ready(function() {
+                        //     jQuery(button).html(button.getAttribute('data-name').replace(' ', '<br>')).removeClass('loading');
+                        // })
                     },
                     function() {
                         console.log('Error decoding effect "' + audio.effects[i - 1] + '".');
