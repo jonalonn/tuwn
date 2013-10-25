@@ -19,8 +19,13 @@ header {
   height: 65px;
 }
 
+#map-canvas {
+  height:90%;
+}
+
 .menubar {
-  height: 80px;
+  height: 10%;
+  background-color: #000;
 }
 
 .menu-links {
