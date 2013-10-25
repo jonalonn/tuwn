@@ -25,7 +25,7 @@ header {
 
 .menubar {
   height: 10%;
-  background-color: #000;
+  background-color: #009B95;
 }
 
 .menu-links {
@@ -49,14 +49,14 @@ header {
 }
 
 li.toggle:hover span.toggle-menu-bar {
-  background-color: #ddd;
+  background-color: #ff7100;
 }
 
 .toggle-menu-bar {
   display: block;
   width: 25px;
   height: 4px;
-  background-color: #e58139;
+  background-color: #FFFD00;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
