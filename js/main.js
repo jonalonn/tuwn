@@ -11,6 +11,7 @@ var myMarker;
 var amountOfMarkersWithAnIndex=[0,0,0,0,0,0,0,0,0,0];
 var markerClicked;
 var allMarkers;
+var amountOfMarkersClicked=0;
 
 jQuery(document).ready(function($){
   $("#toggle").click(function() {
@@ -198,8 +199,25 @@ for (var i = 0; i < csvResults.length; i++) {
   for(var k = allMarkers.length - 1; k >= 0; k--) {
     if(allMarkers[k].title === this.title) {
       allMarkers[k].markerClicked=this.markerClicked;
+      if(this.markerClicked){
+        amountOfMarkersClicked+=1
+      }
+      else{
+        amountOfMarkersClicked-=1
+      }
     }
   }
+  console.log(amountOfMarkersClicked)
+if(amountOfMarkersClicked==allMarkers.length-9){
+  console.log("alla är bortclickade")
+  document.getElementById("button_playnow").value="play all"
+}
+
+if(amountOfMarkersClicked==0){
+  console.log("alla är iklickade")
+  document.getElementById("button_playnow").value="stop all"
+}
+
 });
 }
 
@@ -380,6 +398,7 @@ return(arrData)
 function buttonClick(){
   element=document.getElementById("button_playnow")
   if (element.value=="play all"){
+    amountOfMarkersClicked=0
     element.value="stop all"
     for(var i=0;i<amountOfMarkersWithAnIndex.length;i++){
       if(amountOfMarkersWithAnIndex[i]!==0){
@@ -391,13 +410,15 @@ function buttonClick(){
       }
   } 
 
+
   else{
     element.value="play all"
     audio.stopAll()
-
+    amountOfMarkersClicked=allMarkers.length
     for(var i=0;i<allMarkers.length;i++){
       if(allMarkers[i].markerClicked!==undefined){
         allMarkers[i].markerClicked=true;
+
     }
       }
     }
