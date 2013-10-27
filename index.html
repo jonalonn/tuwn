@@ -9,6 +9,8 @@
 <link rel="stylesheet" type="text/css" href="css/custommarker.css">
 <!-- <link rel="stylesheet" type="text/css" href="css/marker.css"> -->
 <link href="css/main.css" rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
+
 
 <!-- Javascript -->
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
@@ -16,35 +18,24 @@
 <script src="js/audio.js" type="text/javascript"></script>
 <!-- <script src="js/bootstrap.min.js"></script> -->
 <script src="js/main.js" type="text/javascript"></script>
-
 </head>
 
 <body>
-<div id="map-canvas" style="height:90%; width:100%;">
-   
+<div id="menubar">
+<div id="toggle">
+  <div class="one"></div>
+  <div class="two"></div>
+  <div class="three"></div>
+</div>
+<div id="menu">
+  
+</div>
 </div>
 
-<div class="menubar" style="height:10%">
-  <div class="menu-links">
-    <ul class="toggle-menu">
-      <li class="toggle">
-        <span class="toggle-menu-bar"></span>
-        <span class="toggle-menu-bar"></span>
-        <span class="toggle-menu-bar"></span>
-      </li>
-      <li class="content" style="display: none;">
-        <ul>
-          <li><a href="#">Link 1</a></li>
-          <li><a href="#">Link 2</a></li>
-          <li><a href="#">Link 1</a></li>
-          <li><a href="#">Link 2</a></li>
-          <li><a href="#">Link 1</a></li>
-          <li><a href="#">Link 2</a></li>
-        </ul>
-      </li>
-    
-  </div>
-</div
-
+<div id="map-canvas" style="height:100%; width:100%;">
+</div>
+<div id="horizon">
+<input id="button_playnow" type="button" value="stop all" onclick="buttonClick()"></input>
+</div>
 </body>
 </html>

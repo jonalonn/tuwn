@@ -1,10 +1,3 @@
-jQuery(document).ready(function($){
-  $("li.content").hide();
-  $("ul.toggle-menu").delegate("li.toggle", "click", function() { 
-  $(this).next().toggle("fast").siblings(".content").hide("fast");
-    });
-});
-
 var mapOnSite=true
 var myLatLng;
 var previousPosition=[];
@@ -17,7 +10,14 @@ var infowindow;
 var myMarker;
 var amountOfMarkersWithAnIndex=[0,0,0,0,0,0,0,0,0,0];
 var markerClicked;
+var allMarkers;
 
+jQuery(document).ready(function($){
+  $("#toggle").click(function() {
+    $(this).toggleClass("on");
+    $("#menu").slideToggle();
+  });
+});
 
 var int=self.setInterval(function(){getLocation()},1000);
 
@@ -51,7 +51,6 @@ function showPosition(position)
               title: 'This is you mofo',
               visible: true
             });
-            mapOnSite=false;
           }
           if(currentPosition[0]!==previousPosition[0] || currentPosition[1]!==previousPosition[1]){
             myMarker.setPosition(myLatLng);
@@ -70,62 +69,68 @@ function showPosition(position)
         // audio.play();
       }
     }*/
+    if(mapOnSite){
+      mapOnSite=false;
+       getMarkersShown()
+
+
+   }
+ }
+
+ function initialize(csvResults) {
+  allMarkers=[];
+  var centerOfStockholm=new google.maps.LatLng(59.3322064,18.0640027)
+  var featureOpts = [
+  {
+    stylers: [
+    { hue: '#dbece8' },
+    { visibility: 'simplified' },
+    { gamma: 0.5 },
+    { weight: 0.5 }
+    ]
+  },
+  {
+    featureType: "road",
+    elementType: "geometry",
+    stylers: [
+    { lightness: 100 },
+    { visibility: "simplified" }
+    ]
+  },
+  {
+    elementType: 'labels',
+    stylers: [
+    { visibility: 'off' }
+    ]
+  },
+  {
+    featureType: 'water',
+    stylers: [
+    { color: '#b0e1d6' }
+    ]
   }
+  ];
 
-  function initialize(csvResults) {
-    var allMarkers=[];
-    var centerOfStockholm=new google.maps.LatLng(59.3322064,18.0640027)
-    var featureOpts = [
-    {
-      stylers: [
-      { hue: '#dbece8' },
-      { visibility: 'simplified' },
-      { gamma: 0.5 },
-      { weight: 0.5 }
-      ]
+  var mapOptions = {
+    zoom: 15,
+    center: centerOfStockholm,
+    disableDefaultUI: true,
+    mapTypeControlOptions: {
+      mapTypeIds: [google.maps.MapTypeId.ROADMAP, MY_MAPTYPE_ID]
     },
-    {
-      featureType: "road",
-      elementType: "geometry",
-      stylers: [
-      { lightness: 100 },
-      { visibility: "simplified" }
-      ]
-    },
-    {
-      elementType: 'labels',
-      stylers: [
-      { visibility: 'off' }
-      ]
-    },
-    {
-      featureType: 'water',
-      stylers: [
-      { color: '#b0e1d6' }
-      ]
-    }
-    ];
+    mapTypeId: MY_MAPTYPE_ID
+  };
 
-    var mapOptions = {
-      zoom: 15,
-      center: centerOfStockholm,
-      disableDefaultUI: true,
-      mapTypeControlOptions: {
-        mapTypeIds: [google.maps.MapTypeId.ROADMAP, MY_MAPTYPE_ID]
-      },
-      mapTypeId: MY_MAPTYPE_ID
-    };
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+    mapOptions);
 
-    map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
+  var styledMapOptions = {
+    name: 'Custom Style'
+  };
 
-    var styledMapOptions = {
-      name: 'Custom Style'
-    };
+  var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
 
-    var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
-
-    map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
+  map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
 
  /* var request = {
     location: centerOfStockholm,
@@ -157,8 +162,8 @@ for (var i = 0; i < csvResults.length; i++) {
   if(csvResults[i][1]){
    //   console.log('images/circle'+csvResults[i][0]+'.png')
 
-    locationMarkerImage = new google.maps.MarkerImage(
-      'images/circle'+csvResults[i][0]+'.png',
+   locationMarkerImage = new google.maps.MarkerImage(
+    'images/circle'+csvResults[i][0]+'.png',
             null, // size
             null, // origin
             new google.maps.Point( 8, 8 ), // anchor (move to center of marker)
@@ -166,53 +171,60 @@ for (var i = 0; i < csvResults.length; i++) {
             )
 
 
-    var marker = new google.maps.Marker(
-    {
-      position: new google.maps.LatLng(csvResults[i][2],csvResults[i][1]),
-      map: map,
-      flat: true, 
-      optimized: false,
-      title: csvResults[i][0],
-      icon: locationMarkerImage,
-      markerClicked: false
-    }
-    )
-    allMarkers.push(marker);
-
+   var marker = new google.maps.Marker(
+   {
+    position: new google.maps.LatLng(csvResults[i][2],csvResults[i][1]),
+    map: map,
+    flat: true, 
+    optimized: false,
+    title: csvResults[i][0],
+    icon: locationMarkerImage,
+    markerClicked: false
   }
-  google.maps.event.addListener(marker, 'click', function() {
-    if(!this.markerClicked){
-      console.log("I should be turned off")
-      audio.stop(this.title);
-      this.markerClicked=true;
-    }
-    else{
-      console.log("I should be turned on. lol")
-      audio.play(this.title)
-      this.markerClicked=false;
-    }
-        console.log(this.title+this.markerClicked)
+  )
+   allMarkers.push(marker);
 
-  });
+ }
+
+ google.maps.event.addListener(marker, 'click', function() {
+  if(!this.markerClicked){
+    audio.stop(this.title);
+    this.markerClicked=true;
+  }
+  else{
+    audio.play(this.title)
+    this.markerClicked=false;
+  }
+  for(var k = allMarkers.length - 1; k >= 0; k--) {
+    if(allMarkers[k].title === this.title) {
+      allMarkers[k].markerClicked=this.markerClicked;
+    }
+  }
+});
 }
 
+
+
 google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
+
+}
 
 function getMarkersShown(){
   if(!mapOnSite){
     previousMarkersShown=currentMarkersShown;
     for(var i = allMarkers.length, bounds = map.getBounds(); i--;) {
       if(bounds.contains(allMarkers[i].getPosition())){
+
         if($.inArray(allMarkers[i],currentMarkersShown)==-1){
           currentMarkersShown.push(allMarkers[i])
           amountOfMarkersWithAnIndex[allMarkers[i].title]+=1
         }
 
-        if(amountOfMarkersWithAnIndex[allMarkers[i].title]==1&&!this.markerClicked){
+        if(amountOfMarkersWithAnIndex[allMarkers[i].title]==1&&!allMarkers[i].markerClicked){
           audio.play(allMarkers[i].title)
         }
-
       }
+
       else if($.inArray(allMarkers[i],previousMarkersShown)!==-1){
         amountOfMarkersWithAnIndex[allMarkers[i].title]-=1
         for(var k = currentMarkersShown.length - 1; k >= 0; k--) {
@@ -250,7 +262,6 @@ function getMarkersShown(){
       }
     }
   }
-}
 
 
 
@@ -312,7 +323,6 @@ function getCSV(){
     CSVArray = CSVArray.concat(CSVToArray(i, '9'));
 
 
-
     initialize(CSVArray)
   });
 }
@@ -362,5 +372,36 @@ function CSVToArray( strData, itemSound, strDelimiter ){
 
   arrData[ arrData.length - 1 ].push( strMatchedValue);
 }
+  arrData.pop()
+
 return(arrData)
 }
+
+function buttonClick(){
+  element=document.getElementById("button_playnow")
+  if (element.value=="play all"){
+    element.value="stop all"
+    for(var i=0;i<amountOfMarkersWithAnIndex.length;i++){
+      if(amountOfMarkersWithAnIndex[i]!==0){
+        audio.play(i);
+    }
+      }
+     for(var k = allMarkers.length - 1; k >= 0; k--) {
+            allMarkers[k].markerClicked=false;
+      }
+  } 
+
+  else{
+    element.value="play all"
+    audio.stopAll()
+
+    for(var i=0;i<allMarkers.length;i++){
+      if(allMarkers[i].markerClicked!==undefined){
+        allMarkers[i].markerClicked=true;
+    }
+      }
+    }
+
+      }
+     
+
