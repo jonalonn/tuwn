@@ -1,4 +1,4 @@
-var mapOnSite=true
+var mapOnSite=false
 var markersShown=true
 var myLatLng;
 var previousPosition=[];
@@ -7,7 +7,6 @@ var currentMarkersShown=[];
 var previousMarkersShown=[];
 var map;
 var service;
-var infowindow;
 var myMarker;
 var amountOfMarkersWithAnIndex=[0,0,0,0,0,0,0,0,0,0];
 var markerClicked;
@@ -15,6 +14,8 @@ var allMarkers;
 var amountOfMarkersClicked=0;
 var element;
 var musicType;
+var error=false;
+var centerOfStockholm=[59.3359156,17.9856157]
 
 jQuery(document).ready(function($){
   $("#toggle").click(function() {
@@ -22,66 +23,93 @@ jQuery(document).ready(function($){
     $("#menu").slideToggle();
   });
 });
+getCSV()
 
-var int=self.setInterval(function(){getLocation()},1000);
+function getCSV(){
+  var CSVArray=[];
+  var tunnelbana = $.get("data/Tunnelbana.csv");
+  var sparvagnar = $.get("data/sparvagnar.csv");
+  var bussar = $.get("data/busstationer.csv");
+  var lidingobanan = $.get("data/Lidingobanan.csv");
+  var tvarbana = $.get("data/Tvarbanan.csv");
+  var roslagsbanan = $.get("data/Roslagsbanan.csv");
+  var saltsjobanan = $.get("data/Saltsjobanan.csv");
+  var nockebybanan = $.get("data/Nockebybanan.csv");
+  var pendeltag = $.get("data/Pendeltag.csv");
 
-function getLocation()
-{  
-  navigator.geolocation.getCurrentPosition(showPosition);
+
+
+  $.when(tunnelbana, sparvagnar, bussar, lidingobanan, tvarbana, roslagsbanan, saltsjobanan, nockebybanan, pendeltag).done(function(a, b, c, d, e, f, g, h, i) {
+    CSVArray = CSVArray.concat(CSVToArray(a, '1'));
+    CSVArray = CSVArray.concat(CSVToArray(b, '2'));
+    CSVArray = CSVArray.concat(CSVToArray(c, '3'));
+    CSVArray = CSVArray.concat(CSVToArray(d, '4'));
+    CSVArray = CSVArray.concat(CSVToArray(e, '5'));
+    CSVArray = CSVArray.concat(CSVToArray(f, '6'));
+    CSVArray = CSVArray.concat(CSVToArray(g, '7'));
+    CSVArray = CSVArray.concat(CSVToArray(h, '8'));
+    CSVArray = CSVArray.concat(CSVToArray(i, '9'));
+
+
+    initialize(CSVArray)
+  });
 }
 
-function showPosition(position)
-{
-  previousPosition=currentPosition
-  currentPosition=[position.coords.latitude,position.coords.longitude]
-  myLatLng = new google.maps.LatLng(currentPosition[0], currentPosition[1]);
-  if(mapOnSite){
-    map.setCenter(myLatLng)
-    var userMarkerImage = new google.maps.MarkerImage(
-      'images/bluedot.png',
-              null, // size
-              null, // origin
-              new google.maps.Point( 8, 8 ), // anchor (move to center of marker)
-              new google.maps.Size( 15, 15 ) // scaled size (required for Retina display icon)
-              );
+function CSVToArray( strData, itemSound, strDelimiter ){
+  strDelimiter = (strDelimiter || ",");
 
-            // then create the new marker
-            myMarker = new google.maps.Marker({
-              flat: true,
-              icon: userMarkerImage,
-              map: map,
-              optimized: false,
-              position: myLatLng,
-              title: 'This is you mofo',
-              visible: true
-            });
-            mapOnSite=false;
-            getMarkersShown();
-            google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
-          }
-  if(currentPosition[0]!==previousPosition[0] || currentPosition[1]!==previousPosition[1]){
-    myMarker.setPosition(myLatLng);
+  var objPattern = new RegExp(
+    (
+      "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+      "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+       "([^\"\\" + strDelimiter + "\\r\\n]*))"
+    ),
+    "gi"
+    );
+
+  var arrData=[[]];
+
+  var arrMatches = null;
+  
+  while (arrMatches = objPattern.exec( strData )){
+
+    var strMatchedDelimiter = arrMatches[ 1 ];
+
+    if (
+      strMatchedDelimiter.length &&
+      (strMatchedDelimiter != strDelimiter)
+      ){
+
+      arrData.push( [itemSound] ); 
   }
 
- /*  // map.setCenter(myLatLng)
-   // myMarker.setPosition(myLatLng)
-   for(var i=0;i<coordinateArray.length;i++){
-    var idName="distance"+i
-    var distance= getDistance(currentPosition[1],currentPosition[0],coordinateArray[i].longitude,coordinateArray[i].latitude)
-      // console.log(distance)
-      if(distance<5){
-        // Audiofunction goes here
-        audio.playAll();
-        // var audio=new Audio('sounds/'+coordinateArray[i].type);;
-        // audio.play();
-      }
-    }*/
 
- }
+  if (arrMatches[ 2 ]){
+
+    var strMatchedValue = arrMatches[ 2 ].replace(
+      new RegExp( "\"\"", "g" ),
+      "\""
+      );
+
+  } else {
+
+    var strMatchedValue = arrMatches[ 3 ];
+  }
+
+  arrData[ arrData.length - 1 ].push( strMatchedValue);
+}
+  arrData.pop()
+    if(itemSound==3){
+      for (var i = arrData.length - 1; i >= 0; i--) {
+        arrData[i][1]=arrData[i][3]
+      }
+    }
+return(arrData)
+}
 
  function initialize(csvResults) {
   allMarkers=[];
-  var centerOfStockholm=new google.maps.LatLng(59.3359156,17.9856157)
+  var mapCenter=new google.maps.LatLng(59.3359156,17.9856157)
   var featureOpts = [
   {
     stylers: [
@@ -115,8 +143,8 @@ function showPosition(position)
   var minZoomLevel = 11;
   var mapOptions = {
     zoom: 15,
-    minZoom: 11,
-    center: centerOfStockholm,
+    minZoom: 9,
+    center: mapCenter,
     disableDefaultUI: true,
     backgroundColor: 'none',
     mapTypeControlOptions: {
@@ -193,7 +221,7 @@ for (var i = 0; i < csvResults.length; i++) {
             null, // size
             null, // origin
             new google.maps.Point( 8, 8 ), // anchor (move to center of marker)
-            new google.maps.Size( 25, 25 ) // scaled size (required for Retina display icon)
+            new google.maps.Size( 15, 15 ) // scaled size (required for Retina display icon)
             )
 
 
@@ -217,31 +245,31 @@ for (var i = 0; i < csvResults.length; i++) {
   var objectTitle=this.title;
   switch(objectTitle){
     case '1':
-      objectType="subway";
+      objectType="tunnelbana";
       break;
     case '2':
       objectType="cinema";
       break;
     case '3':
-      objectType="bus station";
+      objectType="busstation";
       break;
     case '4':
-      objectType="thai restaurant";
+      objectType="liding&ouml;banan";
       break;
     case '5':
-      objectType="mekonomen";
+      objectType="tv&auml;rbana";
       break;
     case '6':
-      objectType="Best Western";
+      objectType="Roslagsbanan";
       break;
     case '7':
-      objectType="dance";
+      objectType="Saltsj&ouml;banan";
       break;
     case '8':
-      objectType="cafe";
+      objectType="Nockebybanan";
       break;
     case '9':
-      objectType="bakery";
+      objectType="pendelt&aring;g";
       break;
     default:
       break;
@@ -278,20 +306,81 @@ if(amountOfMarkersClicked==0){
 });
 }
 
-
-
+var int=self.setInterval(function(){getLocation()},1000);
 
 }
+function geo_error(){
+  error=true;
+  showPosition(centerOfStockholm)
+}
 
-function getMarkersShown(){
-  if(markersShown){
-    $("#map-canvas").css("visibility","visible");
-    $("#button_playnow").css("visibility","visible");
-    $("#music_choice_button").css("visibility","visible");
-    $(".spinner").css("visibility","hidden");
-    markersShown=false
+function getLocation()
+{  
+  error=false;
+  navigator.geolocation.getCurrentPosition(showPosition,geo_error);
+}
+function showPosition(position)
+{
+  console.log(error)
+  previousPosition=currentPosition
+  if(error&&!mapOnSite){
+    currentPosition=[position[0],position[1]]
+  }
+  else if(!error){
+    currentPosition=[position.coords.latitude,position.coords.longitude]
   }
   if(!mapOnSite){
+    myLatLng = new google.maps.LatLng(currentPosition[0], currentPosition[1]);
+    map.setCenter(myLatLng)
+    mapOnSite=true;
+
+    if(!error){
+    var userMarkerImage = new google.maps.MarkerImage(
+      'images/bluedot.png',
+              null, // size
+              null, // origin
+              new google.maps.Point( 8, 8 ), // anchor (move to center of marker)
+              new google.maps.Size( 15, 15 ) // scaled size (required for Retina display icon)
+              );
+
+            // then create the new marker
+            myMarker = new google.maps.Marker({
+              flat: true,
+              icon: userMarkerImage,
+              map: map,
+              optimized: false,
+              position: myLatLng,
+              title: 'This is you mofo',
+              visible: true
+            });
+          }
+        }
+          
+  if(currentPosition[0]!==previousPosition[0] || currentPosition[1]!==previousPosition[1]){
+    myMarker.setPosition(myLatLng);
+  }
+
+ /*  // map.setCenter(myLatLng)
+   // myMarker.setPosition(myLatLng)
+   for(var i=0;i<coordinateArray.length;i++){
+    var idName="distance"+i
+    var distance= getDistance(currentPosition[1],currentPosition[0],coordinateArray[i].longitude,coordinateArray[i].latitude)
+      // console.log(distance)
+      if(distance<5){
+        // Audiofunction goes here
+        audio.playAll();
+        // var audio=new Audio('sounds/'+coordinateArray[i].type);;
+        // audio.play();
+      }
+    }*/
+google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
+
+getMarkersShown()
+
+ }
+
+
+function getMarkersShown(){
     previousMarkersShown=currentMarkersShown;
     for(var i = allMarkers.length, bounds = map.getBounds(); i--;) {
       if(bounds.contains(allMarkers[i].getPosition())){
@@ -336,12 +425,19 @@ function getMarkersShown(){
      //   amountOfMarkersWithAnIndex[allMarkers[i].title]-=1
 
       //}
-    }
+    
     for(var j=1;j<10;j++){
       if(amountOfMarkersWithAnIndex[j]==0){
         audio.stop(j)
       }
     }
+  if(markersShown){
+    $("#map-canvas").css("visibility","visible");
+    $("#button_playnow").css("visibility","visible");
+    $("#music_choice_button").css("visibility","visible");
+    $(".spinner").css("visibility","hidden");
+    markersShown=false
+  }
 
   }
 
@@ -377,92 +473,6 @@ function getMarkersShown(){
 var MY_MAPTYPE_ID = 'custom_style';
 // google.maps.event.addDomListener(window, 'load', initialize);
 
-getCSV()
-
-function getCSV(){
-  var CSVArray=[];
-  var tunnelbana = $.get("data/Tunnelbana.csv");
-  var bio = $.get("data/Bio.csv");
-  var bussar = $.get("data/busstationer.csv");
-  var thai = $.get("data/Thai.csv");
-  var mekonomen = $.get("data/Mekonomen.csv");
-  var bestWestern = $.get("data/best_western.csv");
-  var dans = $.get("data/dans.csv");
-  var cafeer = $.get("data/cafeer.csv");
-  var bagerier = $.get("data/Bagerier.csv");
-
-
-
-  $.when(tunnelbana, bio, bussar, thai, mekonomen, bestWestern, dans, cafeer, bagerier).done(function(a, b, c, d, e, f, g, h, i) {
-    CSVArray = CSVArray.concat(CSVToArray(a, '1'));
-    CSVArray = CSVArray.concat(CSVToArray(b, '2'));
-    CSVArray = CSVArray.concat(CSVToArray(c, '3'));
-    CSVArray = CSVArray.concat(CSVToArray(d, '4'));
-    CSVArray = CSVArray.concat(CSVToArray(e, '5'));
-    CSVArray = CSVArray.concat(CSVToArray(f, '6'));
-    CSVArray = CSVArray.concat(CSVToArray(g, '7'));
-    CSVArray = CSVArray.concat(CSVToArray(h, '8'));
-    CSVArray = CSVArray.concat(CSVToArray(i, '9'));
-
-
-    initialize(CSVArray)
-  });
-}
-
-function CSVToArray( strData, itemSound, strDelimiter ){
-  strDelimiter = (strDelimiter || ",");
-
-  var objPattern = new RegExp(
-    (
-      "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
-      "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
-       "([^\"\\" + strDelimiter + "\\r\\n]*))"
-    ),
-    "gi"
-    );
-
-  var arrData=[[]];
-
-  var arrMatches = null;
-  
-  while (arrMatches = objPattern.exec( strData )){
-
-    var strMatchedDelimiter = arrMatches[ 1 ];
-
-    if (
-      strMatchedDelimiter.length &&
-      (strMatchedDelimiter != strDelimiter)
-      ){
-
-      arrData.push( [itemSound] ); 
-  }
-
-
-  if (arrMatches[ 2 ]){
-
-    var strMatchedValue = arrMatches[ 2 ].replace(
-      new RegExp( "\"\"", "g" ),
-      "\""
-      );
-
-  } else {
-
-    var strMatchedValue = arrMatches[ 3 ];
-  }
-
-  arrData[ arrData.length - 1 ].push( strMatchedValue);
-}
-  arrData.pop()
-    if(itemSound==3){
-      for (var i = arrData.length - 1; i >= 0; i--) {
-        arrData[i][1]=arrData[i][3]
-      }
-    }
-
-
-
-return(arrData)
-}
 
 function buttonClick(){
   element=document.getElementById("button_playnow")
