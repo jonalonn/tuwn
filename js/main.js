@@ -12,6 +12,8 @@ var amountOfMarkersWithAnIndex=[0,0,0,0,0,0,0,0,0,0];
 var markerClicked;
 var allMarkers;
 var amountOfMarkersClicked=0;
+var element;
+var musicType;
 
 jQuery(document).ready(function($){
   $("#toggle").click(function() {
@@ -188,6 +190,41 @@ for (var i = 0; i < csvResults.length; i++) {
  }
 
  google.maps.event.addListener(marker, 'click', function() {
+  var objectType;
+  var objectTitle=this.title;
+  switch(objectTitle){
+    case '1':
+      objectType="subway";
+      break;
+    case '2':
+      objectType="cinema";
+      break;
+    case '3':
+      objectType="bus station";
+      break;
+    case '4':
+      objectType="thai restaurant";
+      break;
+    case '5':
+      objectType="mekonomen";
+      break;
+    case '6':
+      objectType="Best Western";
+      break;
+    case '7':
+      objectType="dance";
+      break;
+    case '8':
+      objectType="cafe";
+      break;
+    case '9':
+      objectType="bakery";
+      break;
+    default:
+      break;
+  }
+  $(".markerObject").hide().html(objectType).fadeIn(650);
+  $(".markerObject").fadeOut(650);
   if(!this.markerClicked){
     audio.stop(this.title);
     this.markerClicked=true;
@@ -207,14 +244,11 @@ for (var i = 0; i < csvResults.length; i++) {
       }
     }
   }
-  console.log(amountOfMarkersClicked)
 if(amountOfMarkersClicked==allMarkers.length-9){
-  console.log("alla är bortclickade")
   document.getElementById("button_playnow").value="play all"
 }
 
 if(amountOfMarkersClicked==0){
-  console.log("alla är iklickade")
   document.getElementById("button_playnow").value="stop all"
 }
 
@@ -319,7 +353,7 @@ function getCSV(){
   var CSVArray=[];
   var tunnelbana = $.get("data/Tunnelbana.csv");
   var bio = $.get("data/Bio.csv");
-  var bussar = $.get("data/Bussar.csv");
+  var bussar = $.get("data/busstationer.csv");
   var thai = $.get("data/Thai.csv");
   var mekonomen = $.get("data/Mekonomen.csv");
   var bestWestern = $.get("data/best_western.csv");
@@ -370,9 +404,7 @@ function CSVToArray( strData, itemSound, strDelimiter ){
       (strMatchedDelimiter != strDelimiter)
       ){
 
-      arrData.push( [] ); 
-    arrData[ arrData.length - 1 ].push(itemSound)
-
+      arrData.push( [itemSound] ); 
   }
 
 
@@ -391,6 +423,13 @@ function CSVToArray( strData, itemSound, strDelimiter ){
   arrData[ arrData.length - 1 ].push( strMatchedValue);
 }
   arrData.pop()
+    if(itemSound==3){
+      for (var i = arrData.length - 1; i >= 0; i--) {
+        arrData[i][1]=arrData[i][3]
+      }
+    }
+
+
 
 return(arrData)
 }
@@ -424,5 +463,18 @@ function buttonClick(){
     }
 
       }
-     
+
+function musicChoice(){
+  musicType=document.getElementById("music_choice_button")
+  if(musicType.value=="techno"){
+    musicType.value="hiphop";
+  }
+  else if(musicType.value=='hiphop'){
+    musicType.value='relax';
+  }
+  else if(musicType.value=='relax'){
+    musicType.value='techno';
+  }
+
+}
 
