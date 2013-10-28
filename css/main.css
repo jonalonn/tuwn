@@ -160,8 +160,8 @@ header {
   background-color: white;
   z-index: 1000;
   outline:none;
-
-
+  left: 50%;
+  margin-left: -150px;
 }
 
 
@@ -178,6 +178,8 @@ header {
   box-shadow: #transparent 0px -6px 0px 0px;
   background-color: white;
   z-index: 10000;
+  left: 50%;
+  margin-left: -150px;
 
 
 }
@@ -194,7 +196,8 @@ header {
   background-color: white;
   z-index: 1000;
   outline:none;
-
+  left: 50%;
+  margin-left: -150px;
 
 }
 
