@@ -170,7 +170,7 @@ for (var i = 0; i < csvResults.length; i++) {
             null, // size
             null, // origin
             new google.maps.Point( 8, 8 ), // anchor (move to center of marker)
-            new google.maps.Size( 25, 25 ) // scaled size (required for Retina display icon)
+            new google.maps.Size( 16, 16 ) // scaled size (required for Retina display icon)
             )
 
 

@@ -147,9 +147,18 @@ header {
   left:45%;
 }
 
+.btn-cont-holder {
+  position: fixed;
+  text-align: center;
+  width: 100%;
+  bottom: 10px;
+}
+
+.btn-cont {
+  display: inline-block;
+}
 
 #music_choice_button {
-  position: fixed;
   float:left;
   font-family: 'Raleway';
   font-size: 40px;
@@ -164,12 +173,10 @@ header {
   visibility: hidden;
 
 
-
 }
 
 
 #music_choice_button:active{
-  position: fixed;
   float:left;
   font-family: 'Raleway';
   font-size: 40px;
@@ -185,9 +192,9 @@ header {
 
 
 
+
 }
 #button_playnow {
-  position: fixed;
   float:left;
   font-family: 'Raleway';
   font-size: 40px;
@@ -202,11 +209,9 @@ header {
   visibility: hidden;
 
 
-
 }
 
 #button_playnow:active {
-  position: fixed;
   float:left;
   font-family: 'Raleway';
   font-size: 40px;
