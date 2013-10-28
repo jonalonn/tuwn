@@ -1,4 +1,5 @@
 var mapOnSite=true
+var markersShown=true
 var myLatLng;
 var previousPosition=[];
 var currentPosition=[]; 
@@ -54,10 +55,13 @@ function showPosition(position)
               title: 'This is you mofo',
               visible: true
             });
+            mapOnSite=false;
+            getMarkersShown();
+            google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
           }
-          if(currentPosition[0]!==previousPosition[0] || currentPosition[1]!==previousPosition[1]){
-            myMarker.setPosition(myLatLng);
-          }
+  if(currentPosition[0]!==previousPosition[0] || currentPosition[1]!==previousPosition[1]){
+    myMarker.setPosition(myLatLng);
+  }
 
  /*  // map.setCenter(myLatLng)
    // myMarker.setPosition(myLatLng)
@@ -72,12 +76,7 @@ function showPosition(position)
         // audio.play();
       }
     }*/
-    if(mapOnSite){
-      mapOnSite=false;
-       getMarkersShown()
 
-
-   }
  }
 
  function initialize(csvResults) {
@@ -118,6 +117,7 @@ function showPosition(position)
     zoom: 15,
     center: centerOfStockholm,
     disableDefaultUI: true,
+    backgroundColor: 'none',
     mapTypeControlOptions: {
       mapTypeIds: [google.maps.MapTypeId.ROADMAP, MY_MAPTYPE_ID]
     },
@@ -257,11 +257,17 @@ if(amountOfMarkersClicked==0){
 
 
 
-google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
 
 }
 
 function getMarkersShown(){
+  if(markersShown){
+    $("#map-canvas").css("visibility","visible");
+    $("#button_playnow").css("visibility","visible");
+    $("#music_choice_button").css("visibility","visible");
+    $(".spinner").css("visibility","hidden");
+    markersShown=false
+  }
   if(!mapOnSite){
     previousMarkersShown=currentMarkersShown;
     for(var i = allMarkers.length, bounds = map.getBounds(); i--;) {
@@ -313,6 +319,7 @@ function getMarkersShown(){
         audio.stop(j)
       }
     }
+
   }
 
 
