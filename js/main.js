@@ -81,7 +81,7 @@ function showPosition(position)
 
  function initialize(csvResults) {
   allMarkers=[];
-  var centerOfStockholm=new google.maps.LatLng(59.3322064,18.0640027)
+  var centerOfStockholm=new google.maps.LatLng(59.3359156,17.9856157)
   var featureOpts = [
   {
     stylers: [
@@ -112,9 +112,10 @@ function showPosition(position)
     ]
   }
   ];
-
+  var minZoomLevel = 11;
   var mapOptions = {
     zoom: 15,
+    minZoom: 11,
     center: centerOfStockholm,
     disableDefaultUI: true,
     backgroundColor: 'none',
@@ -134,7 +135,29 @@ function showPosition(position)
   var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
 
   map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
-
+//   var strictBounds = new google.maps.LatLngBounds(
+//     new google.maps.LatLng(59.370599,17.929001), 
+//     new google.maps.LatLng(59.266188,18.262711)
+//   );
+//   google.maps.event.addListener(map, 'dragend', function() {
+//     if (strictBounds.contains(map.getCenter())) return;
+//
+//  var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
+//var c = map.getCenter(),
+//         x = c.lng(),
+//         y = c.lat(),
+//         maxX = strictBounds.getNorthEast().lng(),
+//         maxY = strictBounds.getNorthEast().lat(),
+//         minX = strictBounds.getSouthWest().lng(),
+//         minY = strictBounds.getSouthWest().lat();
+//
+//     if (x < minX) x = minX;
+//     if (x > maxX) x = maxX;
+//     if (y < minY) y = minY;
+//     if (y > maxY) y = maxY;
+//
+//     map.setCenter(centerOfStockholm);
+//   });
  /* var request = {
     location: centerOfStockholm,
     radius: '100000',
@@ -170,7 +193,7 @@ for (var i = 0; i < csvResults.length; i++) {
             null, // size
             null, // origin
             new google.maps.Point( 8, 8 ), // anchor (move to center of marker)
-            new google.maps.Size( 16, 16 ) // scaled size (required for Retina display icon)
+            new google.maps.Size( 25, 25 ) // scaled size (required for Retina display icon)
             )
 
 
