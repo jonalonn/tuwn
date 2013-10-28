@@ -4,15 +4,15 @@
 
 #map-canvas div.gmnoprint[title="1"] {
     	position: absolute;
-    	margin-left: -22px;
-    	margin-top: -22px;
+    	margin-left: -20px;
+    	margin-top: -20px;
 		z-index: 2;
 		opacity: 0;
-		border: 20px solid rgba(255,166,205,1);;
+		border: 20px solid rgba(102,204,255,1);;
 		background: transparent;
-		-webkit-border-radius: 60px;
-		-moz-border-radius: 60px;
-		border-radius: 60px;
+		-webkit-border-radius: 30px;
+		-moz-border-radius: 30px;
+		border-radius: 30px;
 		-webkit-animation: flash 3s ease-out;
 		-moz-animation: flash 3s ease-out;
 		animation: flash 3s ease-out;
@@ -23,11 +23,11 @@
 
 #map-canvas div.gmnoprint[title="2"] {
     	position: absolute;
-    	margin-left: -22px;
-    	margin-top: -22px;
+    	margin-left: -20px;
+    	margin-top: -20px;
 		z-index: 2;
 		opacity: 0;
-		border: 20px solid rgba(255,166,205,1);;
+		border: 20px solid rgba(0,153,153,1);;
 		background: transparent;
 		-webkit-border-radius: 60px;
 		-moz-border-radius: 60px;
@@ -42,11 +42,11 @@
 
 #map-canvas div.gmnoprint[title="3"] {
     	position: absolute;
-    	margin-left: -22px;
-    	margin-top: -22px;
+    	margin-left: -20px;
+    	margin-top: -20px;
 		z-index: 2;
 		opacity: 0;
-		border: 20px solid rgba(255,166,205,1);;
+		border: 20px solid rgba(255,102,51,1);;
 		background: transparent;
 		-webkit-border-radius: 60px;
 		-moz-border-radius: 60px;
@@ -61,11 +61,11 @@
 
 #map-canvas div.gmnoprint[title="4"] {
     	position: absolute;
-    	margin-left: -22px;
-    	margin-top: -22px;
+    	margin-left: -20px;
+    	margin-top: -20px;
 		z-index: 2;
 		opacity: 0;
-		border: 20px solid rgba(255,166,205,1);;
+		border: 20px solid rgba(102,102,153,1);;
 		background: transparent;
 		-webkit-border-radius: 60px;
 		-moz-border-radius: 60px;
@@ -80,11 +80,11 @@
 
 #map-canvas div.gmnoprint[title="5"] {
     	position: absolute;
-    	margin-left: -22px;
-    	margin-top: -22px;
+    	margin-left: -20px;
+    	margin-top: -20px;
 		z-index: 2;
 		opacity: 0;
-		border: 20px solid rgba(255,166,205,1);;
+		border: 20px solid rgba(255,255,102,1);;
 		background: transparent;
 		-webkit-border-radius: 60px;
 		-moz-border-radius: 60px;
@@ -99,11 +99,11 @@
 
 #map-canvas div.gmnoprint[title="6"] {
     	position: absolute;
-    	margin-left: -22px;
-    	margin-top: -22px;
+    	margin-left: -20px;
+    	margin-top: -20px;
 		z-index: 2;
 		opacity: 0;
-		border: 20px solid rgba(255,166,205,1);;
+		border: 20px solid rgba(153,204,102,1);;
 		background: transparent;
 		-webkit-border-radius: 60px;
 		-moz-border-radius: 60px;
@@ -118,11 +118,11 @@
 
 #map-canvas div.gmnoprint[title="7"] {
     	position: absolute;
-    	margin-left: -22px;
-    	margin-top: -22px;
+    	margin-left: -20px;
+    	margin-top: -20px;
 		z-index: 2;
 		opacity: 0;
-		border: 20px solid rgba(255,166,205,1);;
+		border: 20px solid rgba(102,102,153,1);;
 		background: transparent;
 		-webkit-border-radius: 60px;
 		-moz-border-radius: 60px;
@@ -137,11 +137,11 @@
 
 #map-canvas div.gmnoprint[title="8"] {
     	position: absolute;
-    	margin-left: -22px;
-    	margin-top: -22px;
+    	margin-left: -20px;
+    	margin-top: -20px;
 		z-index: 2;
 		opacity: 0;
-		border: 20px solid rgba(255,166,205,1);;
+		border: 20px solid rgba(204,102,153,1);;
 		background: transparent;
 		-webkit-border-radius: 60px;
 		-moz-border-radius: 60px;
@@ -156,11 +156,11 @@
 
 #map-canvas div.gmnoprint[title="9"] {
     	position: absolute;
-    	margin-left: -22px;
-    	margin-top: -22px;
+    	margin-left: -20px;
+    	margin-top: -20px;
 		z-index: 2;
 		opacity: 0;
-		border: 20px solid rgba(255,166,205,1);;
+		border: 20px solid rgba(51,102,102,1);;
 		background: transparent;
 		-webkit-border-radius: 60px;
 		-moz-border-radius: 60px;
