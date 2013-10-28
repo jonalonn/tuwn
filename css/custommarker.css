@@ -1,90 +1,190 @@
+#map-canvas div.gmnoprint img {
+	display: none;
+}
 
-	@-moz-keyframes pulsate {
-		from {
-			-moz-transform: scale(0.25);
-			opacity: 1.0;
-		}
-		95% {
-			-moz-transform: scale(1.3);
-			opacity: 0;
-		}
-		to {
-			-moz-transform: scale(0.3);
-			opacity: 0;
-		}
-	}
-	@-webkit-keyframes pulsate {
-		from {
-			-webkit-transform: scale(0.25);
-			opacity: 1.0;
-		}
-		95% {
-			-webkit-transform: scale(1.3);
-			opacity: 0;
-		}
-		to {
-			-webkit-transform: scale(0.3);
-			opacity: 0;
-		}
-	}
-	/* get the container that's just outside the marker image, 
-		which just happens to have our Marker title in it */
-	#map-canvas div.gmnoprint[title="This is you mofo"] {
-		-moz-animation: pulsate 1.5s ease-in-out infinite;
-		-webkit-animation: pulsate 1.5s ease-in-out infinite;
-		border:1pt solid #fff;
-		/* make a circle */
-		-moz-border-radius:51px;
-		-webkit-border-radius:51px;
-		border-radius:51px;
-		/* multiply the shadows, inside and outside the circle */
-		-moz-box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
-		-webkit-box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
-		box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
-		/* set the ring's new dimension and re-center it */
-		height:51px!important;
-		margin:-18px 0 0 -18px;
-		width:51px!important;
-	}
-	/* hide the superfluous marker image since it would expand and shrink with its containing element */
-/*	#map-canvas div[style*="987654"][title] img {*/
-	#map-canvas div.gmnoprint[title="This is you mofo"] img {
-		display:none;
-	}
-	/* compensate for iPhone and Android devices with high DPI, add iPad media query */
-	@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (device-width: 768px) {
-		#map-canvas div.gmnoprint[title="This is you mofo"] {
-			margin:-10px 0 0 -10px;
-		}
+#map-canvas div.gmnoprint[title="1"] {
+    	position: absolute;
+    	margin-left: -22px;
+    	margin-top: -22px;
+		z-index: 2;
+		opacity: 0;
+		border: 20px solid rgba(255,166,205,1);;
+		background: transparent;
+		-webkit-border-radius: 60px;
+		-moz-border-radius: 60px;
+		border-radius: 60px;
+		-webkit-animation: flash 3s ease-out;
+		-moz-animation: flash 3s ease-out;
+		animation: flash 3s ease-out;
+    -webkit-animation-iteration-count: infinite;
+		-moz-animation-iteration-count: infinite;
+		animation-iteration-count: infinite;
 	}
 
-	#map-canvas div.gmnoprint[title="1"] {
-		-moz-animation: pulsate 1.5s ease-in-out infinite;
-		-webkit-animation: pulsate 1.5s ease-in-out infinite;
-		border:1pt solid #fff;
-		/* make a circle */
-		-moz-border-radius:51px;
-		-webkit-border-radius:51px;
-		border-radius:51px;
-		/* multiply the shadows, inside and outside the circle */
-		-moz-box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
-		-webkit-box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
-		box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
-		/* set the ring's new dimension and re-center it */
-		height:51px!important;
-		margin:-18px 0 0 -18px;
-		width:51px!important;
-	}
-	/* hide the superfluous marker image since it would expand and shrink with its containing element */
-/*	#map-canvas div[style*="987654"][title] img {*/
-	#map-canvas div.gmnoprint[title="1"] img {
-		display:none;
-	}
-	/* compensate for iPhone and Android devices with high DPI, add iPad media query */
-	@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (device-width: 768px) {
-		#map-canvas div.gmnoprint[title="1"] {
-			margin:-10px 0 0 -10px;
-		}
+#map-canvas div.gmnoprint[title="2"] {
+    	position: absolute;
+    	margin-left: -22px;
+    	margin-top: -22px;
+		z-index: 2;
+		opacity: 0;
+		border: 20px solid rgba(255,166,205,1);;
+		background: transparent;
+		-webkit-border-radius: 60px;
+		-moz-border-radius: 60px;
+		border-radius: 60px;
+		-webkit-animation: flash 3s ease-out;
+		-moz-animation: flash 3s ease-out;
+		animation: flash 3s ease-out;
+    -webkit-animation-iteration-count: infinite;
+		-moz-animation-iteration-count: infinite;
+		animation-iteration-count: infinite;
 	}
 
+#map-canvas div.gmnoprint[title="3"] {
+    	position: absolute;
+    	margin-left: -22px;
+    	margin-top: -22px;
+		z-index: 2;
+		opacity: 0;
+		border: 20px solid rgba(255,166,205,1);;
+		background: transparent;
+		-webkit-border-radius: 60px;
+		-moz-border-radius: 60px;
+		border-radius: 60px;
+		-webkit-animation: flash 3s ease-out;
+		-moz-animation: flash 3s ease-out;
+		animation: flash 3s ease-out;
+    -webkit-animation-iteration-count: infinite;
+		-moz-animation-iteration-count: infinite;
+		animation-iteration-count: infinite;
+	}
 
+#map-canvas div.gmnoprint[title="4"] {
+    	position: absolute;
+    	margin-left: -22px;
+    	margin-top: -22px;
+		z-index: 2;
+		opacity: 0;
+		border: 20px solid rgba(255,166,205,1);;
+		background: transparent;
+		-webkit-border-radius: 60px;
+		-moz-border-radius: 60px;
+		border-radius: 60px;
+		-webkit-animation: flash 3s ease-out;
+		-moz-animation: flash 3s ease-out;
+		animation: flash 3s ease-out;
+    -webkit-animation-iteration-count: infinite;
+		-moz-animation-iteration-count: infinite;
+		animation-iteration-count: infinite;
+	}
+
+#map-canvas div.gmnoprint[title="5"] {
+    	position: absolute;
+    	margin-left: -22px;
+    	margin-top: -22px;
+		z-index: 2;
+		opacity: 0;
+		border: 20px solid rgba(255,166,205,1);;
+		background: transparent;
+		-webkit-border-radius: 60px;
+		-moz-border-radius: 60px;
+		border-radius: 60px;
+		-webkit-animation: flash 3s ease-out;
+		-moz-animation: flash 3s ease-out;
+		animation: flash 3s ease-out;
+    -webkit-animation-iteration-count: infinite;
+		-moz-animation-iteration-count: infinite;
+		animation-iteration-count: infinite;
+	}
+
+#map-canvas div.gmnoprint[title="6"] {
+    	position: absolute;
+    	margin-left: -22px;
+    	margin-top: -22px;
+		z-index: 2;
+		opacity: 0;
+		border: 20px solid rgba(255,166,205,1);;
+		background: transparent;
+		-webkit-border-radius: 60px;
+		-moz-border-radius: 60px;
+		border-radius: 60px;
+		-webkit-animation: flash 3s ease-out;
+		-moz-animation: flash 3s ease-out;
+		animation: flash 3s ease-out;
+    -webkit-animation-iteration-count: infinite;
+		-moz-animation-iteration-count: infinite;
+		animation-iteration-count: infinite;
+	}
+
+#map-canvas div.gmnoprint[title="7"] {
+    	position: absolute;
+    	margin-left: -22px;
+    	margin-top: -22px;
+		z-index: 2;
+		opacity: 0;
+		border: 20px solid rgba(255,166,205,1);;
+		background: transparent;
+		-webkit-border-radius: 60px;
+		-moz-border-radius: 60px;
+		border-radius: 60px;
+		-webkit-animation: flash 3s ease-out;
+		-moz-animation: flash 3s ease-out;
+		animation: flash 3s ease-out;
+    -webkit-animation-iteration-count: infinite;
+		-moz-animation-iteration-count: infinite;
+		animation-iteration-count: infinite;
+	}
+
+#map-canvas div.gmnoprint[title="8"] {
+    	position: absolute;
+    	margin-left: -22px;
+    	margin-top: -22px;
+		z-index: 2;
+		opacity: 0;
+		border: 20px solid rgba(255,166,205,1);;
+		background: transparent;
+		-webkit-border-radius: 60px;
+		-moz-border-radius: 60px;
+		border-radius: 60px;
+		-webkit-animation: flash 3s ease-out;
+		-moz-animation: flash 3s ease-out;
+		animation: flash 3s ease-out;
+    -webkit-animation-iteration-count: infinite;
+		-moz-animation-iteration-count: infinite;
+		animation-iteration-count: infinite;
+	}
+
+#map-canvas div.gmnoprint[title="9"] {
+    	position: absolute;
+    	margin-left: -22px;
+    	margin-top: -22px;
+		z-index: 2;
+		opacity: 0;
+		border: 20px solid rgba(255,166,205,1);;
+		background: transparent;
+		-webkit-border-radius: 60px;
+		-moz-border-radius: 60px;
+		border-radius: 60px;
+		-webkit-animation: flash 3s ease-out;
+		-moz-animation: flash 3s ease-out;
+		animation: flash 3s ease-out;
+    -webkit-animation-iteration-count: infinite;
+		-moz-animation-iteration-count: infinite;
+		animation-iteration-count: infinite;
+	}
+
+  @-moz-keyframes pulse {
+	 0% {-moz-transform: scale(0);opacity: 0.0;}
+	 25% {-moz-transform: scale(0.3);opacity: 0.1;}
+	 50% {-moz-transform: scale(0.5);opacity: 0.3;}
+	 75% {-moz-transform: scale(0.7);opacity: 0.5;}
+	 100% {-moz-transform: scale(1);opacity: 0.0;}
+  }
+
+  @-webkit-keyframes "flash" {
+	 0% {-webkit-transform: scale(0);opacity: 0.0;}
+	 25% {-webkit-transform: scale(0.3);opacity: 0.1;}
+	 50% {-webkit-transform: scale(0.5);opacity: 0.3;}
+	 75% {-webkit-transform: scale(0.7);opacity: 0.5;}
+	 100% {-webkit-transform: scale(1);opacity: 0.0;}
+	}
