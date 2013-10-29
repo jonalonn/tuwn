@@ -17,12 +17,6 @@ var musicType;
 var error=false;
 var centerOfStockholm=[59.3359156,17.9856157]
 
-jQuery(document).ready(function($){
-  $("#toggle").click(function() {
-    $(this).toggleClass("on");
-    $("#menu").slideToggle();
-  });
-});
 getCSV()
 
 function getCSV(){
@@ -321,7 +315,6 @@ function getLocation()
 }
 function showPosition(position)
 {
-  console.log(error)
   previousPosition=currentPosition
   if(error&&!mapOnSite){
     currentPosition=[position[0],position[1]]
@@ -476,6 +469,7 @@ var MY_MAPTYPE_ID = 'custom_style';
 
 function buttonClick(){
   element=document.getElementById("button_playnow")
+  console.log(element.value)
   if (element.value=="play all"){
     amountOfMarkersClicked=0
     element.value="stop all"
@@ -506,17 +500,21 @@ function buttonClick(){
 
 function musicChoice(){
   musicType=document.getElementById("music_choice_button")
+
   if(musicType.value=="techno"){
-    setupBuffer(audio.files.ace);
-    musicType.value="aceofbase";
+    $.when(setupBuffer(audio.files.ace)).done(function() {
+       musicType.value="aceofbase";
+        setTimeout(function(){buttonClick()}, 1000);
+
+  });
   }
   else if(musicType.value=='aceofbase'){
-    setupBuffer(audio.files.tech)
-    musicType.value='techno';
+    $.when(setupBuffer(audio.files.tech)).done(function() {
+      musicType.value='techno';
+      setTimeout(function(){buttonClick()}, 1000);
+    });
   }
   // else if(musicType.value=='relax'){
   //   musicType.value='techno';
   // }
-
 }
-
