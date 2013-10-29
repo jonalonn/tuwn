@@ -184,10 +184,12 @@ if (audio.proceed) {
 
 
 function initAudio(audioFiles){
+
     //---------------
     // Compatibility
     //---------------
-    (function() {
+    (
+        function() {
         var name = 'createGain';
         if (typeof audio.context.createGain !== 'function') {
             name = 'createGainNode';
@@ -361,7 +363,6 @@ function initAudio(audioFiles){
 }
 
 function setupBuffer(style) {
-    
     audio.stopAll()
     amountOfMarkersClicked=allMarkers.length
     for(var i=0;i<allMarkers.length;i++){
@@ -383,6 +384,8 @@ function setupBuffer(style) {
     // audio.stopAll();
     // initAudio(style);
     // audio.playAll();
+
+    console.log("setupBuffer stop")
 }
 
     // //---------------

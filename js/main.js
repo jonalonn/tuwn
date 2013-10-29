@@ -428,6 +428,7 @@ function getMarkersShown(){
     $("#map-canvas").css("visibility","visible");
     $("#button_playnow").css("visibility","visible");
     $("#music_choice_button").css("visibility","visible");
+    $("#about_button").css("visibility","visible");
     $(".spinner").css("visibility","hidden");
     markersShown=false
   }
@@ -499,19 +500,23 @@ function buttonClick(){
       }
 
 function musicChoice(){
+  console.log("musicChoice")
   musicType=document.getElementById("music_choice_button")
 
-  if(musicType.value=="techno"){
+  if(musicType.value=="slussen"){
     $.when(setupBuffer(audio.files.ace)).done(function() {
-       musicType.value="aceofbase";
+       musicType.value="karlaplan";
         setTimeout(function(){buttonClick()}, 1000);
+        console.log("button clicked")
 
   });
   }
-  else if(musicType.value=='aceofbase'){
+  else if(musicType.value=='karlaplan'){
     $.when(setupBuffer(audio.files.tech)).done(function() {
-      musicType.value='techno';
+      musicType.value='slussen';
       setTimeout(function(){buttonClick()}, 1000);
+            console.log("button clicked")
+
     });
   }
   // else if(musicType.value=='relax'){
