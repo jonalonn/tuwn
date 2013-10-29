@@ -336,11 +336,11 @@ function showPosition(position)
 
     if(!error){
     var userMarkerImage = new google.maps.MarkerImage(
-      'images/bluedot.png',
+      'images/pin2.png',
               null, // size
               null, // origin
               new google.maps.Point( 8, 8 ), // anchor (move to center of marker)
-              new google.maps.Size( 15, 15 ) // scaled size (required for Retina display icon)
+              new google.maps.Size( 49, 64 ) // scaled size (required for Retina display icon)
               );
 
             // then create the new marker
