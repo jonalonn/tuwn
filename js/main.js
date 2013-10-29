@@ -17,6 +17,21 @@ var musicType;
 var error=false;
 var centerOfStockholm=[59.3359156,17.9856157]
 
+/*
+  Slidemenu
+*/
+function aboutClick() {
+  var $body = document.body
+  , $menu_trigger = $body.getElementsByClassName('about_button')[0];
+
+  if ( typeof $menu_trigger !== 'undefined' ) {
+    $menu_trigger.addEventListener('click', function() {
+      $body.className = ( $body.className == 'menu-active' )? '' : 'menu-active';
+    });
+  }
+
+}.call(this);
+
 getCSV()
 
 function getCSV(){
@@ -507,7 +522,10 @@ function musicChoice(){
   if(musicType.value=="slussen"){
     $.when(setupBuffer(audio.files.ace)).done(function() {
        musicType.value="karlaplan";
-        setTimeout(function(){buttonClick()}, 1000);
+        setTimeout(function(){
+          element=document.getElementById("button_playnow")
+          element.value = ("play all");
+          buttonClick()}, 1000);
         console.log("button clicked")
 
   });
@@ -515,7 +533,10 @@ function musicChoice(){
   else if(musicType.value=='karlaplan'){
     $.when(setupBuffer(audio.files.tech)).done(function() {
       musicType.value='slussen';
-      setTimeout(function(){buttonClick()}, 1000);
+      setTimeout(function(){
+        element=document.getElementById("button_playnow")
+        element.value = ("play all");
+        buttonClick()}, 1000);
             console.log("button clicked")
 
     });

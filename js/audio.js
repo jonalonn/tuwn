@@ -373,8 +373,6 @@ function setupBuffer(style) {
       }
     
     initAudio(style);
-    element=document.getElementById("button_playnow")
-    element.value = ("play all");
     // musicType.innerHTML = ("play all");
      // for(var k = allMarkers.length - 1; k >= 0; k--) {
      //        allMarkers[k].markerClicked=false;
@@ -384,8 +382,6 @@ function setupBuffer(style) {
     // audio.stopAll();
     // initAudio(style);
     // audio.playAll();
-
-    console.log("setupBuffer stop")
 }
 
     // //---------------
