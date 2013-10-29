@@ -17,12 +17,6 @@ var musicType;
 var error=false;
 var centerOfStockholm=[59.3359156,17.9856157]
 
-jQuery(document).ready(function($){
-  $("#toggle").click(function() {
-    $(this).toggleClass("on");
-    $("#menu").slideToggle();
-  });
-});
 getCSV()
 
 function getCSV(){
@@ -321,7 +315,6 @@ function getLocation()
 }
 function showPosition(position)
 {
-  console.log(error)
   previousPosition=currentPosition
   if(error&&!mapOnSite){
     currentPosition=[position[0],position[1]]
