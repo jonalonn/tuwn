@@ -288,10 +288,12 @@ for (var i = 0; i < csvResults.length; i++) {
   if(!this.markerClicked){
     audio.stop(this.title);
     this.markerClicked=true;
+    $('div.gmnoprint[title="'+ objectTitle +'"]').removeClass('button' + objectTitle);
   }
   else{
     audio.play(this.title)
     this.markerClicked=false;
+    $('div.gmnoprint[title="'+ objectTitle +'"]').addClass('button' + objectTitle);
   }
   for(var k = allMarkers.length - 1; k >= 0; k--) {
     if(allMarkers[k].title === this.title) {
@@ -396,6 +398,7 @@ function getMarkersShown(){
 
         if($.inArray(allMarkers[i],currentMarkersShown)==-1){
           currentMarkersShown.push(allMarkers[i])
+          $('div.gmnoprint[title="'+ allMarkers[i].title +'"]').addClass('button' + allMarkers[i].title);
           amountOfMarkersWithAnIndex[allMarkers[i].title]+=1
         }
 

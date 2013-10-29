@@ -2,7 +2,9 @@
 	display: none;
 }
 
-#map-canvas div.gmnoprint[title="1"] {
+
+
+.button1 {
     	position: absolute;
     	margin-left: -20px;
     	margin-top: -20px;
@@ -21,7 +23,7 @@
 		animation-iteration-count: infinite;
 	}
 
-#map-canvas div.gmnoprint[title="2"] {
+.button2 {
     	position: absolute;
     	margin-left: -20px;
     	margin-top: -20px;
@@ -40,7 +42,7 @@
 		animation-iteration-count: infinite;
 	}
 
-#map-canvas div.gmnoprint[title="3"] {
+.button3 {
     	position: absolute;
     	margin-left: -20px;
     	margin-top: -20px;
@@ -59,7 +61,7 @@
 		animation-iteration-count: infinite;
 	}
 
-#map-canvas div.gmnoprint[title="4"] {
+.button4 {
     	position: absolute;
     	margin-left: -20px;
     	margin-top: -20px;
@@ -78,7 +80,7 @@
 		animation-iteration-count: infinite;
 	}
 
-#map-canvas div.gmnoprint[title="5"] {
+.button5 {
     	position: absolute;
     	margin-left: -20px;
     	margin-top: -20px;
@@ -97,7 +99,7 @@
 		animation-iteration-count: infinite;
 	}
 
-#map-canvas div.gmnoprint[title="6"] {
+.button6 {
     	position: absolute;
     	margin-left: -20px;
     	margin-top: -20px;
@@ -116,7 +118,7 @@
 		animation-iteration-count: infinite;
 	}
 
-#map-canvas div.gmnoprint[title="7"] {
+.button7 {
     	position: absolute;
     	margin-left: -20px;
     	margin-top: -20px;
@@ -135,7 +137,7 @@
 		animation-iteration-count: infinite;
 	}
 
-#map-canvas div.gmnoprint[title="8"] {
+.button8 {
     	position: absolute;
     	margin-left: -20px;
     	margin-top: -20px;
@@ -154,7 +156,7 @@
 		animation-iteration-count: infinite;
 	}
 
-#map-canvas div.gmnoprint[title="9"] {
+.button9 {
     	position: absolute;
     	margin-left: -20px;
     	margin-top: -20px;
