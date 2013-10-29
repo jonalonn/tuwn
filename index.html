@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head profile="http://www.w3.org/2005/10/profile">
+<link rel="icon" 
+      type="image/ico" 
+      href="/images/favicon.ico" />
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-	<title>TUWN</title>
+	<title>tuwn</title>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
 <!-- CSS -->
@@ -19,17 +22,18 @@
 </head>
 
 <body>
-</div>
+  <input id="about_button" type="button" value="about"></input>
+
 <div class="markerObject"></div>
 <ul class="spinner">
     <li></li><li></li><li></li>
 </ul>
-<div id="map-canvas" style="height:100%; width:100%;">
+<div id="map-canvas" class="content" style="height:100%; width:100%;">
 </div>
 
 <div class="buttonBlock">
 <input id="button_playnow" type="button" value="stop all" onclick="buttonClick()"></input>
-<input id="music_choice_button" type="button" value="aceofbase" onclick="musicChoice()"></input>
+<input id="music_choice_button" type="button" value="karlaplan" onclick="musicChoice()"></input>
 </div>
 </body>
 </html>
