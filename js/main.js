@@ -332,7 +332,7 @@ function showPosition(position)
       'images/pin2.png',
               null, // size
               null, // origin
-              new google.maps.Point( 8, 8 ), // anchor (move to center of marker)
+              new google.maps.Point( 10, 10 ), // anchor (move to center of marker)
               new google.maps.Size( 49, 64 ) // scaled size (required for Retina display icon)
               );
 
@@ -344,13 +344,14 @@ function showPosition(position)
               optimized: false,
               position: myLatLng,
               title: 'This is you mofo',
-              visible: true
+              visible: true,
             });
           }
         }
           
   if(currentPosition[0]!==previousPosition[0] || currentPosition[1]!==previousPosition[1]){
     myMarker.setPosition(myLatLng);
+    myMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
   }
 
  /*  // map.setCenter(myLatLng)
