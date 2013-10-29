@@ -23,18 +23,21 @@
 
 <body>
 <nav id="slide-menu">
-
+  <div id="about_text">
+<h1>About Tuwn</h1>
+<h3>
 Tuwn makes music by using open data from the public transportation system in Stockholm.
 <br> <br>
 Each dot on the map represents a part of the public transportation system and plays a unique sound. Zoom out on the map to hear more tunes, click on the dots to turn the sounds on and off and make your own city beat.
 <br> <br>
-Who is behind Tuwn?
-Tuwn is a Hyper Island student project created by Jonathan Lönnqvist, Simone Giertz and Linnéa Lindskog.
+Tuwn is a Hyper Island student project created by Jonathan L&ouml;nnqvist, Simone Giertz and Linn&eacute;a Lindskog.
+</h3>
+</div>
 </nav>
 <!-- Content panel -->
 <div id="content">
+  <div id="background-canvas">
   <input class="about_button" type="button" value="about"></input>
-</div>
 <div class="markerObject"></div>
 <ul class="spinner">
     <li></li><li></li><li></li>
@@ -45,6 +48,9 @@ Tuwn is a Hyper Island student project created by Jonathan Lönnqvist, Simone Gi
 <div class="buttonBlock">
 <input id="button_playnow" type="button" value="stop all" onclick="buttonClick()"></input>
 <input id="music_choice_button" type="button" value="karlaplan" onclick="musicChoice()"></input>
+</div>
+
+</div>
 </div>
 </body>
 </html>

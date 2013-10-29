@@ -20,7 +20,7 @@ var centerOfStockholm=[59.3359156,17.9856157]
 /*
   Slidemenu
 */
-function aboutClick() {
+$( document ).ready(function() {
   var $body = document.body
   , $menu_trigger = $body.getElementsByClassName('about_button')[0];
 
@@ -30,7 +30,7 @@ function aboutClick() {
     });
   }
 
-}.call(this);
+});
 
 getCSV()
 
@@ -350,7 +350,7 @@ function showPosition(position)
               null, // size
               null, // origin
               new google.maps.Point( 10, 10 ), // anchor (move to center of marker)
-              new google.maps.Size( 49, 64 ) // scaled size (required for Retina display icon)
+              new google.maps.Size( 33, 43 ) // scaled size (required for Retina display icon)
               );
 
             // then create the new marker
@@ -447,8 +447,13 @@ function getMarkersShown(){
     $("#map-canvas").css("visibility","visible");
     $("#button_playnow").css("visibility","visible");
     $("#music_choice_button").css("visibility","visible");
-    $("#about_button").css("visibility","visible");
+    $(".about_button").css("visibility","visible");
     $(".spinner").css("visibility","hidden");
+    setTimeout(function(){
+      $("nav#slide-menu").css("visibility","visible");
+    }, 2000);
+
+
     markersShown=false
   }
 
@@ -489,7 +494,6 @@ var MY_MAPTYPE_ID = 'custom_style';
 
 function buttonClick(){
   element=document.getElementById("button_playnow")
-  console.log(element.value)
   if (element.value=="play all"){
     amountOfMarkersClicked=0
     element.value="stop all"
@@ -519,7 +523,6 @@ function buttonClick(){
       }
 
 function musicChoice(){
-  console.log("musicChoice")
   musicType=document.getElementById("music_choice_button")
 
   if(musicType.value=="slussen"){
@@ -529,7 +532,6 @@ function musicChoice(){
           element=document.getElementById("button_playnow")
           element.value = ("play all");
           buttonClick()}, 1000);
-        console.log("button clicked")
 
   });
   }
@@ -540,7 +542,6 @@ function musicChoice(){
         element=document.getElementById("button_playnow")
         element.value = ("play all");
         buttonClick()}, 1000);
-            console.log("button clicked")
 
     });
   }
