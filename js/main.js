@@ -474,14 +474,16 @@ function buttonClick(){
 function musicChoice(){
   musicType=document.getElementById("music_choice_button")
   if(musicType.value=="techno"){
-    musicType.value="hiphop";
+    setupBuffer(audio.files.ace);
+    musicType.value="aceofbase";
   }
-  else if(musicType.value=='hiphop'){
-    musicType.value='relax';
-  }
-  else if(musicType.value=='relax'){
+  else if(musicType.value=='aceofbase'){
+    setupBuffer(audio.files.tech)
     musicType.value='techno';
   }
+  // else if(musicType.value=='relax'){
+  //   musicType.value='techno';
+  // }
 
 }
 

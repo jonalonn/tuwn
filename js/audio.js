@@ -11,17 +11,29 @@ var audio = {
         'sounds/lodge.wav',
         'sounds/parking-garage.wav'
     ],
-    files: [
-        'sounds/techno1.wav',
-        'sounds/techno2.wav',
-        'sounds/techno3.wav',
-        'sounds/techno4.wav',
-        'sounds/techno5.wav',
-        'sounds/techno6.wav',
-        'sounds/techno7.wav',
-        'sounds/techno8.wav',
-        'sounds/techno9.wav'
+    files: {
+    ace: [
+        'sounds/ace/techno1.m4a',
+        'sounds/ace/techno2.m4a',
+        'sounds/ace/techno3.m4a',
+        'sounds/ace/techno4.m4a',
+        'sounds/ace/techno5.m4a',
+        'sounds/ace/techno6.m4a',
+        'sounds/ace/techno7.m4a',
+        'sounds/ace/techno8.m4a',
+        'sounds/ace/techno9.m4a'
     ],
+    tech: [
+        'sounds/techno/techno1.wav',
+        'sounds/techno/techno2.wav',
+        'sounds/techno/techno3.wav',
+        'sounds/techno/techno4.wav',
+        'sounds/techno/techno5.wav',
+        'sounds/techno/techno6.wav',
+        'sounds/techno/techno7.wav',
+        'sounds/techno/techno8.wav',
+        'sounds/techno/techno9.wav'
+    ]},
     frequencyData: {},
     gain: {},
     gain_loop: {},
@@ -166,6 +178,12 @@ try {
 }
 
 if (audio.proceed) {
+    initAudio(audio.files.ace)
+}
+
+
+
+function initAudio(audioFiles){
     //---------------
     // Compatibility
     //---------------
@@ -251,33 +269,33 @@ if (audio.proceed) {
     audio.gain.collapse.connect(audio.gain.master);
 
 
-    $(document).ready(function() {
-    //-----------------------
-    // Setup Effects Buttons
-    //-----------------------
-    jQuery('.widget-effects').delegate('button', 'click', function(e) {
-        var val = parseInt(this.value);
-        audio.gain.collapse.disconnect();
-        audio.gain.booster.disconnect();
+    // $(document).ready(function() {
+    // //-----------------------
+    // // Setup Effects Buttons
+    // //-----------------------
+    // jQuery('.widget-effects').delegate('button', 'click', function(e) {
+    //     var val = parseInt(this.value);
+    //     audio.gain.collapse.disconnect();
+    //     audio.gain.booster.disconnect();
 
-        var previous_vol = audio.gain.master.gain.value;
-        audio.gain.master.gain.value = 0;
+    //     var previous_vol = audio.gain.master.gain.value;
+    //     audio.gain.master.gain.value = 0;
 
-        if (this.className === 'active') {
-            jQuery('.widget-effects .active').removeClass('active');
-            audio.gain.collapse.connect(audio.gain.master);
-        } else {
-            jQuery('.widget-effects .active').removeClass('active');
-            audio.convolver.buffer = audio.buffer_effects[val];
-            audio.gain.collapse.connect(audio.convolver);
-            audio.gain.booster.connect(audio.gain.master);
-            this.className = 'active';
-        }
+    //     if (this.className === 'active') {
+    //         jQuery('.widget-effects .active').removeClass('active');
+    //         audio.gain.collapse.connect(audio.gain.master);
+    //     } else {
+    //         jQuery('.widget-effects .active').removeClass('active');
+    //         audio.convolver.buffer = audio.buffer_effects[val];
+    //         audio.gain.collapse.connect(audio.convolver);
+    //         audio.gain.booster.connect(audio.gain.master);
+    //         this.className = 'active';
+    //     }
 
-        setTimeout(function() {
-            audio.gain.master.gain.value = previous_vol;
-        }, 50);
-    });
+    //     setTimeout(function() {
+    //         audio.gain.master.gain.value = previous_vol;
+    //     }, 50);
+    // });
 
 
 
@@ -300,11 +318,11 @@ if (audio.proceed) {
     //-------------------
     // Setup Audio Files
     //-------------------
-    for (var a in audio.files) {
+    for (var a in audioFiles) {
         (function() {
             var i = parseInt(a) + 1;
             var req = new XMLHttpRequest();
-            req.open('GET', audio.files[i - 1], true); // array starts with 0 hence the -1
+            req.open('GET', audioFiles[i - 1], true); // array starts with 0 hence the -1
             req.responseType = 'arraybuffer';
             req.onload = function() {
                 audio.context.decodeAudioData(
@@ -331,7 +349,7 @@ if (audio.proceed) {
                         }
                     },
                     function() {
-                        console.log('Error decoding audio "' + audio.files[i - 1] + '".');
+                        console.log('Error decoding audio "' + audioFiles[i - 1] + '".');
                     }
                 );
             };
@@ -340,33 +358,58 @@ if (audio.proceed) {
     }
 
 
-})
-    //---------------
-    // Setup Effects
-    //---------------
-    for (var a in audio.effects) {
-        (function() {
-            var i = parseInt(a) + 1;
-            var req = new XMLHttpRequest();
-            req.open('GET', audio.effects[i - 1], true); // array starts with 0 hence the -1
-            req.responseType = 'arraybuffer';
-            req.onload = function() {
-                audio.context.decodeAudioData(
-                    req.response,
-                    function(buffer) {
-                        audio.buffer_effects[i] = buffer;
-                        // var button = document.getElementById('effect-' + i);
-                        // button.disabled = false;
-                        // $(document).ready(function() {
-                        //     jQuery(button).html(button.getAttribute('data-name').replace(' ', '<br>')).removeClass('loading');
-                        // })
-                    },
-                    function() {
-                        console.log('Error decoding effect "' + audio.effects[i - 1] + '".');
-                    }
-                );
-            };
-            req.send();
-        })();
-    };
 }
+
+function setupBuffer(style) {
+    
+    audio.stopAll()
+    amountOfMarkersClicked=allMarkers.length
+    for(var i=0;i<allMarkers.length;i++){
+      if(allMarkers[i].markerClicked!==undefined){
+        allMarkers[i].markerClicked=true;
+
+    }
+      }
+    
+    initAudio(style);
+    element=document.getElementById("button_playnow")
+    element.value = ("play all");
+    // musicType.innerHTML = ("play all");
+     // for(var k = allMarkers.length - 1; k >= 0; k--) {
+     //        allMarkers[k].markerClicked=false;
+     //  }
+
+
+    // audio.stopAll();
+    // initAudio(style);
+    // audio.playAll();
+}
+
+    // //---------------
+    // // Setup Effects
+    // //---------------
+    // for (var a in audio.effects) {
+    //     (function() {
+    //         var i = parseInt(a) + 1;
+    //         var req = new XMLHttpRequest();
+    //         req.open('GET', audio.effects[i - 1], true); // array starts with 0 hence the -1
+    //         req.responseType = 'arraybuffer';
+    //         req.onload = function() {
+    //             audio.context.decodeAudioData(
+    //                 req.response,
+    //                 function(buffer) {
+    //                     audio.buffer_effects[i] = buffer;
+    //                     // var button = document.getElementById('effect-' + i);
+    //                     // button.disabled = false;
+    //                     // $(document).ready(function() {
+    //                     //     jQuery(button).html(button.getAttribute('data-name').replace(' ', '<br>')).removeClass('loading');
+    //                     // })
+    //                 },
+    //                 function() {
+    //                     console.log('Error decoding effect "' + audio.effects[i - 1] + '".');
+    //                 }
+    //             );
+    //         };
+    //         req.send();
+    //     })();
+    // };
