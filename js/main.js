@@ -172,54 +172,10 @@ return(arrData)
   var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
 
   map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
-//   var strictBounds = new google.maps.LatLngBounds(
-//     new google.maps.LatLng(59.370599,17.929001), 
-//     new google.maps.LatLng(59.266188,18.262711)
-//   );
-//   google.maps.event.addListener(map, 'dragend', function() {
-//     if (strictBounds.contains(map.getCenter())) return;
-//
-//  var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
-//var c = map.getCenter(),
-//         x = c.lng(),
-//         y = c.lat(),
-//         maxX = strictBounds.getNorthEast().lng(),
-//         maxY = strictBounds.getNorthEast().lat(),
-//         minX = strictBounds.getSouthWest().lng(),
-//         minY = strictBounds.getSouthWest().lat();
-//
-//     if (x < minX) x = minX;
-//     if (x > maxX) x = maxX;
-//     if (y < minY) y = minY;
-//     if (y > maxY) y = maxY;
-//
-//     map.setCenter(centerOfStockholm);
-//   });
- /* var request = {
-    location: centerOfStockholm,
-    radius: '100000',
-    types: ['hospital'],
-  };
 
-service = new google.maps.places.PlacesService(map);
-service.nearbySearch(request, function(results,status,pagination){
-          console.log(results)
-
-  if (status != google.maps.places.PlacesServiceStatus.OK) {
-    return;
-  }
-  for (var i = 0; i < results.length; i++) {
-    var place = results[i];
-    var marker = new google.maps.Marker(
-        position: new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng()),
-        map: map
-      }
-    )
-  }
-  if(pagination.hasNextPage){
-    pagination.nextPage();
-  }
-}); */
+for(var j=0;j<10;j++){
+  $('div.gmnoprint[title="'+ j +'"]').addClass('button' + j);
+}
 var locationMarkerImage;
 for (var i = 0; i < csvResults.length; i++) {
   if(csvResults[i][1]){
@@ -243,11 +199,17 @@ for (var i = 0; i < csvResults.length; i++) {
     title: csvResults[i][0],
     icon: locationMarkerImage,
     markerClicked: false,
-    markerAnimated: false
   }
   )
-   allMarkers.push(marker);
 
+   if(marker.title==1||marker.title==2||marker.title==3||marker.title==4||marker.title==5||marker.title==6||marker.title==7||marker.title==8||marker.title==9)
+  {
+     marker.className="button"+marker.title;
+     allMarkers.push(marker);
+  }
+  else{
+    marker.setMap(null)
+  }
  }
 
  google.maps.event.addListener(marker, 'click', function() {
@@ -289,17 +251,18 @@ for (var i = 0; i < csvResults.length; i++) {
   if(!this.markerClicked){
     audio.stop(this.title);
     this.markerClicked=true;
-    $('div.gmnoprint[title="'+ objectTitle +'"]').removeClass('button' + objectTitle);
+      $('div.gmnoprint[title="'+ this.title +'"]').removeClass('button' + this.title);
   }
   else{
     audio.play(this.title)
     this.markerClicked=false;
-    $('div.gmnoprint[title="'+ objectTitle +'"]').addClass('button' + objectTitle);
+    $('div.gmnoprint[title="'+ this.title +'"]').addClass('button' + this.title);
+
   }
+
   for(var k = allMarkers.length - 1; k >= 0; k--) {
     if(allMarkers[k].title === this.title) {
       allMarkers[k].markerClicked=this.markerClicked;
-      allMarkers[k].markerAnimated=this.markerClicked;
       if(this.markerClicked){
         amountOfMarkersClicked+=1
       }
@@ -340,12 +303,13 @@ function showPosition(position)
     currentPosition=[position[0],position[1]]
   }
   else if(!error){
-          $.getJSON( "http://maps.googleapis.com/maps/api/geocode/json?latlng="+59.3359156+","+17.9856157+"&sensor=true", function( data ) {
+      $.getJSON( "http://maps.googleapis.com/maps/api/geocode/json?latlng="+59.3359156+","+17.9856157+"&sensor=true", function( data ) {
       var userCity=data.results[0].address_components[3].long_name
-  //    console.log(userCity)
+   //   console.log(userCity)
+     // console.log('Stockholms l&auml;n')
       if(userCity!=='Stockholms län'&&userCity!=="Stockholm County") {
     //    console.log("you're outside of Stockholm")
-      } 
+      }
     });
 
     currentPosition=[position.coords.latitude,position.coords.longitude]
@@ -517,6 +481,7 @@ function buttonClick(){
       }
      for(var k = allMarkers.length - 1; k >= 0; k--) {
             allMarkers[k].markerClicked=false;
+
       }
   } 
 
@@ -529,7 +494,6 @@ function buttonClick(){
       $('div.gmnoprint[title="'+ i +'"]').removeClass('button' + i);
       if(allMarkers[i].markerClicked!==undefined){
         allMarkers[i].markerClicked=true;
-
 
     }
       }

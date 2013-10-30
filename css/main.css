@@ -211,6 +211,15 @@ div#presentation-text{
 
 }
 
+#markerdiv{
+  display:block;
+  position: relative;
+  margin-left: auto; 
+  margin-right: auto;
+  width: 10px;
+}
+
+
 body.menu-active nav#slide-menu { right: 0px;}
 body.menu-active nav#slide-menu ul { right: 0px; opacity: 1; }
 
