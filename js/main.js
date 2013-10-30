@@ -242,7 +242,8 @@ for (var i = 0; i < csvResults.length; i++) {
     optimized: false,
     title: csvResults[i][0],
     icon: locationMarkerImage,
-    markerClicked: false
+    markerClicked: false,
+    markerAnimated: false
   }
   )
    allMarkers.push(marker);
@@ -298,6 +299,7 @@ for (var i = 0; i < csvResults.length; i++) {
   for(var k = allMarkers.length - 1; k >= 0; k--) {
     if(allMarkers[k].title === this.title) {
       allMarkers[k].markerClicked=this.markerClicked;
+      allMarkers[k].markerAnimated=this.markerClicked;
       if(this.markerClicked){
         amountOfMarkersClicked+=1
       }
@@ -360,7 +362,7 @@ function showPosition(position)
               map: map,
               optimized: false,
               position: myLatLng,
-              title: 'This is you mofo',
+              title: 'This is you',
               visible: true,
             });
           }
@@ -398,11 +400,12 @@ function getMarkersShown(){
 
         if($.inArray(allMarkers[i],currentMarkersShown)==-1){
           currentMarkersShown.push(allMarkers[i])
-          $('div.gmnoprint[title="'+ allMarkers[i].title +'"]').addClass('button' + allMarkers[i].title);
+          
           amountOfMarkersWithAnIndex[allMarkers[i].title]+=1
         }
 
         if(amountOfMarkersWithAnIndex[allMarkers[i].title]==1&&!allMarkers[i].markerClicked){
+          $('div.gmnoprint[title="'+ allMarkers[i].title +'"]').addClass('button' + allMarkers[i].title);
           audio.play(allMarkers[i].title)
         }
       }
@@ -498,6 +501,7 @@ function buttonClick(){
     amountOfMarkersClicked=0
     element.value="stop all"
     for(var i=0;i<amountOfMarkersWithAnIndex.length;i++){
+      $('div.gmnoprint[title="'+ i +'"]').addClass('button' + i);
       if(amountOfMarkersWithAnIndex[i]!==0){
         audio.play(i);
     }
@@ -513,8 +517,10 @@ function buttonClick(){
     audio.stopAll()
     amountOfMarkersClicked=allMarkers.length
     for(var i=0;i<allMarkers.length;i++){
+      $('div.gmnoprint[title="'+ i +'"]').removeClass('button' + i);
       if(allMarkers[i].markerClicked!==undefined){
         allMarkers[i].markerClicked=true;
+
 
     }
       }

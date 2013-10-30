@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Ubuntu:400,500,700);
+@import url(http://fonts.googleapis.com/css?family=Raleway:200);
 
 html, body {
 
@@ -7,6 +7,7 @@ html, body {
   padding: 0;
   margin: 0;
   font-family: 'Raleway';
+  text-shadow: 0 0 1px rgba(0,0,0,0.3);
 }
 
 body {
@@ -34,7 +35,7 @@ header {
   display: inline-block;
   margin-top: 210px
 }
-
+/*
 .dot {
   width: 2em;
   height: 2em;
@@ -88,7 +89,7 @@ header {
     margin: -1em;
     background: rgba(0, 127, 255, 0);
   }
-}
+}*/
 
 .markerObject{
   z-index: 1000;
@@ -99,7 +100,10 @@ header {
   font-size: 70px;
   font-style: bold;
   bottom:50%;
-  left:45%;
+  margin-left: 38%;
+  margin-right: 38%;
+  display:block;
+  width: 100%;
 }
 .buttonBlock{
   display:block;
@@ -282,8 +286,8 @@ body.menu-active div#content .about_button { right: 294px; }
     width: 1em;
     height: 1em;
     position: fixed;
-    left:50%;
-    bottom:50%;
+    left:45%;
+    bottom:40%;
     margin: 100px auto;
     border-radius: 50%;
     list-style: none;
