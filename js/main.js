@@ -6,6 +6,7 @@ var currentPosition=[];
 var currentMarkersShown=[];
 var previousMarkersShown=[];
 var map;
+var service;
 var myMarker;
 var amountOfMarkersWithAnIndex=[0,0,0,0,0,0,0,0,0,0];
 var markerClicked;
@@ -16,6 +17,9 @@ var musicType;
 var error=false;
 var centerOfStockholm=[59.3359156,17.9856157]
 
+/*
+  Slidemenu
+*/
 $( document ).ready(function() {
   var $body = document.body
   , $menu_trigger = $body.getElementsByClassName('about_button')[0];
@@ -168,6 +172,54 @@ return(arrData)
   var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
 
   map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
+//   var strictBounds = new google.maps.LatLngBounds(
+//     new google.maps.LatLng(59.370599,17.929001), 
+//     new google.maps.LatLng(59.266188,18.262711)
+//   );
+//   google.maps.event.addListener(map, 'dragend', function() {
+//     if (strictBounds.contains(map.getCenter())) return;
+//
+//  var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
+//var c = map.getCenter(),
+//         x = c.lng(),
+//         y = c.lat(),
+//         maxX = strictBounds.getNorthEast().lng(),
+//         maxY = strictBounds.getNorthEast().lat(),
+//         minX = strictBounds.getSouthWest().lng(),
+//         minY = strictBounds.getSouthWest().lat();
+//
+//     if (x < minX) x = minX;
+//     if (x > maxX) x = maxX;
+//     if (y < minY) y = minY;
+//     if (y > maxY) y = maxY;
+//
+//     map.setCenter(centerOfStockholm);
+//   });
+ /* var request = {
+    location: centerOfStockholm,
+    radius: '100000',
+    types: ['hospital'],
+  };
+
+service = new google.maps.places.PlacesService(map);
+service.nearbySearch(request, function(results,status,pagination){
+          console.log(results)
+
+  if (status != google.maps.places.PlacesServiceStatus.OK) {
+    return;
+  }
+  for (var i = 0; i < results.length; i++) {
+    var place = results[i];
+    var marker = new google.maps.Marker(
+        position: new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng()),
+        map: map
+      }
+    )
+  }
+  if(pagination.hasNextPage){
+    pagination.nextPage();
+  }
+}); */
 var locationMarkerImage;
 for (var i = 0; i < csvResults.length; i++) {
   if(csvResults[i][1]){
@@ -190,16 +242,13 @@ for (var i = 0; i < csvResults.length; i++) {
     optimized: false,
     title: csvResults[i][0],
     icon: locationMarkerImage,
-    markerClicked: false
+    markerClicked: false,
+    markerAnimated: false
   }
   )
    allMarkers.push(marker);
 
  }
-
-  google.maps.event.addListener(marker, 'mouseover', function() {
-    event.preventDefault();
-  });
 
  google.maps.event.addListener(marker, 'click', function() {
   var objectType;
@@ -250,6 +299,7 @@ for (var i = 0; i < csvResults.length; i++) {
   for(var k = allMarkers.length - 1; k >= 0; k--) {
     if(allMarkers[k].title === this.title) {
       allMarkers[k].markerClicked=this.markerClicked;
+      allMarkers[k].markerAnimated=this.markerClicked;
       if(this.markerClicked){
         amountOfMarkersClicked+=1
       }
@@ -284,26 +334,15 @@ function getLocation()
 }
 function showPosition(position)
 {
-  var reverseGeoCoding=
   previousPosition=currentPosition
   if(error&&!mapOnSite){
     currentPosition=[position[0],position[1]]
   }
   else if(!error){
-    $.getJSON( "http://maps.googleapis.com/maps/api/geocode/json?latlng="+59.3359156+","+17.9856157+"&sensor=true", function( data ) {
-      var userCity=data.results[0].address_components[3].long_name
-      console.log(userCity)
-      if(userCity!=='Stockholms län'&&userCity!=="Stockholm County") {
-        console.log("you're outside of Stockholm")
-      } 
-    });
-
     currentPosition=[position.coords.latitude,position.coords.longitude]
   }
   if(!mapOnSite){
     myLatLng = new google.maps.LatLng(currentPosition[0], currentPosition[1]);
-       console.log(myLatLng.locality)
-
     map.setCenter(myLatLng)
     mapOnSite=true;
 
@@ -323,7 +362,7 @@ function showPosition(position)
               map: map,
               optimized: false,
               position: myLatLng,
-              title: 'Your location',
+              title: 'This is you',
               visible: true,
             });
           }
@@ -334,6 +373,19 @@ function showPosition(position)
     myMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
   }
 
+ /*  // map.setCenter(myLatLng)
+   // myMarker.setPosition(myLatLng)
+   for(var i=0;i<coordinateArray.length;i++){
+    var idName="distance"+i
+    var distance= getDistance(currentPosition[1],currentPosition[0],coordinateArray[i].longitude,coordinateArray[i].latitude)
+      // console.log(distance)
+      if(distance<5){
+        // Audiofunction goes here
+        audio.playAll();
+        // var audio=new Audio('sounds/'+coordinateArray[i].type);;
+        // audio.play();
+      }
+    }*/
 google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
 
 getMarkersShown()
@@ -348,11 +400,12 @@ function getMarkersShown(){
 
         if($.inArray(allMarkers[i],currentMarkersShown)==-1){
           currentMarkersShown.push(allMarkers[i])
-          $('div.gmnoprint[title="'+ allMarkers[i].title +'"]').addClass('button' + allMarkers[i].title);
+          
           amountOfMarkersWithAnIndex[allMarkers[i].title]+=1
         }
 
         if(amountOfMarkersWithAnIndex[allMarkers[i].title]==1&&!allMarkers[i].markerClicked){
+          $('div.gmnoprint[title="'+ allMarkers[i].title +'"]').addClass('button' + allMarkers[i].title);
           audio.play(allMarkers[i].title)
         }
       }
@@ -368,6 +421,26 @@ function getMarkersShown(){
       }
 
     }
+  //    }
+  //    else{
+  //      audio.play(allMarkers[i].title)
+  //    }
+//      console.log(amountOfMarkersWithAnIndex)
+  //    
+    //  if($.inArray(allMarkers[i],previousMarkersShown)==-1){
+  //       audio.play(allMarkers[i].title);
+      //  }
+        // var audio=new Audio('sounds/'+allMarkers[i].title);;
+        // debugger
+
+
+    //else{
+
+   //   if($.inArray(allMarkers[i],previousMarkersShown)!==-1&&amountOfMarkersWithAnIndex[allMarkers[i].title]!==0){
+     //   amountOfMarkersWithAnIndex[allMarkers[i].title]-=1
+
+      //}
+    
     for(var j=1;j<10;j++){
       if(amountOfMarkersWithAnIndex[j]==0){
         audio.stop(j)
@@ -392,7 +465,34 @@ function getMarkersShown(){
 
 
 
+
+
+//function initialize(userPosition) {
+//  mapOnSite=false
+//  var mapOptions = {
+//    center: userPosition,
+//    zoom: 20,
+//    mapTypeId: google.maps.MapTypeId.ROADMAP
+//  };
+//  map = new google.maps.Map(document.getElementById("map-canvas"),
+//      mapOptions);
+//  userMarker = new google.maps.Marker({
+//      position: userPosition,
+//      map: map,
+//      icon: userMarkerImage
+//    });
+//
+//  for (var i = 0; i < coordinateArray.length; i++) {
+//        var data = coordinateArray[i]
+//        var marker = new google.maps.Marker({
+//            position: new google.maps.LatLng (data.latitude, data.longitude),
+//            map: map
+//        });
+//    }
+//
+//}
 var MY_MAPTYPE_ID = 'custom_style';
+// google.maps.event.addDomListener(window, 'load', initialize);
 
 
 function buttonClick(){
@@ -401,6 +501,7 @@ function buttonClick(){
     amountOfMarkersClicked=0
     element.value="stop all"
     for(var i=0;i<amountOfMarkersWithAnIndex.length;i++){
+      $('div.gmnoprint[title="'+ i +'"]').addClass('button' + i);
       if(amountOfMarkersWithAnIndex[i]!==0){
         audio.play(i);
     }
@@ -416,8 +517,10 @@ function buttonClick(){
     audio.stopAll()
     amountOfMarkersClicked=allMarkers.length
     for(var i=0;i<allMarkers.length;i++){
+      $('div.gmnoprint[title="'+ i +'"]').removeClass('button' + i);
       if(allMarkers[i].markerClicked!==undefined){
         allMarkers[i].markerClicked=true;
+
 
     }
       }
@@ -448,4 +551,7 @@ function musicChoice(){
 
     });
   }
+  // else if(musicType.value=='relax'){
+  //   musicType.value='techno';
+  // }
 }
