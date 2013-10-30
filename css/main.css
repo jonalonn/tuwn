@@ -204,9 +204,9 @@ div#about_text{
 }
 div#presentation-text{
   color:grey;
-  padding-left: 50px;
-  padding-top: 100px;
-  padding-right: 50px;
+  padding-left: 100px;
+  padding-top: 80px;
+  padding-right: 100px;
   text-align: center;
 
 }
