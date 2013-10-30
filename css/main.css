@@ -106,18 +106,18 @@ header {
   position: relative;
   margin-left: auto; 
   margin-right: auto;
-  width: 410px;
+  width: 310px;
 }
 
 
 #music_choice_button {
   position: relative;
   font-family: 'Raleway';
-  font-size: 30px;
+  font-size: 25px;
   color: grey;
   bottom: 110px;
-  width: 200px;
-  height: 76px;
+  width: 150px;
+  height: 56px;
   border-radius: 10px;
   background-color: white;
   z-index: 1000;
@@ -129,10 +129,10 @@ header {
   position: relative;
 
   font-family: 'Raleway';
-  font-size: 30px;
+  font-size: 25px;
   color: grey;
-  width: 200px;
-  height: 70px;
+  width: 150px;
+  height: 50px;
   border-radius: 10px;
   box-shadow: #transparent 0px -6px 0px 0px;
   background-color: white;
@@ -146,11 +146,14 @@ header {
   position: relative;
 
   font-family: 'Raleway';
-  font-size: 30px;
-  color: grey;
+  font-size: 25px;
+
   bottom: 110px;
-  width: 200px;
-  height: 76px;
+  width: 150px;
+  height: 56px;
+  color: grey;
+  font-size: 25px;
+
   border-radius: 10px;
   background-color: white;
   z-index: 1000;
@@ -161,10 +164,10 @@ header {
 #button_playnow:active {
   position: relative;
   font-family: 'Raleway';
-  font-size: 30px;
+  font-size: 25px;
   color: grey;
-  width: 200px;
-  height: 70px;
+  width: 150px;
+  height: 50px;
   border-radius: 10px;
   box-shadow: #transparent 0px -6px 0px 0px;
   background-color: white;
@@ -199,13 +202,18 @@ div#about_text{
   padding-right: 10px;
   color:black;
 }
+div#presentation-text{
+  color:grey;
+  padding-left: 50px;
+  padding-top: 100px;
+  padding-right: 50px;
+  text-align: center;
+
+}
 
 body.menu-active nav#slide-menu { right: 0px;}
 body.menu-active nav#slide-menu ul { right: 0px; opacity: 1; }
 
-/*
-  Content
-*/
 
 div#content {
   position: fixed;
@@ -231,13 +239,13 @@ div#content {
   .about_button {
     position: fixed;
     font-family: 'Raleway';
-    font-size: 20px;
+    font-size: 15px;
     color: grey;
     top: 10px;
     right: 10px;
     float:right;
-    width: 75px;
-    height: 40px;
+    width: 65px;
+    height: 33px;
     background: white;
     border-radius: 10px;
     z-index: 1000;
@@ -263,6 +271,41 @@ div#content {
   visibility: hidden;
 
 }
+  #intro-button {
+    display:block;
+    position: relative;
+    margin-left: auto; 
+    margin-right: auto;
+    font-family: 'Raleway';
+    font-size: 20px;
+    color: grey;
+    width: 100px;
+    height: 50px;
+    background: white;
+    border-radius: 10px;
+    z-index: 1000;
+    outline:none;
+    -moz-transition: all 300ms;
+    -webkit-transition: all 300ms;
+    transition: all 300ms;
+
+  }
+#intro-button:active {
+  display:block;
+  position: relative;
+  margin-left: auto; 
+  margin-right: auto;
+  font-family: 'Raleway';
+  font-size: 20px;
+  cursor: pointer;
+  width: 100px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: white;
+  z-index: 10000;
+  outline:none;
+
+}
 
 
 body.menu-active div#content { right: 284px; border-radius: 7px 0 0 7px; }
@@ -284,7 +327,7 @@ body.menu-active div#content .about_button { right: 294px; }
     position: fixed;
     left:50%;
     bottom:50%;
-    margin: 100px auto;
+    margin-left: -50px;
     border-radius: 50%;
     list-style: none;
     z-index:1000;
