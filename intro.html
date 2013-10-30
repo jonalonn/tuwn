@@ -7,7 +7,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<title>tuwn</title>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<audio id="audiotag1" src="sounds/ace/ace1.m4a" preload="auto"></audio>
 
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="css/custommarker.css">
@@ -29,7 +28,10 @@
 Tuwn makes music by using open data from the public transportation system in Stockholm. Each dot on the map represents a part of the public transportation system and plays a unique sound. 
 
 <br><br><br>
-<img src="images/circle3.png" onClick="playExampleMarker()">
+<div id="markerdiv">
+<img src="images/circle3.png" onClick="playExampleMarker()" style="position:absolute; z-index:10;">
+<img src="images/circle3.png" id="animation" style="position:absolute" class="button3">
+</div>
 <br><br><br>
 
 Click on the dots to turn them on and off and zoom in and out to listen to different parts in Stockholm.

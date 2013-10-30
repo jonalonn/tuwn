@@ -258,13 +258,13 @@ for (var i = 0; i < csvResults.length; i++) {
       objectType="tunnelbana";
       break;
     case '2':
-      objectType="cinema";
+      objectType="sp&aring;rvagnar";
       break;
     case '3':
       objectType="busstation";
       break;
     case '4':
-      objectType="liding&ouml;banan";
+      objectType="Liding&ouml;banan";
       break;
     case '5':
       objectType="tv&auml;rbana";

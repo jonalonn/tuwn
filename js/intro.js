@@ -1,26 +1,27 @@
 var exampleMarkerClicked=false;
-var audio;
+var myAudio;
 
 $( document ).ready(function() {
-     audio=document.getElementById('audiotag1');
-    audio.addEventListener('ended', function() {
-        this.currentTime = 0;
-        this.play();
+    myAudio = new Audio('sounds/ace/ace1.m4a'); 
+    myAudio.addEventListener('ended', function() {
+        myAudio.currentTime = 0;
+        myAudio.play();
     }, false);
-    audio.play();
-
+myAudio.play();
 });
-
 
 
    function playExampleMarker(){
     if(exampleMarkerClicked){
-     audio.play();
-     exampleMarkerClicked=false
+     myAudio.play();
+     exampleMarkerClicked=false;
+     $( "#markerdiv").append('<img src="images/circle3.png" id="animation" style="position:absolute" class="button3">');
     }
     else{
-      audio.pause()
-     exampleMarkerClicked=true
+      myAudio.pause();
+        exampleMarkerClicked=true;
+
+      $( "#animation" ).detach();
 
     }
 
