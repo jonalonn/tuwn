@@ -10,7 +10,6 @@ var service;
 var myMarker;
 var amountOfMarkersWithAnIndex=[0,0,0,0,0,0,0,0,0,0];
 var markerClicked;
-var markerAnimated;
 var allMarkers;
 var amountOfMarkersClicked=0;
 var element;
@@ -173,11 +172,54 @@ return(arrData)
   var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
 
   map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
-for(var j=0;j<10;j++){
-  $('div.gmnoprint[title="'+ j +'"]').addClass('button' + j);
- }
- console.log(div.gmnoprint)
+//   var strictBounds = new google.maps.LatLngBounds(
+//     new google.maps.LatLng(59.370599,17.929001), 
+//     new google.maps.LatLng(59.266188,18.262711)
+//   );
+//   google.maps.event.addListener(map, 'dragend', function() {
+//     if (strictBounds.contains(map.getCenter())) return;
+//
+//  var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
+//var c = map.getCenter(),
+//         x = c.lng(),
+//         y = c.lat(),
+//         maxX = strictBounds.getNorthEast().lng(),
+//         maxY = strictBounds.getNorthEast().lat(),
+//         minX = strictBounds.getSouthWest().lng(),
+//         minY = strictBounds.getSouthWest().lat();
+//
+//     if (x < minX) x = minX;
+//     if (x > maxX) x = maxX;
+//     if (y < minY) y = minY;
+//     if (y > maxY) y = maxY;
+//
+//     map.setCenter(centerOfStockholm);
+//   });
+ /* var request = {
+    location: centerOfStockholm,
+    radius: '100000',
+    types: ['hospital'],
+  };
 
+service = new google.maps.places.PlacesService(map);
+service.nearbySearch(request, function(results,status,pagination){
+          console.log(results)
+
+  if (status != google.maps.places.PlacesServiceStatus.OK) {
+    return;
+  }
+  for (var i = 0; i < results.length; i++) {
+    var place = results[i];
+    var marker = new google.maps.Marker(
+        position: new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng()),
+        map: map
+      }
+    )
+  }
+  if(pagination.hasNextPage){
+    pagination.nextPage();
+  }
+}); */
 var locationMarkerImage;
 for (var i = 0; i < csvResults.length; i++) {
   if(csvResults[i][1]){
@@ -204,13 +246,9 @@ for (var i = 0; i < csvResults.length; i++) {
     markerAnimated: false
   }
   )
-   var markerClass= "button"+marker.title
-  marker.className=markerClass
-
    allMarkers.push(marker);
 
  }
-
 
  google.maps.event.addListener(marker, 'click', function() {
   var objectType;
@@ -251,16 +289,13 @@ for (var i = 0; i < csvResults.length; i++) {
   if(!this.markerClicked){
     audio.stop(this.title);
     this.markerClicked=true;
-    this.markerAnimated=true;
     $('div.gmnoprint[title="'+ objectTitle +'"]').removeClass('button' + objectTitle);
   }
   else{
     audio.play(this.title)
     this.markerClicked=false;
-    this.markerAnimated=false;
     $('div.gmnoprint[title="'+ objectTitle +'"]').addClass('button' + objectTitle);
   }
-
   for(var k = allMarkers.length - 1; k >= 0; k--) {
     if(allMarkers[k].title === this.title) {
       allMarkers[k].markerClicked=this.markerClicked;
@@ -304,14 +339,6 @@ function showPosition(position)
     currentPosition=[position[0],position[1]]
   }
   else if(!error){
-    $.getJSON( "http://maps.googleapis.com/maps/api/geocode/json?latlng="+59.3359156+","+17.9856157+"&sensor=true", function( data ) {
-      var userCity=data.results[0].address_components[3].long_name
-      console.log(userCity)
-      if(userCity!=='Stockholms län'&&userCity!=="Stockholm County") {
-        console.log("you're outside of Stockholm")
-      } 
-    });
-
     currentPosition=[position.coords.latitude,position.coords.longitude]
   }
   if(!mapOnSite){
@@ -359,11 +386,9 @@ function showPosition(position)
         // audio.play();
       }
     }*/
+google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
 
-if(markersShown){
-  google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
-  getMarkersShown()
-}
+getMarkersShown()
 
  }
 
@@ -371,16 +396,17 @@ if(markersShown){
 function getMarkersShown(){
     previousMarkersShown=currentMarkersShown;
     for(var i = allMarkers.length, bounds = map.getBounds(); i--;) {
-      if(amountOfMarkersWithAnIndex[allMarkers[i].title]==1&&!allMarkers[i].markerClicked){
-        audio.play(allMarkers[i].title)
-      }
       if(bounds.contains(allMarkers[i].getPosition())){
-        console.log(allMarkers[i].className)
 
         if($.inArray(allMarkers[i],currentMarkersShown)==-1){
           currentMarkersShown.push(allMarkers[i])
           
           amountOfMarkersWithAnIndex[allMarkers[i].title]+=1
+        }
+
+        if(amountOfMarkersWithAnIndex[allMarkers[i].title]==1&&!allMarkers[i].markerClicked){
+          $('div.gmnoprint[title="'+ allMarkers[i].title +'"]').addClass('button' + allMarkers[i].title);
+          audio.play(allMarkers[i].title)
         }
       }
 
@@ -430,9 +456,10 @@ function getMarkersShown(){
       $("nav#slide-menu").css("visibility","visible");
     }, 2000);
 
-markersShown=false;
 
+    markersShown=false
   }
+
   }
 
 
@@ -481,7 +508,6 @@ function buttonClick(){
       }
      for(var k = allMarkers.length - 1; k >= 0; k--) {
             allMarkers[k].markerClicked=false;
-            allMarkers[k].markerAnimated=false;
       }
   } 
 
@@ -494,7 +520,6 @@ function buttonClick(){
       $('div.gmnoprint[title="'+ i +'"]').removeClass('button' + i);
       if(allMarkers[i].markerClicked!==undefined){
         allMarkers[i].markerClicked=true;
-        allMarkers[i].markerAnimated=true;
 
 
     }
@@ -506,7 +531,7 @@ function buttonClick(){
 function musicChoice(){
   musicType=document.getElementById("music_choice_button")
 
-  if(musicType.value=="slussen"){
+  if(musicType.value=="odenplan"){
     $.when(setupBuffer(audio.files.ace)).done(function() {
        musicType.value="karlaplan";
         setTimeout(function(){
@@ -526,7 +551,14 @@ function musicChoice(){
 
     });
   }
-  // else if(musicType.value=='relax'){
-  //   musicType.value='techno';
-  // }
+  else if(musicType.value=='slussen'){
+    $.when(setupBuffer(audio.files.slow)).done(function() {
+      musicType.value='odenplan';
+      setTimeout(function(){
+        element=document.getElementById("button_playnow")
+        element.value = ("play all");
+        buttonClick()}, 1000);
+
+    });
+  }
 }

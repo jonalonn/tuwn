@@ -23,6 +23,17 @@ var audio = {
         'sounds/ace/ace8.m4a',
         'sounds/ace/ace9.m4a'
     ],
+    slow: [
+        'sounds/slow/slow1.m4a',
+        'sounds/slow/slow2.m4a',
+        'sounds/slow/slow3.m4a',
+        'sounds/slow/slow4.m4a',
+        'sounds/slow/slow5.m4a',
+        'sounds/slow/slow6.m4a',
+        'sounds/slow/slow7.m4a',
+        'sounds/slow/slow8.m4a',
+        'sounds/slow/slow9.m4a'
+    ],
     tech: [
         'sounds/techno/techno1.m4a',
         'sounds/techno/techno2.m4a',
