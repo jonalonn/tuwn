@@ -531,7 +531,7 @@ function buttonClick(){
 function musicChoice(){
   musicType=document.getElementById("music_choice_button")
 
-  if(musicType.value=="slussen"){
+  if(musicType.value=="odenplan"){
     $.when(setupBuffer(audio.files.ace)).done(function() {
        musicType.value="karlaplan";
         setTimeout(function(){
@@ -551,7 +551,14 @@ function musicChoice(){
 
     });
   }
-  // else if(musicType.value=='relax'){
-  //   musicType.value='techno';
-  // }
+  else if(musicType.value=='slussen'){
+    $.when(setupBuffer(audio.files.slow)).done(function() {
+      musicType.value='odenplan';
+      setTimeout(function(){
+        element=document.getElementById("button_playnow")
+        element.value = ("play all");
+        buttonClick()}, 1000);
+
+    });
+  }
 }
