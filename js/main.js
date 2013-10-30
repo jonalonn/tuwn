@@ -334,11 +334,20 @@ function getLocation()
 }
 function showPosition(position)
 {
+
   previousPosition=currentPosition
   if(error&&!mapOnSite){
     currentPosition=[position[0],position[1]]
   }
   else if(!error){
+          $.getJSON( "http://maps.googleapis.com/maps/api/geocode/json?latlng="+59.3359156+","+17.9856157+"&sensor=true", function( data ) {
+      var userCity=data.results[0].address_components[3].long_name
+  //    console.log(userCity)
+      if(userCity!=='Stockholms län'&&userCity!=="Stockholm County") {
+    //    console.log("you're outside of Stockholm")
+      } 
+    });
+
     currentPosition=[position.coords.latitude,position.coords.longitude]
   }
   if(!mapOnSite){
