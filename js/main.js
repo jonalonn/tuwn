@@ -11,7 +11,7 @@ var myMarker;
 var amountOfMarkersWithAnIndex=[0,0,0,0,0,0,0,0,0,0];
 var markerClicked;
 var allMarkers;
-var amountOfMarkersClicked=0;
+var amountOfMarkersClicked=496
 var element;
 var musicType;
 var error=false;
@@ -173,9 +173,6 @@ return(arrData)
 
   map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
 
-for(var j=0;j<10;j++){
-  $('div.gmnoprint[title="'+ j +'"]').addClass('button' + j);
-}
 var locationMarkerImage;
 for (var i = 0; i < csvResults.length; i++) {
   if(csvResults[i][1]){
@@ -198,13 +195,12 @@ for (var i = 0; i < csvResults.length; i++) {
     optimized: false,
     title: csvResults[i][0],
     icon: locationMarkerImage,
-    markerClicked: false,
+    markerClicked: true,
   }
   )
 
    if(marker.title==1||marker.title==2||marker.title==3||marker.title==4||marker.title==5||marker.title==6||marker.title==7||marker.title==8||marker.title==9)
   {
-     marker.className="button"+marker.title;
      allMarkers.push(marker);
   }
   else{
@@ -223,13 +219,13 @@ for (var i = 0; i < csvResults.length; i++) {
       objectType="sp&aring;rvagnar";
       break;
     case '3':
-      objectType="busstation";
+      objectType="busstationer";
       break;
     case '4':
       objectType="Liding&ouml;banan";
       break;
     case '5':
-      objectType="tv&auml;rbana";
+      objectType="Tv&auml;rbanan";
       break;
     case '6':
       objectType="Roslagsbanan";
@@ -248,8 +244,9 @@ for (var i = 0; i < csvResults.length; i++) {
   }
   $(".markerObject").hide().html(objectType).fadeIn(650);
   $(".markerObject").fadeOut(650);
+  console.log(this.position)
   if(!this.markerClicked){
-    audio.stop(this.title);
+    audio.stop(this.title)
     this.markerClicked=true;
       $('div.gmnoprint[title="'+ this.title +'"]').removeClass('button' + this.title);
   }
@@ -259,7 +256,6 @@ for (var i = 0; i < csvResults.length; i++) {
     $('div.gmnoprint[title="'+ this.title +'"]').addClass('button' + this.title);
 
   }
-
   for(var k = allMarkers.length - 1; k >= 0; k--) {
     if(allMarkers[k].title === this.title) {
       allMarkers[k].markerClicked=this.markerClicked;
@@ -346,19 +342,6 @@ function showPosition(position)
     myMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
   }
 
- /*  // map.setCenter(myLatLng)
-   // myMarker.setPosition(myLatLng)
-   for(var i=0;i<coordinateArray.length;i++){
-    var idName="distance"+i
-    var distance= getDistance(currentPosition[1],currentPosition[0],coordinateArray[i].longitude,coordinateArray[i].latitude)
-      // console.log(distance)
-      if(distance<5){
-        // Audiofunction goes here
-        audio.playAll();
-        // var audio=new Audio('sounds/'+coordinateArray[i].type);;
-        // audio.play();
-      }
-    }*/
 google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
 
 getMarkersShown()
@@ -378,7 +361,6 @@ function getMarkersShown(){
         }
 
         if(amountOfMarkersWithAnIndex[allMarkers[i].title]==1&&!allMarkers[i].markerClicked){
-          $('div.gmnoprint[title="'+ allMarkers[i].title +'"]').addClass('button' + allMarkers[i].title);
           audio.play(allMarkers[i].title)
         }
       }
@@ -394,25 +376,6 @@ function getMarkersShown(){
       }
 
     }
-  //    }
-  //    else{
-  //      audio.play(allMarkers[i].title)
-  //    }
-//      console.log(amountOfMarkersWithAnIndex)
-  //    
-    //  if($.inArray(allMarkers[i],previousMarkersShown)==-1){
-  //       audio.play(allMarkers[i].title);
-      //  }
-        // var audio=new Audio('sounds/'+allMarkers[i].title);;
-        // debugger
-
-
-    //else{
-
-   //   if($.inArray(allMarkers[i],previousMarkersShown)!==-1&&amountOfMarkersWithAnIndex[allMarkers[i].title]!==0){
-     //   amountOfMarkersWithAnIndex[allMarkers[i].title]-=1
-
-      //}
     
     for(var j=1;j<10;j++){
       if(amountOfMarkersWithAnIndex[j]==0){
@@ -435,38 +398,7 @@ function getMarkersShown(){
 
   }
 
-
-
-
-
-
-//function initialize(userPosition) {
-//  mapOnSite=false
-//  var mapOptions = {
-//    center: userPosition,
-//    zoom: 20,
-//    mapTypeId: google.maps.MapTypeId.ROADMAP
-//  };
-//  map = new google.maps.Map(document.getElementById("map-canvas"),
-//      mapOptions);
-//  userMarker = new google.maps.Marker({
-//      position: userPosition,
-//      map: map,
-//      icon: userMarkerImage
-//    });
-//
-//  for (var i = 0; i < coordinateArray.length; i++) {
-//        var data = coordinateArray[i]
-//        var marker = new google.maps.Marker({
-//            position: new google.maps.LatLng (data.latitude, data.longitude),
-//            map: map
-//        });
-//    }
-//
-//}
 var MY_MAPTYPE_ID = 'custom_style';
-// google.maps.event.addDomListener(window, 'load', initialize);
-
 
 function buttonClick(){
   element=document.getElementById("button_playnow")
@@ -503,35 +435,31 @@ function buttonClick(){
 
 function musicChoice(){
   musicType=document.getElementById("music_choice_button")
+  //$('#music_choice_button').removeAttr('onclick'); 
 
   if(musicType.value=="odenplan"){
     $.when(setupBuffer(audio.files.ace)).done(function() {
        musicType.value="karlaplan";
-        setTimeout(function(){
-          element=document.getElementById("button_playnow")
-          element.value = ("play all");
-          buttonClick()}, 1000);
 
   });
   }
   else if(musicType.value=='karlaplan'){
     $.when(setupBuffer(audio.files.tech)).done(function() {
       musicType.value='slussen';
-      setTimeout(function(){
-        element=document.getElementById("button_playnow")
-        element.value = ("play all");
-        buttonClick()}, 1000);
 
     });
   }
   else if(musicType.value=='slussen'){
     $.when(setupBuffer(audio.files.slow)).done(function() {
       musicType.value='odenplan';
-      setTimeout(function(){
-        element=document.getElementById("button_playnow")
-        element.value = ("play all");
-        buttonClick()}, 1000);
 
     });
   }
+  for (var i = 10; i >= 0; i--) {
+    $('div.gmnoprint[title="'+ i +'"]').removeClass('button' + i);
+  };
+  element=document.getElementById("button_playnow")
+  element.value="play all"
+
+
 }
