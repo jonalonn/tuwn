@@ -79,7 +79,7 @@ var centerOfStockholm=[59.3359156,17.9856157]
     var arrData=[[]];
 
     var arrMatches = null;
-    
+
     while (arrMatches = objPattern.exec( strData )){
 
       var strMatchedDelimiter = arrMatches[ 1 ];
@@ -340,7 +340,7 @@ function showPosition(position)
             });
           }
         }
-        
+
         if(currentPosition[0]!==previousPosition[0] || currentPosition[1]!==previousPosition[1]){
           myMarker.setPosition(myLatLng);
           myMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
@@ -360,7 +360,7 @@ function showPosition(position)
 
             if($.inArray(allMarkers[i],currentMarkersShown)==-1){
               currentMarkersShown.push(allMarkers[i])
-              
+
               amountOfMarkersWithAnIndex[allMarkers[i].title]+=1
             }
 
@@ -381,7 +381,7 @@ function showPosition(position)
           }
 
         }
-        
+
         for(var j=1;j<10;j++){
           if(amountOfMarkersWithAnIndex[j]==0){
             audio.stop(j)
@@ -450,8 +450,9 @@ function musicChoice(){
     setTimeout(function(){
       musicType.value="karlaplan";
       element=document.getElementById("button_playnow")
-      element.value = ("play all");
-      buttonClick()}, 1000);
+      element.value = ("stop all");
+      buttonClick()
+    }, 1000);
   }
 
   
@@ -462,7 +463,7 @@ function musicChoice(){
     setTimeout(function(){
       musicType.value="slussen";
       element=document.getElementById("button_playnow")
-      element.value = ("play all");
+      element.value = ("stop all");
       buttonClick()}, 1000);
   }
 
@@ -470,10 +471,10 @@ function musicChoice(){
    musicType.value="loading";
    audio.stopAll()
    setupBuffer(audio.files.slow)
-   setTimeout(function(){
+    setTimeout(function(){
     musicType.value="odenplan";
     element=document.getElementById("button_playnow")
-    element.value = ("play all");
+    element.value = ("stop all");
     buttonClick()}, 1000);
  }
 }
