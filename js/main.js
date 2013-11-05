@@ -198,7 +198,7 @@ for (var i = 0; i < csvResults.length; i++) {
     optimized: false,
     title: csvResults[i][0],
     icon: locationMarkerImage,
-    markerClicked: true,
+    markerClicked: false,
   }
   )
 
