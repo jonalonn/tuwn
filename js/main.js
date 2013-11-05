@@ -173,6 +173,9 @@ return(arrData)
 
   map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
 
+for(var j=0;j<10;j++){
+  $('div.gmnoprint[title="'+ j +'"]').addClass('button' + j);
+}
 var locationMarkerImage;
 for (var i = 0; i < csvResults.length; i++) {
   if(csvResults[i][1]){
@@ -201,6 +204,7 @@ for (var i = 0; i < csvResults.length; i++) {
 
    if(marker.title==1||marker.title==2||marker.title==3||marker.title==4||marker.title==5||marker.title==6||marker.title==7||marker.title==8||marker.title==9)
   {
+     marker.className="button"+marker.title;
      allMarkers.push(marker);
   }
   else{
@@ -219,13 +223,13 @@ for (var i = 0; i < csvResults.length; i++) {
       objectType="Sp&aring;rvagnar";
       break;
     case '3':
-      objectType="Busstationer";
+      objectType="Busstation";
       break;
     case '4':
       objectType="Liding&ouml;banan";
       break;
     case '5':
-      objectType="Tv&auml;rbanan";
+      objectType="Tv&auml;rbana";
       break;
     case '6':
       objectType="Roslagsbanan";
@@ -244,9 +248,8 @@ for (var i = 0; i < csvResults.length; i++) {
   }
   $(".markerObject").hide().html(objectType).fadeIn(650);
   $(".markerObject").fadeOut(650);
-  console.log(this.position)
   if(!this.markerClicked){
-    audio.stop(this.title)
+    audio.stop(this.title);
     this.markerClicked=true;
       $('div.gmnoprint[title="'+ this.title +'"]').removeClass('button' + this.title);
   }
@@ -256,6 +259,7 @@ for (var i = 0; i < csvResults.length; i++) {
     $('div.gmnoprint[title="'+ this.title +'"]').addClass('button' + this.title);
 
   }
+
   for(var k = allMarkers.length - 1; k >= 0; k--) {
     if(allMarkers[k].title === this.title) {
       allMarkers[k].markerClicked=this.markerClicked;
@@ -296,38 +300,20 @@ function showPosition(position)
 
   previousPosition=currentPosition
   if(error&&!mapOnSite){
-    currentPosition=[centerOfStockholm[0],centerOfStockholm[1]]
-    putPositionOnMap()
-
+    currentPosition=[position[0],position[1]]
   }
   else if(!error){
-      $.getJSON( "http://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+position.coords.longitude+"&sensor=true", function( data ) {
-      if(data.results.length>0){
-      for (var i = data.results[0].address_components.length - 1; i >= 0; i--) {
-        var userCity=data.results[0].address_components[i].long_name;
-       
-        var result = userCity.replace("ä", "a").replace("å", "a").replace("ö","o");
-        if(result=="Stockholms lan"||result=="Stockholm County"||result=="Stockholm") {
-          error=false;
-          currentPosition=[position.coords.latitude,position.coords.longitude]
-          putPositionOnMap()
-          break;
-
-        }
-        else{
-          error=true;
-          currentPosition=[centerOfStockholm[0],centerOfStockholm[1]];
-        }
-       };
-       }
-       else{
-        error=true;
-        currentPosition=[centerOfStockholm[0],centerOfStockholm[1]];
-       }
-       putPositionOnMap()
+      $.getJSON( "http://maps.googleapis.com/maps/api/geocode/json?latlng="+59.3359156+","+17.9856157+"&sensor=true", function( data ) {
+      var userCity=data.results[0].address_components[3].long_name
+   //   console.log(userCity)
+     // console.log('Stockholms l&auml;n')
+      if(userCity!=='Stockholms län'&&userCity!=="Stockholm County") {
+    //    console.log("you're outside of Stockholm")
+      }
     });
+
+    currentPosition=[position.coords.latitude,position.coords.longitude]
   }
-  function putPositionOnMap(){
   if(!mapOnSite){
     myLatLng = new google.maps.LatLng(currentPosition[0], currentPosition[1]);
     map.setCenter(myLatLng)
@@ -354,6 +340,7 @@ function showPosition(position)
             });
           }
         }
+          
   if(currentPosition[0]!==previousPosition[0] || currentPosition[1]!==previousPosition[1]){
     myMarker.setPosition(myLatLng);
     myMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
@@ -362,7 +349,7 @@ function showPosition(position)
 google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
 
 getMarkersShown()
-}
+
  }
 
 
@@ -378,6 +365,7 @@ function getMarkersShown(){
         }
 
         if(amountOfMarkersWithAnIndex[allMarkers[i].title]==1&&!allMarkers[i].markerClicked){
+          $('div.gmnoprint[title="'+ allMarkers[i].title +'"]').addClass('button' + allMarkers[i].title);
           audio.play(allMarkers[i].title)
         }
       }
@@ -404,7 +392,6 @@ function getMarkersShown(){
     $("#button_playnow").css("visibility","visible");
     $("#music_choice_button").css("visibility","visible");
     $(".about_button").css("visibility","visible");
-    $("#title-div").css("visibility","visible");
     $(".spinner").css("visibility","hidden");
     setTimeout(function(){
       $("nav#slide-menu").css("visibility","visible");
@@ -417,6 +404,8 @@ function getMarkersShown(){
   }
 
 var MY_MAPTYPE_ID = 'custom_style';
+// google.maps.event.addDomListener(window, 'load', initialize);
+
 
 function buttonClick(){
   element=document.getElementById("button_playnow")
@@ -453,31 +442,35 @@ function buttonClick(){
 
 function musicChoice(){
   musicType=document.getElementById("music_choice_button")
-  //$('#music_choice_button').removeAttr('onclick'); 
 
   if(musicType.value=="odenplan"){
     $.when(setupBuffer(audio.files.ace)).done(function() {
        musicType.value="karlaplan";
+        setTimeout(function(){
+          element=document.getElementById("button_playnow")
+          element.value = ("play all");
+          buttonClick()}, 1000);
 
   });
   }
   else if(musicType.value=='karlaplan'){
     $.when(setupBuffer(audio.files.tech)).done(function() {
       musicType.value='slussen';
+      setTimeout(function(){
+        element=document.getElementById("button_playnow")
+        element.value = ("play all");
+        buttonClick()}, 1000);
 
     });
   }
   else if(musicType.value=='slussen'){
     $.when(setupBuffer(audio.files.slow)).done(function() {
       musicType.value='odenplan';
+      setTimeout(function(){
+        element=document.getElementById("button_playnow")
+        element.value = ("play all");
+        buttonClick()}, 1000);
 
     });
   }
-  for (var i = 10; i >= 0; i--) {
-    $('div.gmnoprint[title="'+ i +'"]').removeClass('button' + i);
-  };
-  element=document.getElementById("button_playnow")
-  element.value="play all"
-
-
 }
