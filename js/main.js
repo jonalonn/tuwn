@@ -19,104 +19,104 @@ var centerOfStockholm=[59.3359156,17.9856157]
 
 /*
   Slidemenu
-*/
-$( document ).ready(function() {
-  var $body = document.body
-  , $menu_trigger = $body.getElementsByClassName('about_button')[0];
+  */
+  $( document ).ready(function() {
+    var $body = document.body
+    , $menu_trigger = $body.getElementsByClassName('about_button')[0];
 
-  if ( typeof $menu_trigger !== 'undefined' ) {
-    $menu_trigger.addEventListener('click', function() {
-      $body.className = ( $body.className == 'menu-active' )? '' : 'menu-active';
+    if ( typeof $menu_trigger !== 'undefined' ) {
+      $menu_trigger.addEventListener('click', function() {
+        $body.className = ( $body.className == 'menu-active' )? '' : 'menu-active';
+      });
+    }
+
+  });
+
+  getCSV()
+
+  function getCSV(){
+    var CSVArray=[];
+    var tunnelbana = $.get("data/Tunnelbana.csv");
+    var sparvagnar = $.get("data/Sparvagnar.csv");
+    var bussar = $.get("data/Busstationer.csv");
+    var lidingobanan = $.get("data/Lidingobanan.csv");
+    var tvarbana = $.get("data/Tvarbanan.csv");
+    var roslagsbanan = $.get("data/Roslagsbanan.csv");
+    var saltsjobanan = $.get("data/Saltsjobanan.csv");
+    var nockebybanan = $.get("data/Nockebybanan.csv");
+    var pendeltag = $.get("data/Pendeltag.csv");
+
+
+
+    $.when(tunnelbana, sparvagnar, bussar, lidingobanan, tvarbana, roslagsbanan, saltsjobanan, nockebybanan, pendeltag).done(function(a, b, c, d, e, f, g, h, i) {
+      CSVArray = CSVArray.concat(CSVToArray(a, '1'));
+      CSVArray = CSVArray.concat(CSVToArray(b, '2'));
+      CSVArray = CSVArray.concat(CSVToArray(c, '3'));
+      CSVArray = CSVArray.concat(CSVToArray(d, '4'));
+      CSVArray = CSVArray.concat(CSVToArray(e, '5'));
+      CSVArray = CSVArray.concat(CSVToArray(f, '6'));
+      CSVArray = CSVArray.concat(CSVToArray(g, '7'));
+      CSVArray = CSVArray.concat(CSVToArray(h, '8'));
+      CSVArray = CSVArray.concat(CSVToArray(i, '9'));
+
+
+      initialize(CSVArray)
     });
   }
 
-});
+  function CSVToArray( strData, itemSound, strDelimiter ){
+    strDelimiter = (strDelimiter || ",");
 
-getCSV()
-
-function getCSV(){
-  var CSVArray=[];
-  var tunnelbana = $.get("data/Tunnelbana.csv");
-  var sparvagnar = $.get("data/Sparvagnar.csv");
-  var bussar = $.get("data/Busstationer.csv");
-  var lidingobanan = $.get("data/Lidingobanan.csv");
-  var tvarbana = $.get("data/Tvarbanan.csv");
-  var roslagsbanan = $.get("data/Roslagsbanan.csv");
-  var saltsjobanan = $.get("data/Saltsjobanan.csv");
-  var nockebybanan = $.get("data/Nockebybanan.csv");
-  var pendeltag = $.get("data/Pendeltag.csv");
-
-
-
-  $.when(tunnelbana, sparvagnar, bussar, lidingobanan, tvarbana, roslagsbanan, saltsjobanan, nockebybanan, pendeltag).done(function(a, b, c, d, e, f, g, h, i) {
-    CSVArray = CSVArray.concat(CSVToArray(a, '1'));
-    CSVArray = CSVArray.concat(CSVToArray(b, '2'));
-    CSVArray = CSVArray.concat(CSVToArray(c, '3'));
-    CSVArray = CSVArray.concat(CSVToArray(d, '4'));
-    CSVArray = CSVArray.concat(CSVToArray(e, '5'));
-    CSVArray = CSVArray.concat(CSVToArray(f, '6'));
-    CSVArray = CSVArray.concat(CSVToArray(g, '7'));
-    CSVArray = CSVArray.concat(CSVToArray(h, '8'));
-    CSVArray = CSVArray.concat(CSVToArray(i, '9'));
-
-
-    initialize(CSVArray)
-  });
-}
-
-function CSVToArray( strData, itemSound, strDelimiter ){
-  strDelimiter = (strDelimiter || ",");
-
-  var objPattern = new RegExp(
-    (
-      "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
-      "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
-       "([^\"\\" + strDelimiter + "\\r\\n]*))"
-    ),
-    "gi"
-    );
-
-  var arrData=[[]];
-
-  var arrMatches = null;
-  
-  while (arrMatches = objPattern.exec( strData )){
-
-    var strMatchedDelimiter = arrMatches[ 1 ];
-
-    if (
-      strMatchedDelimiter.length &&
-      (strMatchedDelimiter != strDelimiter)
-      ){
-
-      arrData.push( [itemSound] ); 
-  }
-
-
-  if (arrMatches[ 2 ]){
-
-    var strMatchedValue = arrMatches[ 2 ].replace(
-      new RegExp( "\"\"", "g" ),
-      "\""
+    var objPattern = new RegExp(
+      (
+        "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+        "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+         "([^\"\\" + strDelimiter + "\\r\\n]*))"
+      ),
+      "gi"
       );
 
-  } else {
+    var arrData=[[]];
 
-    var strMatchedValue = arrMatches[ 3 ];
-  }
+    var arrMatches = null;
+    
+    while (arrMatches = objPattern.exec( strData )){
 
-  arrData[ arrData.length - 1 ].push( strMatchedValue);
-}
-  arrData.pop()
-    if(itemSound==3){
-      for (var i = arrData.length - 1; i >= 0; i--) {
-        arrData[i][1]=arrData[i][3]
-      }
+      var strMatchedDelimiter = arrMatches[ 1 ];
+
+      if (
+        strMatchedDelimiter.length &&
+        (strMatchedDelimiter != strDelimiter)
+        ){
+
+        arrData.push( [itemSound] ); 
     }
-return(arrData)
+
+
+    if (arrMatches[ 2 ]){
+
+      var strMatchedValue = arrMatches[ 2 ].replace(
+        new RegExp( "\"\"", "g" ),
+        "\""
+        );
+
+    } else {
+
+      var strMatchedValue = arrMatches[ 3 ];
+    }
+
+    arrData[ arrData.length - 1 ].push( strMatchedValue);
+  }
+  arrData.pop()
+  if(itemSound==3){
+    for (var i = arrData.length - 1; i >= 0; i--) {
+      arrData[i][1]=arrData[i][3]
+    }
+  }
+  return(arrData)
 }
 
- function initialize(csvResults) {
+function initialize(csvResults) {
   allMarkers=[];
   var mapCenter=new google.maps.LatLng(59.3359156,17.9856157)
   var featureOpts = [
@@ -173,12 +173,12 @@ return(arrData)
 
   map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
 
-for(var j=0;j<10;j++){
-  $('div.gmnoprint[title="'+ j +'"]').addClass('button' + j);
-}
-var locationMarkerImage;
-for (var i = 0; i < csvResults.length; i++) {
-  if(csvResults[i][1]){
+  for(var j=0;j<10;j++){
+    $('div.gmnoprint[title="'+ j +'"]').addClass('button' + j);
+  }
+  var locationMarkerImage;
+  for (var i = 0; i < csvResults.length; i++) {
+    if(csvResults[i][1]){
    //   console.log('images/circle'+csvResults[i][0]+'.png')
 
    locationMarkerImage = new google.maps.MarkerImage(
@@ -203,55 +203,55 @@ for (var i = 0; i < csvResults.length; i++) {
   )
 
    if(marker.title==1||marker.title==2||marker.title==3||marker.title==4||marker.title==5||marker.title==6||marker.title==7||marker.title==8||marker.title==9)
-  {
+   {
      marker.className="button"+marker.title;
      allMarkers.push(marker);
-  }
-  else{
+   }
+   else{
     marker.setMap(null)
   }
- }
+}
 
- google.maps.event.addListener(marker, 'click', function() {
+google.maps.event.addListener(marker, 'click', function() {
   var objectType;
   var objectTitle=this.title;
   switch(objectTitle){
     case '1':
-      objectType="Tunnelbana";
-      break;
+    objectType="Tunnelbana";
+    break;
     case '2':
-      objectType="Sp&aring;rvagnar";
-      break;
+    objectType="Sp&aring;rvagnar";
+    break;
     case '3':
-      objectType="Busstation";
-      break;
+    objectType="Busstation";
+    break;
     case '4':
-      objectType="Liding&ouml;banan";
-      break;
+    objectType="Liding&ouml;banan";
+    break;
     case '5':
-      objectType="Tv&auml;rbana";
-      break;
+    objectType="Tv&auml;rbana";
+    break;
     case '6':
-      objectType="Roslagsbanan";
-      break;
+    objectType="Roslagsbanan";
+    break;
     case '7':
-      objectType="Saltsj&ouml;banan";
-      break;
+    objectType="Saltsj&ouml;banan";
+    break;
     case '8':
-      objectType="Nockebybanan";
-      break;
+    objectType="Nockebybanan";
+    break;
     case '9':
-      objectType="Pendelt&aring;g";
-      break;
+    objectType="Pendelt&aring;g";
+    break;
     default:
-      break;
+    break;
   }
   $(".markerObject").hide().html(objectType).fadeIn(650);
   $(".markerObject").fadeOut(650);
   if(!this.markerClicked){
     audio.stop(this.title);
     this.markerClicked=true;
-      $('div.gmnoprint[title="'+ this.title +'"]').removeClass('button' + this.title);
+    $('div.gmnoprint[title="'+ this.title +'"]').removeClass('button' + this.title);
   }
   else{
     audio.play(this.title)
@@ -271,13 +271,13 @@ for (var i = 0; i < csvResults.length; i++) {
       }
     }
   }
-if(amountOfMarkersClicked==allMarkers.length-9){
-  document.getElementById("button_playnow").value="play all"
-}
+  if(amountOfMarkersClicked==allMarkers.length-9){
+    document.getElementById("button_playnow").value="play all"
+  }
 
-if(amountOfMarkersClicked==0){
-  document.getElementById("button_playnow").value="stop all"
-}
+  if(amountOfMarkersClicked==0){
+    document.getElementById("button_playnow").value="stop all"
+  }
 
 });
 }
@@ -303,14 +303,14 @@ function showPosition(position)
     currentPosition=[position[0],position[1]]
   }
   else if(!error){
-      $.getJSON( "http://maps.googleapis.com/maps/api/geocode/json?latlng="+59.3359156+","+17.9856157+"&sensor=true", function( data ) {
+    $.getJSON( "http://maps.googleapis.com/maps/api/geocode/json?latlng="+59.3359156+","+17.9856157+"&sensor=true", function( data ) {
       var userCity=data.results[0].address_components[3].long_name
    //   console.log(userCity)
      // console.log('Stockholms l&auml;n')
-      if(userCity!=='Stockholms län'&&userCity!=="Stockholm County") {
+     if(userCity!=='Stockholms län'&&userCity!=="Stockholm County") {
     //    console.log("you're outside of Stockholm")
-      }
-    });
+  }
+});
 
     currentPosition=[position.coords.latitude,position.coords.longitude]
   }
@@ -320,8 +320,8 @@ function showPosition(position)
     mapOnSite=true;
 
     if(!error){
-    var userMarkerImage = new google.maps.MarkerImage(
-      'images/pin2.png',
+      var userMarkerImage = new google.maps.MarkerImage(
+        'images/pin2.png',
               null, // size
               null, // origin
               new google.maps.Point( 10, 10 ), // anchor (move to center of marker)
@@ -340,70 +340,70 @@ function showPosition(position)
             });
           }
         }
-          
-  if(currentPosition[0]!==previousPosition[0] || currentPosition[1]!==previousPosition[1]){
-    myMarker.setPosition(myLatLng);
-    myMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
-  }
-
-google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
-
-getMarkersShown()
-
- }
-
-
-function getMarkersShown(){
-    previousMarkersShown=currentMarkersShown;
-    for(var i = allMarkers.length, bounds = map.getBounds(); i--;) {
-      if(bounds.contains(allMarkers[i].getPosition())){
-
-        if($.inArray(allMarkers[i],currentMarkersShown)==-1){
-          currentMarkersShown.push(allMarkers[i])
-          
-          amountOfMarkersWithAnIndex[allMarkers[i].title]+=1
+        
+        if(currentPosition[0]!==previousPosition[0] || currentPosition[1]!==previousPosition[1]){
+          myMarker.setPosition(myLatLng);
+          myMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
         }
 
-        if(amountOfMarkersWithAnIndex[allMarkers[i].title]==1&&!allMarkers[i].markerClicked){
-          $('div.gmnoprint[title="'+ allMarkers[i].title +'"]').addClass('button' + allMarkers[i].title);
-          audio.play(allMarkers[i].title)
-        }
+        google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
+
+        getMarkersShown()
+
       }
 
-      else if($.inArray(allMarkers[i],previousMarkersShown)!==-1){
-        amountOfMarkersWithAnIndex[allMarkers[i].title]-=1
-        for(var k = currentMarkersShown.length - 1; k >= 0; k--) {
-          if(currentMarkersShown[k] === allMarkers[i]) {
-            currentMarkersShown.splice(k,1);
+
+      function getMarkersShown(){
+        previousMarkersShown=currentMarkersShown;
+        for(var i = allMarkers.length, bounds = map.getBounds(); i--;) {
+          if(bounds.contains(allMarkers[i].getPosition())){
+
+            if($.inArray(allMarkers[i],currentMarkersShown)==-1){
+              currentMarkersShown.push(allMarkers[i])
+              
+              amountOfMarkersWithAnIndex[allMarkers[i].title]+=1
+            }
+
+            if(amountOfMarkersWithAnIndex[allMarkers[i].title]==1&&!allMarkers[i].markerClicked){
+              $('div.gmnoprint[title="'+ allMarkers[i].title +'"]').addClass('button' + allMarkers[i].title);
+              audio.play(allMarkers[i].title)
+            }
+          }
+
+          else if($.inArray(allMarkers[i],previousMarkersShown)!==-1){
+            amountOfMarkersWithAnIndex[allMarkers[i].title]-=1
+            for(var k = currentMarkersShown.length - 1; k >= 0; k--) {
+              if(currentMarkersShown[k] === allMarkers[i]) {
+                currentMarkersShown.splice(k,1);
+              }
+            }
+
+          }
+
+        }
+        
+        for(var j=1;j<10;j++){
+          if(amountOfMarkersWithAnIndex[j]==0){
+            audio.stop(j)
           }
         }
+        if(markersShown){
+          $("#map-canvas").css("visibility","visible");
+          $("#button_playnow").css("visibility","visible");
+          $("#music_choice_button").css("visibility","visible");
+          $(".about_button").css("visibility","visible");
+          $(".spinner").css("visibility","hidden");
+          setTimeout(function(){
+            $("nav#slide-menu").css("visibility","visible");
+          }, 2000);
+
+
+          markersShown=false
+        }
 
       }
 
-    }
-    
-    for(var j=1;j<10;j++){
-      if(amountOfMarkersWithAnIndex[j]==0){
-        audio.stop(j)
-      }
-    }
-  if(markersShown){
-    $("#map-canvas").css("visibility","visible");
-    $("#button_playnow").css("visibility","visible");
-    $("#music_choice_button").css("visibility","visible");
-    $(".about_button").css("visibility","visible");
-    $(".spinner").css("visibility","hidden");
-    setTimeout(function(){
-      $("nav#slide-menu").css("visibility","visible");
-    }, 2000);
-
-
-    markersShown=false
-  }
-
-  }
-
-var MY_MAPTYPE_ID = 'custom_style';
+      var MY_MAPTYPE_ID = 'custom_style';
 // google.maps.event.addDomListener(window, 'load', initialize);
 
 
@@ -416,12 +416,12 @@ function buttonClick(){
       $('div.gmnoprint[title="'+ i +'"]').addClass('button' + i);
       if(amountOfMarkersWithAnIndex[i]!==0){
         audio.play(i);
+      }
     }
-      }
-     for(var k = allMarkers.length - 1; k >= 0; k--) {
-            allMarkers[k].markerClicked=false;
+    for(var k = allMarkers.length - 1; k >= 0; k--) {
+      allMarkers[k].markerClicked=false;
 
-      }
+    }
   } 
 
 
@@ -434,43 +434,46 @@ function buttonClick(){
       if(allMarkers[i].markerClicked!==undefined){
         allMarkers[i].markerClicked=true;
 
-    }
       }
     }
+  }
 
-      }
+}
 
 function musicChoice(){
   musicType=document.getElementById("music_choice_button")
 
   if(musicType.value=="odenplan"){
-    $.when(setupBuffer(audio.files.ace)).done(function() {
-       musicType.value="karlaplan";
-        setTimeout(function(){
-          element=document.getElementById("button_playnow")
-          element.value = ("play all");
-          buttonClick()}, 1000);
-
-  });
+    musicType.value="loading";
+    audio.stopAll()
+    setupBuffer(audio.files.ace)
+    setTimeout(function(){
+      musicType.value="karlaplan";
+      element=document.getElementById("button_playnow")
+      element.value = ("play all");
+      buttonClick()}, 1000);
   }
+
+  
   else if(musicType.value=='karlaplan'){
-    $.when(setupBuffer(audio.files.tech)).done(function() {
-      musicType.value='slussen';
-      setTimeout(function(){
-        element=document.getElementById("button_playnow")
-        element.value = ("play all");
-        buttonClick()}, 1000);
-
-    });
+    musicType.value="loading";
+    audio.stopAll()
+    setupBuffer(audio.files.tech)
+    setTimeout(function(){
+      musicType.value="slussen";
+      element=document.getElementById("button_playnow")
+      element.value = ("play all");
+      buttonClick()}, 1000);
   }
+
   else if(musicType.value=='slussen'){
-    $.when(setupBuffer(audio.files.slow)).done(function() {
-      musicType.value='odenplan';
-      setTimeout(function(){
-        element=document.getElementById("button_playnow")
-        element.value = ("play all");
-        buttonClick()}, 1000);
-
-    });
-  }
+   musicType.value="loading";
+   audio.stopAll()
+   setupBuffer(audio.files.slow)
+   setTimeout(function(){
+    musicType.value="odenplan";
+    element=document.getElementById("button_playnow")
+    element.value = ("play all");
+    buttonClick()}, 1000);
+ }
 }

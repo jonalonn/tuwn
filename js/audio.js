@@ -6,13 +6,8 @@ var audio = {
     buffer_effects: {},
     compatibility: {},
     convolver: {},
-    effects: [
-        'sounds/cave.wav',
-        'sounds/lodge.wav',
-        'sounds/parking-garage.wav'
-    ],
     files: {
-    ace: [
+        ace: [
         'sounds/ace/ace1.m4a',
         'sounds/ace/ace2.m4a',
         'sounds/ace/ace3.m4a',
@@ -22,8 +17,8 @@ var audio = {
         'sounds/ace/ace7.m4a',
         'sounds/ace/ace8.m4a',
         'sounds/ace/ace9.m4a'
-    ],
-    slow: [
+        ],
+        slow: [
         'sounds/slow/slow1.m4a',
         'sounds/slow/slow2.m4a',
         'sounds/slow/slow3.m4a',
@@ -33,8 +28,8 @@ var audio = {
         'sounds/slow/slow7.m4a',
         'sounds/slow/slow8.m4a',
         'sounds/slow/slow9.m4a'
-    ],
-    tech: [
+        ],
+        tech: [
         'sounds/techno/techno1.m4a',
         'sounds/techno/techno2.m4a',
         'sounds/techno/techno3.m4a',
@@ -44,47 +39,21 @@ var audio = {
         'sounds/techno/techno7.m4a',
         'sounds/techno/techno8.m4a',
         'sounds/techno/techno9.m4a'
-    ]},
-    frequencyData: {},
-    gain: {},
-    gain_loop: {},
-    gain_once: {},
-    playing: 0,
-    proceed: true,
-    source_loop: {},
-    source_once: {},
-    volume_fade_time: 0.7
-};
+        ]},
+        frequencyData: {},
+        gain: {},
+        gain_loop: {},
+        gain_once: {},
+        playing: 0,
+        proceed: true,
+        source_loop: {},
+        source_once: {},
+        volume_fade_time: 0.7
+    };
 
 //-----------------
 // Audio Functions
 //-----------------
-audio.findSync = function(n) {
-    var first = 0,
-        current = 0,
-        offset = 0;
-
-    // Find the audio source with the earliest startTime to sync all others to
-    for (var i in audio.source_loop) {
-        current = audio.source_loop[i]._startTime;
-        if (current > 0) {
-            if (current < first || first === 0) {
-                first = current;
-            }
-        }
-    }
-
-    if (audio.context.currentTime > first) {
-        /*
-        Did you know that JavaScript floating point math is imperfect?
-        Precise enough for humans though so no worries. ^_^
-        */
-        var duration = audio.buffer[n].duration;
-        offset = (audio.context.currentTime - first) % duration;
-    }
-
-    return offset;
-};
 
 audio.play = function(n, playOnly) {
     if (audio.source_loop[n]._playing) {
@@ -96,7 +65,7 @@ audio.play = function(n, playOnly) {
         audio.source_loop[n].connect(audio.gain_loop[n]);
         audio.source_loop[n].loop = true;
 
-        var offset = audio.context.currentTime % audio.buffer[n].duration//audio.findSync(n) ; 
+        var offset = audio.context.currentTime % audio.buffer[n].duration 
         audio.source_loop[n]._startTime = audio.context.currentTime;
 
 
@@ -189,33 +158,33 @@ function initAudio(audioFiles){
     //---------------
     (
         function() {
-        var name = 'createGain';
-        if (typeof audio.context.createGain !== 'function') {
-            name = 'createGainNode';
-        }
-        audio.compatibility.createGain = name;
-    })();
+            var name = 'createGain';
+            if (typeof audio.context.createGain !== 'function') {
+                name = 'createGainNode';
+            }
+            audio.compatibility.createGain = name;
+        })();
 
-    (function() {
-        var start = 'start',
+        (function() {
+            var start = 'start',
             stop = 'stop',
             buffer = audio.context.createBufferSource();
 
-        if (typeof buffer.start !== 'function') {
-            start = 'noteOn';
-        }
-        audio.compatibility.start = start;
+            if (typeof buffer.start !== 'function') {
+                start = 'noteOn';
+            }
+            audio.compatibility.start = start;
 
-        if (typeof buffer.stop !== 'function') {
-            stop = 'noteOff';
-        }
-        audio.compatibility.stop = stop;
-    })();
+            if (typeof buffer.stop !== 'function') {
+                stop = 'noteOff';
+            }
+            audio.compatibility.stop = stop;
+        })();
 
-    var requestAnimationFrame = window.requestAnimationFrame ||
-                                window.mozRequestAnimationFrame ||
-                                window.webkitRequestAnimationFrame;
-    window.requestAnimationFrame = requestAnimationFrame;
+        var requestAnimationFrame = window.requestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame;
+        window.requestAnimationFrame = requestAnimationFrame;
 
 
 
@@ -223,7 +192,7 @@ function initAudio(audioFiles){
     // Setup Volume Booster for Convolver
     //------------------------------------
     audio.gain.booster = audio.context[audio.compatibility.createGain]();
-    audio.gain.booster.gain.value = 3;
+    audio.gain.booster.gain.value = 2;
 
 
 
@@ -278,24 +247,21 @@ function initAudio(audioFiles){
                     function() {
                         console.log('Error decoding audio "' + audioFiles[i - 1] + '".');
                     }
-                );
-            };
-            req.send();
-        })();
-    }
+                    );
+};
+req.send();
+})();
+}
 
 
 }
 
 function setupBuffer(style) {
-    audio.stopAll()
     amountOfMarkersClicked=allMarkers.length
     for(var i=0;i<allMarkers.length;i++){
       if(allMarkers[i].markerClicked!==undefined){
         allMarkers[i].markerClicked=true;
-
     }
-      }
-    
-    initAudio(style);
+}   
+initAudio(style);
 }
