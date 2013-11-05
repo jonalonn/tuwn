@@ -37,8 +37,8 @@ getCSV()
 function getCSV(){
   var CSVArray=[];
   var tunnelbana = $.get("data/Tunnelbana.csv");
-  var sparvagnar = $.get("data/sparvagnar.csv");
-  var bussar = $.get("data/busstationer.csv");
+  var sparvagnar = $.get("data/Sparvagnar.csv");
+  var bussar = $.get("data/Busstationer.csv");
   var lidingobanan = $.get("data/Lidingobanan.csv");
   var tvarbana = $.get("data/Tvarbanan.csv");
   var roslagsbanan = $.get("data/Roslagsbanan.csv");
@@ -213,13 +213,13 @@ for (var i = 0; i < csvResults.length; i++) {
   var objectTitle=this.title;
   switch(objectTitle){
     case '1':
-      objectType="tunnelbana";
+      objectType="Tunnelbana";
       break;
     case '2':
-      objectType="sp&aring;rvagnar";
+      objectType="Sp&aring;rvagnar";
       break;
     case '3':
-      objectType="busstationer";
+      objectType="Busstationer";
       break;
     case '4':
       objectType="Liding&ouml;banan";
@@ -237,7 +237,7 @@ for (var i = 0; i < csvResults.length; i++) {
       objectType="Nockebybanan";
       break;
     case '9':
-      objectType="pendelt&aring;g";
+      objectType="Pendelt&aring;g";
       break;
     default:
       break;
