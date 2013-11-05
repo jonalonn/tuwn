@@ -11,7 +11,7 @@ var myMarker;
 var amountOfMarkersWithAnIndex=[0,0,0,0,0,0,0,0,0,0];
 var markerClicked;
 var allMarkers;
-var amountOfMarkersClicked=496
+var amountOfMarkersClicked=494
 var element;
 var musicType;
 var error=false;
@@ -296,20 +296,38 @@ function showPosition(position)
 
   previousPosition=currentPosition
   if(error&&!mapOnSite){
-    currentPosition=[position[0],position[1]]
+    currentPosition=[centerOfStockholm[0],centerOfStockholm[1]]
+    putPositionOnMap()
+
   }
   else if(!error){
-      $.getJSON( "http://maps.googleapis.com/maps/api/geocode/json?latlng="+59.3359156+","+17.9856157+"&sensor=true", function( data ) {
-      var userCity=data.results[0].address_components[3].long_name
-   //   console.log(userCity)
-     // console.log('Stockholms l&auml;n')
-      if(userCity!=='Stockholms län'&&userCity!=="Stockholm County") {
-    //    console.log("you're outside of Stockholm")
-      }
-    });
+      $.getJSON( "http://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+position.coords.longitude+"&sensor=true", function( data ) {
+      if(data.results.length>0){
+      for (var i = data.results[0].address_components.length - 1; i >= 0; i--) {
+        var userCity=data.results[0].address_components[i].long_name;
+       
+        var result = userCity.replace("ä", "a").replace("å", "a").replace("ö","o");
+        if(result=="Stockholms lan"||result=="Stockholm County"||result=="Stockholm") {
+          error=false;
+          currentPosition=[position.coords.latitude,position.coords.longitude]
+          putPositionOnMap()
+          break;
 
-    currentPosition=[position.coords.latitude,position.coords.longitude]
+        }
+        else{
+          error=true;
+          currentPosition=[centerOfStockholm[0],centerOfStockholm[1]];
+        }
+       };
+       }
+       else{
+        error=true;
+        currentPosition=[centerOfStockholm[0],centerOfStockholm[1]];
+       }
+       putPositionOnMap()
+    });
   }
+  function putPositionOnMap(){
   if(!mapOnSite){
     myLatLng = new google.maps.LatLng(currentPosition[0], currentPosition[1]);
     map.setCenter(myLatLng)
@@ -336,7 +354,6 @@ function showPosition(position)
             });
           }
         }
-          
   if(currentPosition[0]!==previousPosition[0] || currentPosition[1]!==previousPosition[1]){
     myMarker.setPosition(myLatLng);
     myMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
@@ -345,7 +362,7 @@ function showPosition(position)
 google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
 
 getMarkersShown()
-
+}
  }
 
 
@@ -387,6 +404,7 @@ function getMarkersShown(){
     $("#button_playnow").css("visibility","visible");
     $("#music_choice_button").css("visibility","visible");
     $(".about_button").css("visibility","visible");
+    $("#title-div").css("visibility","visible");
     $(".spinner").css("visibility","hidden");
     setTimeout(function(){
       $("nav#slide-menu").css("visibility","visible");
