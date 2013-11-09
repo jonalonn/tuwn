@@ -13,6 +13,14 @@ body {
   background-color: #CDE3DE;
 }
 
+#markerdiv{
+  position:absolute;
+  width: 100%;
+  margin-left: 49%;
+  margin-right: 49%;
+  left: 0;
+  right:0;
+}
 #background-canvas{
     background-color: #CDE3DE;
     width:100%;
