@@ -176,7 +176,6 @@ return(arrData)
 var locationMarkerImage;
 for (var i = 0; i < csvResults.length; i++) {
   if(csvResults[i][1]){
-   //   console.log('images/circle'+csvResults[i][0]+'.png')
 
    locationMarkerImage = new google.maps.MarkerImage(
     'images/circle'+csvResults[i][0]+'.png',
@@ -213,13 +212,13 @@ for (var i = 0; i < csvResults.length; i++) {
   var objectTitle=this.title;
   switch(objectTitle){
     case '1':
-      objectType="tunnelbana";
+      objectType="subway station";
       break;
     case '2':
-      objectType="sp&aring;rvagnar";
+      objectType="tram";
       break;
     case '3':
-      objectType="busstationer";
+      objectType="bus station";
       break;
     case '4':
       objectType="Liding&ouml;banan";
@@ -237,14 +236,13 @@ for (var i = 0; i < csvResults.length; i++) {
       objectType="Nockebybanan";
       break;
     case '9':
-      objectType="pendelt&aring;g";
+      objectType="commuter train";
       break;
     default:
       break;
   }
   $(".markerObject").hide().html(objectType).fadeIn(650);
   $(".markerObject").fadeOut(650);
-  console.log(this.position)
   if(!this.markerClicked){
     audio.stop(this.title)
     this.markerClicked=true;
@@ -354,10 +352,12 @@ function showPosition(position)
             });
           }
         }
-  if(currentPosition[0]!==previousPosition[0] || currentPosition[1]!==previousPosition[1]){
-    myMarker.setPosition(myLatLng);
-    myMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
-  }
+  if(!error){
+    if(currentPosition[0]!==previousPosition[0] || currentPosition[1]!==previousPosition[1]){
+      myMarker.setPosition(myLatLng);
+      myMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
+    }
+}
 
 google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
 
