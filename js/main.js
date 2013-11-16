@@ -452,6 +452,10 @@ function buttonClick(){
       }
 
 function musicChoice(){
+  element=document.getElementById("button_playnow");
+  element.value='stop all';
+  buttonClick();
+
   musicType=document.getElementById("music_choice_button")
   //$('#music_choice_button').removeAttr('onclick'); 
 
