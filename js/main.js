@@ -152,6 +152,8 @@ return(arrData)
   var mapOptions = {
     zoom: zoomLevel,
     minZoom: 9,
+        scrollwheel: false,
+
     center: mapCenter,
     disableDefaultUI: true,
     backgroundColor: 'none',
@@ -163,7 +165,6 @@ return(arrData)
 
   map = new google.maps.Map(document.getElementById('map-canvas'),
     mapOptions);
-
   var styledMapOptions = {
     name: 'Custom Style'
   };
@@ -494,9 +495,12 @@ function zoomIn(){
   map.setZoom(zoomLevel)
 };
 function zoomOut(){
-        console.log("zoom out")
-
+if(zoomLevel<=9){
+  return;
+}
+else{
     zoomLevel=zoomLevel-1
   map.setZoom(zoomLevel)
+}
 };
 
