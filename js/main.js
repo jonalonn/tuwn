@@ -16,10 +16,9 @@ var element;
 var musicType;
 var error=false;
 var centerOfStockholm=[59.3359156,17.9856157]
-
-/*
-  Slidemenu
-*/
+var zoomLevel=15;
+var CSVArray=[];
+var coordinates;
 $( document ).ready(function() {
   var $body = document.body
   , $menu_trigger = $body.getElementsByClassName('about_button')[0];
@@ -35,7 +34,6 @@ $( document ).ready(function() {
 getCSV()
 
 function getCSV(){
-  var CSVArray=[];
   var tunnelbana = $.get("data/Tunnelbana.csv");
   var sparvagnar = $.get("data/sparvagnar.csv");
   var bussar = $.get("data/busstationer.csv");
@@ -45,7 +43,7 @@ function getCSV(){
   var saltsjobanan = $.get("data/Saltsjobanan.csv");
   var nockebybanan = $.get("data/Nockebybanan.csv");
   var pendeltag = $.get("data/Pendeltag.csv");
-
+  coordinates = $.get("data/coordinates.rtf");
 
 
   $.when(tunnelbana, sparvagnar, bussar, lidingobanan, tvarbana, roslagsbanan, saltsjobanan, nockebybanan, pendeltag).done(function(a, b, c, d, e, f, g, h, i) {
@@ -117,6 +115,7 @@ return(arrData)
 }
 
  function initialize(csvResults) {
+  JSON.stringify(csvResults)
   allMarkers=[];
   var mapCenter=new google.maps.LatLng(59.3359156,17.9856157)
   var featureOpts = [
@@ -151,7 +150,7 @@ return(arrData)
   ];
   var minZoomLevel = 11;
   var mapOptions = {
-    zoom: 15,
+    zoom: zoomLevel,
     minZoom: 9,
     center: mapCenter,
     disableDefaultUI: true,
@@ -195,8 +194,7 @@ for (var i = 0; i < csvResults.length; i++) {
     title: csvResults[i][0],
     icon: locationMarkerImage,
     markerClicked: true,
-  }
-  )
+  })
 
    if(marker.title==1||marker.title==2||marker.title==3||marker.title==4||marker.title==5||marker.title==6||marker.title==7||marker.title==8||marker.title==9)
   {
@@ -212,13 +210,13 @@ for (var i = 0; i < csvResults.length; i++) {
   var objectTitle=this.title;
   switch(objectTitle){
     case '1':
-      objectType="subway station";
+      objectType="subway stations";
       break;
     case '2':
       objectType="tram";
       break;
     case '3':
-      objectType="bus station";
+      objectType="bus stations";
       break;
     case '4':
       objectType="Liding&ouml;banan";
@@ -241,14 +239,16 @@ for (var i = 0; i < csvResults.length; i++) {
     default:
       break;
   }
-  $(".markerObject").hide().html(objectType).fadeIn(650);
-  $(".markerObject").fadeOut(650);
   if(!this.markerClicked){
+    $(".markerObject").hide().html(objectType+"<br><center>turned off</center>").fadeIn(650);
+    $(".markerObject").fadeOut(650);
     audio.stop(this.title)
     this.markerClicked=true;
       $('div.gmnoprint[title="'+ this.title +'"]').removeClass('button' + this.title);
   }
   else{
+    $(".markerObject").hide().html(objectType+"<br><center>turned on</center>").fadeIn(650);
+    $(".markerObject").fadeOut(650);
     audio.play(this.title)
     this.markerClicked=false;
     $('div.gmnoprint[title="'+ this.title +'"]').addClass('button' + this.title);
@@ -405,6 +405,8 @@ function getMarkersShown(){
     $("#music_choice_button").css("visibility","visible");
     $(".about_button").css("visibility","visible");
     $("#title-div").css("visibility","visible");
+    $("#zoom_in").css("visibility","visible");
+    $("#zoom_out").css("visibility","visible");   
     $(".spinner").css("visibility","hidden");
     setTimeout(function(){
       $("nav#slide-menu").css("visibility","visible");
@@ -485,3 +487,17 @@ function musicChoice(){
 
 
 }
+
+function zoomIn(){
+        console.log("zoom in")
+
+  zoomLevel=zoomLevel+1
+  map.setZoom(zoomLevel)
+};
+function zoomOut(){
+        console.log("zoom out")
+
+    zoomLevel=zoomLevel-1
+  map.setZoom(zoomLevel)
+};
+
