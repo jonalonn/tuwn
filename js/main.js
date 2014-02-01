@@ -213,7 +213,7 @@ for (var i = 0; i < csvResults.length; i++) {
       objectType="subway stations";
       break;
     case '2':
-      objectType="tram";
+      objectType="tram stops";
       break;
     case '3':
       objectType="bus stations";
@@ -325,6 +325,7 @@ function showPosition(position)
        putPositionOnMap()
     });
   }
+
   function putPositionOnMap(){
   if(!mapOnSite){
     myLatLng = new google.maps.LatLng(currentPosition[0], currentPosition[1]);
@@ -489,9 +490,7 @@ function musicChoice(){
 }
 
 function zoomIn(){
-        console.log("zoom in")
-
-  zoomLevel=zoomLevel+1
+ zoomLevel=zoomLevel+1
   map.setZoom(zoomLevel)
 };
 function zoomOut(){

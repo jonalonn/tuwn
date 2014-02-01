@@ -39,6 +39,9 @@ input{
   border-radius: 10px;
   background-color: white;
   z-index: 1000;
+  vertical-align: center;
+  text-align: center;
+
 }
 
 #map-canvas {
@@ -48,28 +51,18 @@ input{
 
 .zoom_button{
   font-size: 25px;
-  width: 30;
+  width: 39px;
   height: 35px;
   outline:none;
   visibility: hidden;
+  position: relative;
+  margin-bottom: 4px;
 
 }
 .zoom_button:active{
   height: 30px;
   border-radius: 10px;
   box-shadow: #transparent 0px -6px 0px 0px;
-}
-
-#zoom_in{
-  position: fixed;
-  top:30px;
-  left:30px;
-}
-
-#zoom_out{
-  position: fixed;
-  bottom:30px;
-  left:30px;
 }
 
 .markerObject{
@@ -93,8 +86,9 @@ input{
 .zoom_buttonBlock{
   display:block;
   position: absolute;
-  margin-left: 20px; 
-  width: 310px;
+  left:20px;
+  bottom:10px;
+  height: 100px;
 
 }
 
