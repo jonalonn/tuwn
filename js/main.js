@@ -341,7 +341,7 @@ function getMarkersShown(){
     if(exampleMarkerClicked){
      myAudio.play();
      exampleMarkerClicked=false;
-     $( "#markerdiv").append('<img src="images/circle3.png" id="animation" style="position:absolute; left:-7px" class="button3">');
+     $( "#markerdiv").append('<img src="images/circle1.png" id="animation" style="position:absolute; left:-7px" class="button3">');
     }
     else{
       myAudio.pause();
