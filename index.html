@@ -1,69 +1,88 @@
 <!DOCTYPE html>
 <html>
 <head profile="http://www.w3.org/2005/10/profile">
-<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-<meta charset="UTF-8">
-<title>tuwn</title>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+	<meta charset="UTF-8">
+	<title>tuwn</title>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
-<!-- CSS -->
-<link rel="stylesheet" type="text/css" href="css/custommarker.css">
-<link href="css/main.css" type='text/css' rel='stylesheet'>
-<link href='http://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="css/custommarker.css">
+	<link href="css/main.css" type='text/css' rel='stylesheet'>
+	<link href='http://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
 
 
-<!-- Javascript -->
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
-<script src="js/jquery-2.0.3.min.js"></script>
-<script src="js/audio.js" type="text/javascript"></script>
-<script src="js/main.js" type="text/javascript"></script>
+	<!-- Javascript -->
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
+	<script src="js/jquery-2.0.3.min.js"></script>
+	<script src="js/audio.js" type="text/javascript"></script>
+	<script src="js/main.js" type="text/javascript"></script>
+	<script src="js/intro.js" type="text/javascript"></script>
+
 
 </head>
 
 <body>
-<nav id="slide-menu">
-  <div id="about_text">
-<h1>About Tuwn</h1>
-<h3>
-Tuwn makes music by using open data from the public transportation system in Stockholm.
-<br> <br>
-Each dot on the map represents a part of the public transportation system and plays a unique sound. Zoom out on the map to hear more tunes, click on the dots to turn the sounds on and off and make your own city beat.
-<br> <br>
-Tuwn is a Hyper Island student project created by Jonathan L&ouml;nnqvist, Simone Giertz and Linn&eacute;a Lindskog.
-</h3>
-<img src="images/circle1.png" height="10px;"> <p style="font-size:11; display:inline;">Subway stations</p><br>
-<img src="images/circle2.png" height="10px;"> <p style="font-size:11; display:inline;">Tram stops</p><br>
-<img src="images/circle3.png" height="10px;"> <p style="font-size:11; display:inline;">Bus stations</p><br>
-<img src="images/circle4.png" height="10px;"> <p style="font-size:11; display:inline;">Lidingöbanan</p><br>
-<img src="images/circle5.png" height="10px;"> <p style="font-size:11; display:inline;">Tvärbanan</p><br>
-<img src="images/circle6.png" height="10px;"> <p style="font-size:11; display:inline;">Roslagsbanan</p><br>
-<img src="images/circle7.png" height="10px;"> <p style="font-size:11; display:inline;">Saltsjöbanan</p><br>
-<img src="images/circle8.png" height="10px;"> <p style="font-size:11; display:inline;">Nockebybanan</p><br>
-<img src="images/circle9.png" height="10px;"> <p style="font-size:11; display:inline;">Commuter trains</p><br>
+	<nav id="slide-menu">
+		<div id="about_text">
+			<h1>About Tuwn</h1>
+			<h3>
+				Tuwn makes music by using open data from the public transportation system in Stockholm.
+				<br> <br>
+				Each dot on the map represents a part of the public transportation system and plays a unique sound. Zoom out on the map to hear more tunes, click on the dots to turn the sounds on and off and make your own city beat.
+				<br> <br>
+				Tuwn is a Hyper Island student project created by Jonathan L&ouml;nnqvist, Simone Giertz and Linn&eacute;a Lindskog.
+			</h3>
+			<img src="images/circle1.png" height="10px;"> <p style="font-size:11; display:inline;">Subway stations</p><br>
+			<img src="images/circle2.png" height="10px;"> <p style="font-size:11; display:inline;">Tram stops</p><br>
+			<img src="images/circle3.png" height="10px;"> <p style="font-size:11; display:inline;">Bus stations</p><br>
+			<img src="images/circle4.png" height="10px;"> <p style="font-size:11; display:inline;">Lidingöbanan</p><br>
+			<img src="images/circle5.png" height="10px;"> <p style="font-size:11; display:inline;">Tvärbanan</p><br>
+			<img src="images/circle6.png" height="10px;"> <p style="font-size:11; display:inline;">Roslagsbanan</p><br>
+			<img src="images/circle7.png" height="10px;"> <p style="font-size:11; display:inline;">Saltsjöbanan</p><br>
+			<img src="images/circle8.png" height="10px;"> <p style="font-size:11; display:inline;">Nockebybanan</p><br>
+			<img src="images/circle9.png" height="10px;"> <p style="font-size:11; display:inline;">Commuter trains</p><br>
 
-</div>
-</nav>
-<div id="content">
-  <div id="background-canvas">
-  <input class="about_button" type="button" value="about"></input>
-<div class="markerObject"></div>
-<ul class="spinner">
-    <li></li><li></li><li></li>
-</ul>
-<div id="map-canvas" class="content" style="height:100%; width:100%;">
-</div>
+		</div>
+	</nav>
+	<div id="content">
+		<div id="background-canvas">
+			<input class="about_button" type="button" value="about"></input>
+			<div class="markerObject"></div>
+			<ul class="spinner">
+				<li></li><li></li><li></li>
+			</ul>
+			<div id="map-canvas" class="content" style="height:100%; width:100%;">
+			</div>
 
-<div class="zoom_buttonBlock">
-	<input class="zoom_button" id="zoom_in" type="button" value="+" onclick="zoomIn()"></input><br>
-	<input class="zoom_button" id="zoom_out" type="button" value="–" onclick="zoomOut()"></input>
-</div>
+			<div class="zoom_buttonBlock">
+				<input class="zoom_button" id="zoom_in" type="button" value="+" onclick="zoomIn()"></input><br>
+				<input class="zoom_button" id="zoom_out" type="button" value="–" onclick="zoomOut()"></input>
+			</div>
 
-<div class="buttonBlock">
-<input id="button_playnow" type="button" value="play all" onclick="buttonClick()"></input>
-<input id="music_choice_button" type="button" value="karlaplan" onclick="musicChoice()"></input>
-</div>
+			<div class="buttonBlock">
+				<input id="button_playnow" type="button" value="play all" onclick="buttonClick()"></input>
+				<input id="music_choice_button" type="button" value="tune one" onclick="musicChoice()"></input>
+			</div>
 
-</div>
-</div>
+			<div id="presentation-text">
+					<h1> Hi and welcome to Tuwn! </h1><br>
+
+					Tuwn makes music by using open data from the public transportation system in Stockholm. 
+
+					<br><br><br>
+					<div id="markerdiv">
+						<img src="images/circle3.png" onClick="playExampleMarker()" style="position:absolute; left:-7px; z-index:10;">
+						<img src="images/circle3.png" id="animation" style="position:absolute; left:-7px" class="button3">
+					</div>
+					<br><br><br>
+
+					<h1>Click on the dots</h1> to turn them on and off and <h1>zoom in and out </h1>to listen to different parts of Stockholm.
+					<br><br>
+					<input id="intro-button" type="button" value="I get it!" onclick="startTuwn()"></input>
+			</div>
+
+		</div>
+	</div>
 </body>
 </html>

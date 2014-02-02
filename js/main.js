@@ -1,5 +1,4 @@
 var mapOnSite=false
-var markersShown=true
 var myLatLng;
 var previousPosition=[];
 var currentPosition=[]; 
@@ -15,10 +14,13 @@ var amountOfMarkersClicked=494
 var element;
 var musicType;
 var error=false;
-var centerOfStockholm=[59.3359156,17.9856157]
+var centerOfStockholm=[59.324486,18.072853]
 var zoomLevel=15;
 var CSVArray=[];
 var coordinates;
+var exampleMarkerClicked=false;
+var myAudio = new Audio('sounds/ace/ace1.m4a'); 
+
 $( document ).ready(function() {
   var $body = document.body
   , $menu_trigger = $body.getElementsByClassName('about_button')[0];
@@ -265,7 +267,9 @@ for (var i = 0; i < csvResults.length; i++) {
         amountOfMarkersClicked-=1
       }
     }
+
   }
+
 if(amountOfMarkersClicked==allMarkers.length-9){
   document.getElementById("button_playnow").value="play all"
 }
@@ -276,97 +280,28 @@ if(amountOfMarkersClicked==0){
 
 });
 }
+  myLatLng = new google.maps.LatLng(centerOfStockholm[0], centerOfStockholm[1]);
+  map.setCenter(myLatLng)
+  mapOnSite=true;
+  google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
 
-var int=self.setInterval(function(){getLocation()},1000);
+//Fade in intro page when map is fully loaded
+  google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
+
+    myAudio.addEventListener('ended', function() {
+        myAudio.currentTime = 0;
+        myAudio.play();
+    }, false);
+
+
+    $(".spinner").css("visibility","hidden");
+    $("#map-canvas").css("visibility","visible");
+    $("#presentation-text").css("visibility","visible");
+    $("#map-canvas").css("opacity","0.3")    
+    myAudio.play(); 
+});
 
 }
-function geo_error(){
-  error=true;
-  showPosition(centerOfStockholm)
-}
-
-function getLocation()
-{  
-  error=false;
-  navigator.geolocation.getCurrentPosition(showPosition,geo_error);
-}
-function showPosition(position)
-{
-
-  previousPosition=currentPosition
-  if(error&&!mapOnSite){
-    currentPosition=[centerOfStockholm[0],centerOfStockholm[1]]
-    putPositionOnMap()
-
-  }
-  else if(!error){
-      $.getJSON( "http://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+position.coords.longitude+"&sensor=true", function( data ) {
-      if(data.results.length>0){
-      for (var i = data.results[0].address_components.length - 1; i >= 0; i--) {
-        var userCity=data.results[0].address_components[i].long_name;
-       
-        var result = userCity.replace("ä", "a").replace("å", "a").replace("ö","o");
-        if(result=="Stockholms lan"||result=="Stockholm County"||result=="Stockholm") {
-          error=false;
-          currentPosition=[position.coords.latitude,position.coords.longitude]
-          putPositionOnMap()
-          break;
-
-        }
-        else{
-          error=true;
-          currentPosition=[centerOfStockholm[0],centerOfStockholm[1]];
-        }
-       };
-       }
-       else{
-        error=true;
-        currentPosition=[centerOfStockholm[0],centerOfStockholm[1]];
-       }
-       putPositionOnMap()
-    });
-  }
-
-  function putPositionOnMap(){
-  if(!mapOnSite){
-    myLatLng = new google.maps.LatLng(currentPosition[0], currentPosition[1]);
-    map.setCenter(myLatLng)
-    mapOnSite=true;
-
-    if(!error){
-    var userMarkerImage = new google.maps.MarkerImage(
-      'images/pin2.png',
-              null, // size
-              null, // origin
-              new google.maps.Point( 10, 10 ), // anchor (move to center of marker)
-              new google.maps.Size( 33, 43 ) // scaled size (required for Retina display icon)
-              );
-
-            // then create the new marker
-            myMarker = new google.maps.Marker({
-              flat: true,
-              icon: userMarkerImage,
-              map: map,
-              optimized: false,
-              position: myLatLng,
-              title: 'This is you',
-              visible: true,
-            });
-          }
-        }
-  if(!error){
-    if(currentPosition[0]!==previousPosition[0] || currentPosition[1]!==previousPosition[1]){
-      myMarker.setPosition(myLatLng);
-      myMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
-    }
-}
-
-google.maps.event.addListener(map, 'bounds_changed', getMarkersShown) 
-
-getMarkersShown()
-}
- }
-
 
 function getMarkersShown(){
     previousMarkersShown=currentMarkersShown;
@@ -401,22 +336,35 @@ function getMarkersShown(){
         audio.stop(j)
       }
     }
-  if(markersShown){
-    $("#map-canvas").css("visibility","visible");
+  }
+   function playExampleMarker(){
+    if(exampleMarkerClicked){
+     myAudio.play();
+     exampleMarkerClicked=false;
+     $( "#markerdiv").append('<img src="images/circle3.png" id="animation" style="position:absolute; left:-7px" class="button3">');
+    }
+    else{
+      myAudio.pause();
+        exampleMarkerClicked=true;
+
+      $( "#animation" ).detach();
+
+    }
+
+}
+
+  function startTuwn(){
+    $("#presentation-text").fadeOut("slow");
+    $("#map-canvas").css("opacity","1")     
     $("#button_playnow").css("visibility","visible");
     $("#music_choice_button").css("visibility","visible");
     $(".about_button").css("visibility","visible");
     $("#title-div").css("visibility","visible");
     $("#zoom_in").css("visibility","visible");
     $("#zoom_out").css("visibility","visible");   
-    $(".spinner").css("visibility","hidden");
     setTimeout(function(){
       $("nav#slide-menu").css("visibility","visible");
     }, 2000);
-
-
-    markersShown=false
-  }
 
   }
 
@@ -463,21 +411,21 @@ function musicChoice(){
   musicType=document.getElementById("music_choice_button")
   //$('#music_choice_button').removeAttr('onclick'); 
 
-  if(musicType.value=="odenplan"){
+  if(musicType.value=="tune one"){
     $.when(setupBuffer(audio.files.ace)).done(function() {
-       musicType.value="karlaplan";
+       musicType.value="tune two";
 
   });
   }
-  else if(musicType.value=='karlaplan'){
+  else if(musicType.value=='tune two'){
     $.when(setupBuffer(audio.files.tech)).done(function() {
-      musicType.value='slussen';
+      musicType.value='tune three';
 
     });
   }
-  else if(musicType.value=='slussen'){
+  else if(musicType.value=='tune three'){
     $.when(setupBuffer(audio.files.slow)).done(function() {
-      musicType.value='odenplan';
+      musicType.value='tune one';
 
     });
   }
