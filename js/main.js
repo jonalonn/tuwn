@@ -19,7 +19,7 @@ var zoomLevel=15;
 var CSVArray=[];
 var coordinates;
 var exampleMarkerClicked=false;
-var myAudio = new Audio('sounds/ace/ace1.m4a'); 
+var MY_MAPTYPE_ID = 'custom_style';
 
 $( document ).ready(function() {
   var $body = document.body
@@ -287,21 +287,28 @@ if(amountOfMarkersClicked==0){
 
 //Fade in intro page when map is fully loaded
   google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
-
-    myAudio.addEventListener('ended', function() {
-        myAudio.currentTime = 0;
-        myAudio.play();
-    }, false);
-
-
     $(".spinner").css("visibility","hidden");
     $("#map-canvas").css("visibility","visible");
     $("#presentation-text").css("visibility","visible");
     $("#map-canvas").css("opacity","0.3")    
-    myAudio.play(); 
+    audio.play('1');
 });
 
 }
+ function playExampleMarker(){
+  if(exampleMarkerClicked){
+   audio.play('1');
+   exampleMarkerClicked=false;
+   $( "#markerdiv").append('<img src="images/circle1.png" id="animation" style="position:absolute; left:-7px" class="button1">');
+  }
+  else{
+    audio.stop('1');
+      exampleMarkerClicked=true;
+
+    $( "#animation" ).detach();
+  }
+}
+
 
 function getMarkersShown(){
     previousMarkersShown=currentMarkersShown;
@@ -337,23 +344,9 @@ function getMarkersShown(){
       }
     }
   }
-   function playExampleMarker(){
-    if(exampleMarkerClicked){
-     myAudio.play();
-     exampleMarkerClicked=false;
-     $( "#markerdiv").append('<img src="images/circle1.png" id="animation" style="position:absolute; left:-7px" class="button3">');
-    }
-    else{
-      myAudio.pause();
-        exampleMarkerClicked=true;
-
-      $( "#animation" ).detach();
-
-    }
-
-}
 
   function startTuwn(){
+    audio.stop('1')
     $("#presentation-text").fadeOut("slow");
     $("#map-canvas").css("opacity","1")     
     $("#button_playnow").css("visibility","visible");
@@ -368,7 +361,6 @@ function getMarkersShown(){
 
   }
 
-var MY_MAPTYPE_ID = 'custom_style';
 
 function buttonClick(){
   element=document.getElementById("button_playnow")
