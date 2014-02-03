@@ -119,7 +119,7 @@ return(arrData)
  function initialize(csvResults) {
   JSON.stringify(csvResults)
   allMarkers=[];
-  var mapCenter=new google.maps.LatLng(59.3359156,17.9856157)
+  var mapCenter=new google.maps.LatLng(centerOfStockholm)
   var featureOpts = [
   {
     stylers: [
@@ -247,7 +247,7 @@ for (var i = 0; i < csvResults.length; i++) {
     $(".markerObject").fadeOut(650);
     audio.stop(this.title)
     this.markerClicked=true;
-      $('div.gmnoprint[title="'+ this.title +'"]').removeClass('button' + this.title);
+    $('div.gmnoprint[title="'+ this.title +'"]').removeClass('button' + this.title);
   }
   else{
     $(".markerObject").hide().html(objectType+"<br><center>turned on</center>").fadeIn(650);
@@ -255,8 +255,8 @@ for (var i = 0; i < csvResults.length; i++) {
     audio.play(this.title)
     this.markerClicked=false;
     $('div.gmnoprint[title="'+ this.title +'"]').addClass('button' + this.title);
-
   }
+
   for(var k = allMarkers.length - 1; k >= 0; k--) {
     if(allMarkers[k].title === this.title) {
       allMarkers[k].markerClicked=this.markerClicked;
@@ -267,10 +267,9 @@ for (var i = 0; i < csvResults.length; i++) {
         amountOfMarkersClicked-=1
       }
     }
-
   }
 
-if(amountOfMarkersClicked==allMarkers.length-9){
+if(amountOfMarkersClicked==allMarkers.length){
   document.getElementById("button_playnow").value="play all"
 }
 
@@ -346,7 +345,19 @@ function getMarkersShown(){
   }
 
   function startTuwn(){
-    audio.stop('1')
+    if(!exampleMarkerClicked){
+      $('div.gmnoprint[title="1"]').addClass('button1');
+
+
+  for(var k = allMarkers.length - 1; k >= 0; k--) {
+    if(allMarkers[k].title === '1') {
+      allMarkers[k].markerClicked=false;
+      amountOfMarkersClicked-=1
+    }
+  }
+
+
+    }
     $("#presentation-text").fadeOut("slow");
     $("#map-canvas").css("opacity","1")     
     $("#button_playnow").css("visibility","visible");
