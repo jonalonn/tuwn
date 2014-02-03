@@ -415,19 +415,19 @@ function musicChoice(){
   //$('#music_choice_button').removeAttr('onclick'); 
 
   if(musicType.value=="tune one"){
-    $.when(setupBuffer(audio.files.ace)).done(function() {
+    $.when(setupBuffer(audio.files.tech)).done(function() {
        musicType.value="tune two";
 
   });
   }
   else if(musicType.value=='tune two'){
-    $.when(setupBuffer(audio.files.tech)).done(function() {
+    $.when(setupBuffer(audio.files.slow)).done(function() {
       musicType.value='tune three';
 
     });
   }
   else if(musicType.value=='tune three'){
-    $.when(setupBuffer(audio.files.slow)).done(function() {
+    $.when(setupBuffer(audio.files.ace)).done(function() {
       musicType.value='tune one';
 
     });
